@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>共通テスト対策 DNCL 教科書</title>
+<link rel="stylesheet" href="material.css">
+<style>
+:root{
+  --ink:#1d2433; --sub:#5a6479; --line:#c4ccd9; --soft:#f4f6fa;
+  --accent:#2f6df0; --accent-bg:#eaf1ff;
+  --code-bg:#1e2536; --code-ink:#e7edf7;
+  --ok:#1e8e54; --ok-bg:#e8f7ee;
+  --warn:#c0392b; --warn-bg:#fdecea;
+  --gold:#b8860b; --gold-bg:#fdf6e3;
+  --ch0:#4a6cf7; --ch1:#7c3aed; --ch2:#0891b2; --ch3:#059669;
+  --ch4:#d97706; --ch5:#dc2626; --ch6:#6d28d9; --ch7:#0f766e; --ch8:#1d4ed8;
+}
+*{box-sizing:border-box;}
+html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+     color:var(--ink); margin:0; background:#e9edf3; line-height:1.7; font-size:13px;}
+.sheet{background:#fff; width:210mm; margin:14px auto; padding:14mm 15mm;
+       box-shadow:0 2px 14px rgba(0,0,0,.12);}
+.sheet-break{page-break-before:always;}
+h1{font-size:22px; margin:0 0 4px;}
+h1 .em{color:var(--accent);}
+h2{font-size:15px; margin:18px 0 8px; padding:5px 11px;
+   background:var(--ink); color:#fff; border-radius:5px;}
+h3{font-size:13px; color:var(--accent); border-left:4px solid var(--accent);
+   padding-left:8px; margin:14px 0 6px;}
+p{margin:6px 0;}
+
+/* 章ヘッダー */
+.chapter-header{border-radius:8px; padding:14px 18px; color:#fff; margin-bottom:14px;}
+.ch-num{font-size:11px; font-weight:700; letter-spacing:.1em; opacity:.85; margin-bottom:2px;}
+.ch-title{font-size:20px; font-weight:700; margin-bottom:4px;}
+.ch-desc{font-size:12px; opacity:.9;}
+
+/* コードブロック */
+.code-wrap{border:1px solid var(--line); border-radius:7px; overflow:hidden; margin:7px 0;}
+.code-ttl{font-size:11px; font-weight:700; padding:3px 10px;
+          background:var(--soft); border-bottom:1px solid var(--line); color:var(--sub);}
+pre{margin:0; padding:9px 13px; font-size:11.5px; line-height:1.65; white-space:pre-wrap;
+    background:var(--code-bg); color:var(--code-ink);
+    font-family:"Hiragino Kaku Gothic ProN",ui-monospace,Menlo,Consolas,monospace;}
+code{background:var(--accent-bg); color:var(--accent); border-radius:3px;
+     padding:1px 5px; font-size:11.5px;
+     font-family:"Hiragino Kaku Gothic ProN",ui-monospace,Menlo,Consolas,monospace;}
+
+/* 構文ボックス */
+.syntax-box{border:2px solid var(--accent); border-radius:7px; overflow:hidden; margin:8px 0;}
+.syntax-box .stl{background:var(--accent); color:#fff; font-size:11px; font-weight:700;
+                  padding:3px 10px;}
+.syntax-box pre{background:#f8fbff; color:var(--ink); border:none;}
+
+/* 表記比較テーブル */
+.notation-tbl{width:100%; border-collapse:collapse; font-size:11.5px; margin:8px 0;}
+.notation-tbl th,.notation-tbl td{border:1px solid var(--line); padding:5px 9px;}
+.notation-tbl th{background:var(--ink); color:#fff; text-align:center;}
+.notation-tbl td:first-child{background:var(--soft); font-weight:700; width:22%;}
+.notation-tbl .app{background:#f0f7ff;}
+.notation-tbl .spec{background:#f0faf6;}
+.notation-tbl .exam{background:#fff8e1;}
+.col-app{color:#1d4ed8; font-weight:700;}
+.col-spec{color:#059669; font-weight:700;}
+.col-exam{color:#b8860b; font-weight:700;}
+
+/* 試験ポイントボックス */
+.exam-point{background:#fdf6e3; border:2px solid var(--gold); border-radius:7px;
+            padding:9px 13px; margin:10px 0;}
+.exam-point .ep-ttl{font-weight:700; font-size:12px; color:var(--gold); margin-bottom:6px;}
+.exam-point .ep-ttl::before{content:"📝 ";}
+
+/* 注意 */
+.caution{background:var(--warn-bg); border-left:4px solid var(--warn); border-radius:5px;
+         padding:7px 11px; font-size:12px; margin:7px 0;}
+.caution b{color:var(--warn);}
+.point{background:var(--ok-bg); border-left:4px solid var(--ok); border-radius:5px;
+       padding:7px 11px; font-size:12px; margin:7px 0;}
+.point b{color:var(--ok);}
+.note{background:var(--accent-bg); border-left:4px solid var(--accent); border-radius:5px;
+      padding:7px 11px; font-size:12px; margin:7px 0;}
+
+/* 自己チェック */
+.self-check{background:#f8f9ff; border:1.5px solid var(--line); border-radius:7px;
+            padding:9px 13px; margin:10px 0;}
+.self-check .sc-ttl{font-weight:700; font-size:12px; color:var(--accent); margin-bottom:6px;}
+.self-check .sc-item{font-size:12px; margin:4px 0; display:flex; gap:7px; align-items:flex-start;}
+.self-check .cb{display:inline-block; width:14px; height:14px; border:1.5px solid var(--line);
+                border-radius:3px; flex-shrink:0; margin-top:1px;}
+
+/* 学習目標 */
+.obj-box{background:var(--accent-bg); border-left:5px solid var(--accent); border-radius:5px;
+         padding:9px 13px; margin:10px 0 14px;}
+.obj-box .obj-ttl{font-weight:700; font-size:12px; color:var(--accent); margin-bottom:6px;}
+.obj-box ul{margin:0; padding-left:18px; font-size:12px;}
+.obj-box li{margin:3px 0;}
+
+/* 2列レイアウト */
+.row2{display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:start;}
+
+/* バナー：試験対策用 */
+.exam-banner{background:#d1fae5; border:2px solid #059669; border-radius:8px;
+             padding:9px 14px; font-size:12px; margin:10px 0 0; max-width:420px;}
+.exam-banner b{color:#059669;}
+
+/* 確認問題 */
+.check{background:var(--soft); border:1px solid var(--line); border-radius:7px;
+       padding:9px 13px; margin:10px 0;}
+.check .check-ttl{font-weight:700; font-size:12px; color:var(--ink); margin-bottom:6px;
+                   border-bottom:1px solid var(--line); padding-bottom:4px;}
+.check ol{margin:0; padding-left:18px; font-size:12px;}
+.check li{margin:5px 0;}
+.fill{display:inline-block; min-width:50px; border-bottom:1.5px solid var(--ink); margin:0 4px; vertical-align:bottom;}
+.fill-l{min-width:120px;}
+.choices{display:flex; flex-wrap:wrap; gap:5px 14px; margin:5px 0;}
+.ch span.num{display:inline-block; border:1px solid var(--line); border-radius:3px;
+              padding:0 5px; background:var(--accent-bg); font-weight:700; margin-right:3px; font-size:11px;}
+
+/* フッター */
+.foot{margin-top:12px; padding-top:6px; border-top:1px dashed var(--line);
+      color:var(--sub); font-size:10.5px; text-align:center;}
+
+/* 特記ボックス */
+.spec-extra{background:#f3f0ff; border:2px solid #7c3aed; border-radius:7px;
+            padding:9px 13px; margin:10px 0;}
+.spec-extra .se-ttl{font-weight:700; font-size:12px; color:#7c3aed; margin-bottom:6px;}
+.spec-extra .se-ttl::before{content:"✨ ";}
+
+@media print{
+  body{background:#fff;}
+  .sheet{box-shadow:none; margin:0; width:auto; padding:11mm 13mm;}
+  .sheet-break{page-break-before:always;}
+  h2{break-after:avoid;} .code-wrap{break-inside:avoid;}
+  .syntax-box{break-inside:avoid;} .check{break-inside:avoid;}
+  .notation-tbl{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ 表紙 ════════════ -->
+<section class="sheet">
+<div style="text-align:center; padding:20px 0 10px;">
+  <div style="font-size:11px; font-weight:700; color:var(--sub); letter-spacing:.15em; margin-bottom:8px;">高校「情報Ⅰ」 大学入試共通テスト対策</div>
+  <h1 style="font-size:26px; margin:0 0 6px;">共通テスト対策<br><span class="em">DNCL</span> 教科書</h1>
+  <p style="color:var(--sub); font-size:13px; margin:0 0 18px;">― アルゴリズム・変数・演算子・分岐・ループ・配列・関数 ―</p>
+
+  <div class="exam-banner" style="margin:0 auto 16px;">
+    <b>📝 この教科書は DaifugoPy アプリ学習後の試験対策用です。</b><br>
+    アプリで DNCL の基本を習得した後、この教科書で「公式仕様」と「試験での表記の違い」を整理し、本番に備えましょう。
+  </div>
+
+  <div style="background:var(--soft); border-radius:8px; padding:12px 16px; text-align:left; font-size:12px; margin-bottom:16px;">
+    <b>■ 表記が3種類ある理由</b><br>
+    DNCL には「公式仕様（DNCL.pdf）」「アプリの表記」「試験での実際の表記」の3種類があります。<br>
+    公式仕様書自体に「記述内容に従わない形式で出題することもあります」と明記されており、試験ごとに注記で表記が説明されます。<br>
+    <b>大切なのは表記を丸暗記することではなく、アルゴリズムの意味を読み取る力です。</b>
+  </div>
+
+  <!-- 表記マスター対応表 -->
+  <h3 style="text-align:left;">📋 表記マスター対応表（全体）</h3>
+  <table class="notation-tbl">
+    <tr>
+      <th>項目</th>
+      <th class="col-app">📱 アプリ</th>
+      <th class="col-spec">📗 公式仕様</th>
+      <th class="col-exam">📝 試験での表記例</th>
+    </tr>
+    <tr><td>代入</td><td class="app"><code>x ← 5</code></td><td class="spec"><code>x ← 5</code></td><td class="exam"><code>x = 5</code></td></tr>
+    <tr><td>加算・減算</td><td class="app"><code>＋ － </code></td><td class="spec"><code>+ -</code>（半角）</td><td class="exam"><code>+ -</code>（半角）</td></tr>
+    <tr><td>乗算・除算</td><td class="app"><code>× ÷</code></td><td class="spec"><code>× ÷</code></td><td class="exam"><code>× ÷</code></td></tr>
+    <tr><td>剰余</td><td class="app"><code>％</code></td><td class="spec"><code>%</code>（半角）</td><td class="exam"><code>%</code>（半角）</td></tr>
+    <tr><td>比較（等号）</td><td class="app"><code>＝</code></td><td class="spec"><code>=</code>（半角）</td><td class="exam"><code>=</code>（半角）</td></tr>
+    <tr><td>比較（不等号）</td><td class="app"><code>＞ ＜ ≧ ≦ ≠</code></td><td class="spec"><code>> < ≧ ≦ ≠</code></td><td class="exam"><code>> < ≧ ≦ ≠</code></td></tr>
+    <tr><td>if 文（終端）</td><td class="app"><code>を実行する</code></td><td class="spec"><code>を実行する</code></td><td class="exam">コロン<code>:</code> または <code>を実行する</code></td></tr>
+    <tr><td>while 文（終端）</td><td class="app"><code>を繰り返す</code></td><td class="spec"><code>を繰り返す</code></td><td class="exam">コロン<code>:</code> または <code>を繰り返す</code></td></tr>
+    <tr><td>表示</td><td class="app"><code>〜 を表示する</code></td><td class="spec"><code>〜 を表示する</code></td><td class="exam"><code>表示する(〜)</code> または <code>〜 を表示する</code></td></tr>
+    <tr><td>配列添字</td><td class="app">1始まり</td><td class="spec">1始まり</td><td class="exam">1始まり</td></tr>
+  </table>
+
+  <div style="text-align:left; margin-top:12px;">
+    <div style="border-left:4px solid var(--gold); background:var(--gold-bg); border-radius:5px; padding:7px 11px; font-size:12px;">
+      <b>⚠️ 試験を受ける際の鉄則：</b>試験の冒頭にある「プログラムの表記について」の注記を必ず最初に読む。そこに「= を代入として使う」「コロンで文を区切る」等の説明がある。
+    </div>
+  </div>
+
+  <div style="margin-top:14px; text-align:left;">
+    <h3>目 次</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:4px 20px; font-size:12px;">
+      <div>第 0 章：アルゴリズムの基礎</div>
+      <div>第 5 章：前判定ループ（while）</div>
+      <div>第 1 章：変数と代入</div>
+      <div>第 6 章：後判定ループ・中断する</div>
+      <div>第 2 章：演算子</div>
+      <div>第 7 章：配列（＋仕様特有構文）</div>
+      <div>第 3 章：条件分岐</div>
+      <div>第 8 章：関数（＋組み込み関数）</div>
+      <div>第 4 章：for ループ</div>
+      <div>まとめ・解答例</div>
+    </div>
+  </div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 表紙</div>
+</section>
+
+<!-- ════════════ 第0章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch0);">
+  <div class="ch-num">CHAPTER 0</div>
+  <div class="ch-title">アルゴリズムの基礎</div>
+  <div class="ch-desc">プログラムの3構造・DNCL の位置づけ・試験問題の読み方</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>順次・分岐・反復の3構造を図と DNCL で説明できる</li>
+    <li>DNCL が「公式仕様」と「実際の試験」で表記が異なる場合があることを理解する</li>
+    <li>試験問題でまず確認すべき点（表記注記）がわかる</li>
+  </ul>
+</div>
+
+<h2>0-1　アルゴリズムと3構造</h2>
+<p>どんなプログラムも次の3つの組み合わせで書かれています。</p>
+<table class="notation-tbl">
+  <tr><th>構造</th><th>意味</th><th>DNCL での代表構文</th></tr>
+  <tr><td>順次</td><td>上から下へ1行ずつ実行</td><td>代入・演算・表示</td></tr>
+  <tr><td>分岐</td><td>条件によって処理を分ける</td><td><code>もし 条件 ならば 〜 を実行する</code></td></tr>
+  <tr><td>反復</td><td>条件が続く間繰り返す</td><td><code>〜 の間，〜 を繰り返す</code> など</td></tr>
+</table>
+
+<h2>0-2　DNCL とは</h2>
+<p>大学入試センターが定めた「共通テスト用プログラム表記（DNCL）」です。実際のプログラミング言語ではなく、日本語ベースの疑似コードです。</p>
+<div class="row2">
+  <div class="note">
+    <b>公式仕様（DNCL.pdf 2022）の特徴</b><br>
+    ・代入：<code>←</code><br>
+    ・演算子：<code>+</code><code>-</code><code>></code><code>&lt;</code><code>%</code> は半角、<code>×</code><code>÷</code> は全角<br>
+    ・if 文は <code>を実行する</code> で閉じる<br>
+    ・配列添字は 1 始まり
+  </div>
+  <div class="caution">
+    <b>試験での表記例（令和3・6年度）</b><br>
+    ・代入：<code>=</code>（半角等号）<br>
+    ・if 文末：コロン <code>:</code><br>
+    ・表示：<code>表示する(値)</code><br>
+    ・演算子は半角が多い
+  </div>
+</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  試験の第1ページまたは最初の問題の直前に「この問題で使用するプログラムの表記」が載っている。<b>最初の2分でここを読み、その試験固有の表記を把握する</b>こと。表記の違いで内容は変わらない。
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 0 章）</div>
+  <div class="sc-item"><span class="cb"></span>順次・分岐・反復の3構造をそれぞれ1文で説明できる</div>
+  <div class="sc-item"><span class="cb"></span>DNCL は公式仕様と試験で表記が異なる場合があることを説明できる</div>
+  <div class="sc-item"><span class="cb"></span>試験開始時に「表記の注記」を読む習慣をつけた</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 0 章：アルゴリズムの基礎</div>
+</section>
+
+<!-- ════════════ 第1章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch1);">
+  <div class="ch-num">CHAPTER 1</div>
+  <div class="ch-title">変数と代入</div>
+  <div class="ch-desc">変数の概念・代入の表記・外部入力・インクリメント</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>変数への代入を3つの表記すべてで読み書きできる</li>
+    <li><code>n を外部から入力する</code> の意味を理解する</li>
+    <li>インクリメント構文（<code>n を 1 増やす</code>）を認識できる</li>
+  </ul>
+</div>
+
+<h2>1-1　変数と代入の表記比較</h2>
+<table class="notation-tbl">
+  <tr>
+    <th>表記</th>
+    <th class="col-app">📱 アプリ</th>
+    <th class="col-spec">📗 公式仕様</th>
+    <th class="col-exam">📝 試験での例</th>
+  </tr>
+  <tr>
+    <td>代入</td>
+    <td class="app"><code>x ← 5</code></td>
+    <td class="spec"><code>x ← 5</code></td>
+    <td class="exam"><code>x = 5</code></td>
+  </tr>
+  <tr>
+    <td>文字列代入</td>
+    <td class="app"><code>namae ← 「山田」</code></td>
+    <td class="spec"><code>namae ← 「山田」</code></td>
+    <td class="exam"><code>namae = 「山田」</code></td>
+  </tr>
+  <tr>
+    <td>右辺の演算</td>
+    <td class="app"><code>gokei ← gokei ＋ ten</code></td>
+    <td class="spec"><code>gokei ← gokei + ten</code></td>
+    <td class="exam"><code>gokei = gokei + ten</code></td>
+  </tr>
+</table>
+
+<div class="row2">
+  <div class="code-wrap">
+    <div class="code-ttl">例（公式仕様表記）― 変数の代入と更新</div>
+<pre>ten ← 80
+ten ← ten + 10
+「点数は、」 と ten を表示する</pre>
+  </div>
+  <div class="code-wrap">
+    <div class="code-ttl">同じプログラム（試験表記）</div>
+<pre>ten = 80
+ten = ten + 10
+表示する(「点数は、」, ten)</pre>
+  </div>
+</div>
+
+<h2>1-2　外部入力</h2>
+<p>ユーザーがキーボードから値を入力する操作を DNCL で表現します。</p>
+<div class="code-wrap">
+  <div class="code-ttl">例 ― 外部から点数を入力して表示</div>
+<pre>ten を外部から入力する
+「入力された点数：」 と ten を表示する</pre>
+</div>
+<div class="point"><b>補足：</b>試験問題ではほとんどの場合、配列などにデータがあらかじめ格納された設定で出題されますが、「外部から入力する」の構文が読めることも大切です。</div>
+
+<h2>1-3　インクリメント・デクリメント構文（仕様特有）</h2>
+<div class="spec-extra">
+  <div class="se-ttl">DNCL 仕様特有：インクリメント構文</div>
+  <p>DNCL 公式仕様では「変数を1増やす」を短縮形で書けます。</p>
+  <div class="row2">
+    <div class="code-wrap">
+      <div class="code-ttl">短縮形（仕様書記法）</div>
+<pre>kaunto を 1 増やす
+gokei を ten 増やす</pre>
+    </div>
+    <div class="code-wrap">
+      <div class="code-ttl">通常の代入（同じ意味）</div>
+<pre>kaunto ← kaunto + 1
+gokei ← gokei + ten</pre>
+    </div>
+  </div>
+  試験では「<code>kosu を 1 増やす</code>」のような形で出題される場合があります。
+</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  <b>代入は「右辺 → 左辺」の方向。</b><code>x = x + 1</code> は「x の現在値に 1 を加えた結果を x に入れる」。数学の等号とは意味が違う。試験では「このプログラムを実行後の x の値は？」という問いが多い。トレースが必須。
+</div>
+
+<div class="check">
+  <div class="check-ttl">確認問題 ① 変数と代入</div>
+  <ol>
+    <li>次のプログラムを実行後、<code>x</code> の値はいくつか。<br>
+      <code>x = 3 / x = x * 4 / x = x - 2</code>　→　<span class="fill"></span>
+    </li>
+    <li><code>gokei を ten 増やす</code> を通常の代入で書き直せ。<br>
+      <span class="fill fill-l"></span>
+    </li>
+    <li>「外部から ninzu を入力し、ninzu が 0 より大きければ表示する」プログラムを DNCL で書け。</li>
+  </ol>
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 1 章）</div>
+  <div class="sc-item"><span class="cb"></span>代入の3表記（← / ← / =）すべてで同じ意味だと確認できた</div>
+  <div class="sc-item"><span class="cb"></span>インクリメント <code>n を 1 増やす</code> は <code>n ← n + 1</code> と同じだと説明できる</div>
+  <div class="sc-item"><span class="cb"></span>外部入力の構文を読み取れる</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 1 章：変数と代入</div>
+</section>
+
+<!-- ════════════ 第2章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch2);">
+  <div class="ch-num">CHAPTER 2</div>
+  <div class="ch-title">演算子</div>
+  <div class="ch-desc">算術・比較・論理演算子と、整数除算 ÷ vs 実数除算 / の違い</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>算術演算子（特に <code>÷</code> と <code>/</code> の違い）を正確に使い分けられる</li>
+    <li>比較演算子・論理演算子（かつ・または・でない）を組み合わせた条件を読み解ける</li>
+    <li>半角・全角演算子が混在する問題を読みこなせる</li>
+  </ul>
+</div>
+
+<h2>2-1　算術演算子</h2>
+<table class="notation-tbl">
+  <tr><th>演算子</th><th>意味</th><th>例</th><th>結果</th></tr>
+  <tr><td><code>+</code> または <code>＋</code></td><td>加算</td><td><code>3 + 5</code></td><td>8</td></tr>
+  <tr><td><code>-</code> または <code>－</code></td><td>減算</td><td><code>10 - 3</code></td><td>7</td></tr>
+  <tr><td><code>×</code></td><td>乗算</td><td><code>4 × 3</code></td><td>12</td></tr>
+  <tr><td><code>÷</code></td><td><b>整数除算</b>（小数切り捨て）</td><td><code>7 ÷ 2</code></td><td><b>3</b></td></tr>
+  <tr><td><code>/</code>（半角）</td><td><b>実数除算</b>（小数あり）</td><td><code>7 / 2</code></td><td><b>3.5</b></td></tr>
+  <tr><td><code>%</code> または <code>％</code></td><td>剰余（余り）</td><td><code>7 % 3</code></td><td>1</td></tr>
+</table>
+
+<div class="caution"><b>最重要：</b><code>÷</code>（全角）は整数除算。<code>7 ÷ 2 = 3</code>（3.5 ではない）。試験で平均を求める問題で <code>÷</code> が使われていれば小数が切り捨てられます。問題の状況（何の平均か）を確認すること。</div>
+
+<h2>2-2　比較演算子・論理演算子</h2>
+<table class="notation-tbl">
+  <tr><th>演算子</th><th>意味</th><th>例（真の場合）</th></tr>
+  <tr><td><code>= / ＝</code></td><td>等しい</td><td><code>x = 5</code> → x が 5 のとき</td></tr>
+  <tr><td><code>≠</code></td><td>等しくない</td><td><code>x ≠ 0</code> → x が 0 でないとき</td></tr>
+  <tr><td><code>> / ＞</code></td><td>より大きい（超過）</td><td><code>x > 3</code> → x が 4 以上</td></tr>
+  <tr><td><code>>= / ≧</code></td><td>以上</td><td><code>x ≧ 3</code> → x が 3 以上</td></tr>
+  <tr><td><code>かつ</code></td><td>AND：両方が真</td><td><code>x > 0 かつ x < 10</code></td></tr>
+  <tr><td><code>または</code></td><td>OR：どちらか真</td><td><code>x = 1 または x = 2</code></td></tr>
+  <tr><td><code>でない</code></td><td>NOT：否定</td><td><code>x = 0 でない</code> → x ≠ 0</td></tr>
+</table>
+
+<div class="code-wrap">
+  <div class="code-ttl">例 ― 論理演算子の組み合わせ</div>
+<pre>nenrei ← 20
+heikin ← 55
+もし nenrei >= 18 かつ heikin >= 60 ならば
+｜　「合格」 を表示する
+を実行し，そうでなければ
+｜　「不合格」 を表示する
+を実行する</pre>
+</div>
+<div style="background:#f9f9f9;border:1px solid var(--line);border-radius:5px;padding:6px 12px;font-size:11.5px;margin:6px 0;"><b>▶ 出力：</b>不合格（heikin = 55 < 60 なので「かつ」が偽）</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  <b>①</b> <code>÷</code> と <code>/</code> の違いに注意（問題文の表記を確認）。<br>
+  <b>②</b> <code>%</code> は「余り」。偶数判定は <code>n % 2 = 0</code>、倍数判定は <code>n % k = 0</code>。<br>
+  <b>③</b> <code>かつ</code> は両方が成立しなければ偽。<code>または</code> はどちらかが成立すれば真。
+</div>
+
+<div class="check">
+  <div class="check-ttl">確認問題 ② 演算子</div>
+  <ol>
+    <li><code>17 ÷ 5</code> の値は <span class="fill"></span>、<code>17 % 5</code> の値は <span class="fill"></span></li>
+    <li>次の中で <code>x = 6</code> のとき真になるものをすべて選べ。<br>
+      <div class="choices">
+        <span class="ch"><span class="num">①</span><code>x % 3 = 0</code></span>
+        <span class="ch"><span class="num">②</span><code>x % 2 = 0 かつ x > 7</code></span>
+        <span class="ch"><span class="num">③</span><code>x % 4 = 0 または x % 3 = 0</code></span>
+        <span class="ch"><span class="num">④</span><code>x > 5 かつ x < 8</code></span>
+      </div>
+    </li>
+  </ol>
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 2 章）</div>
+  <div class="sc-item"><span class="cb"></span><code>÷</code> は整数割り算（切り捨て）、<code>/</code> は実数割り算を説明できる</div>
+  <div class="sc-item"><span class="cb"></span><code>%</code> で偶数・倍数の判定ができる（<code>n % 2 = 0</code> など）</div>
+  <div class="sc-item"><span class="cb"></span>かつ / または の真偽表を書ける</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 2 章：演算子</div>
+</section>
+
+<!-- ════════════ 第3章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch3);">
+  <div class="ch-num">CHAPTER 3</div>
+  <div class="ch-title">条件分岐</div>
+  <div class="ch-desc">もし〜ならば の3つの表記・多分岐・分岐の順序の重要性</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>if 文の3表記（アプリ・仕様・試験）すべてで同じプログラムを読み取れる</li>
+    <li>多分岐（if-elif-else）での条件の評価順序を正確に追える</li>
+    <li>「範囲を広い条件から先に書く」必要がある理由を説明できる</li>
+  </ul>
+</div>
+
+<h2>3-1　if 文の3表記</h2>
+<table class="notation-tbl">
+  <tr>
+    <th>構文</th>
+    <th class="col-app">📱 アプリ / 📗 仕様</th>
+    <th class="col-exam">📝 試験での表記例</th>
+  </tr>
+  <tr>
+    <td>if のみ</td>
+    <td class="app"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">もし 条件 ならば
+｜　処理
+を実行する</pre></td>
+    <td class="exam"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">もし 条件 ならば:
+｜　処理</pre></td>
+  </tr>
+  <tr>
+    <td>if-else</td>
+    <td class="app"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">もし 条件 ならば
+｜　処理A
+を実行し，そうでなければ
+｜　処理B
+を実行する</pre></td>
+    <td class="exam"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">もし 条件 ならば:
+｜　処理A
+そうでなければ:
+｜　処理B</pre></td>
+  </tr>
+</table>
+
+<h2>3-2　多分岐（if-elif-else）</h2>
+<div class="row2">
+  <div class="code-wrap">
+    <div class="code-ttl">例（公式仕様表記）― 成績判定</div>
+<pre>もし ten >= 90 ならば
+｜　「S」 を表示する
+を実行し，そうでなければ もし ten >= 75 ならば
+｜　「A」 を表示する
+を実行し，そうでなければ もし ten >= 60 ならば
+｜　「B」 を表示する
+を実行し，そうでなければ
+｜　「C」 を表示する
+を実行する</pre>
+  </div>
+  <div class="code-wrap">
+    <div class="code-ttl">同じプログラム（試験表記）</div>
+<pre>もし ten >= 90 ならば:
+｜　表示する(「S」)
+そうでなければ もし ten >= 75 ならば:
+｜　表示する(「A」)
+そうでなければ もし ten >= 60 ならば:
+｜　表示する(「B」)
+そうでなければ:
+｜　表示する(「C」)</pre>
+  </div>
+</div>
+
+<div class="caution"><b>順序の罠：</b>多分岐は<b>上から順に評価</b>されます。最初に真になった分岐だけ実行し、残りは無視。だから「90以上」を先に書かないと、ten = 95 のとき最初の条件（例えば「60以上」）に引っかかってしまいます。<b>条件は「より狭いもの（値が大きい）」を先に</b>。</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  多分岐のトレース問題が頻出。「この値を入れたとき何が表示されるか」という設問に対し、<b>条件を上から順に追い、最初に真になったところで止まる</b>。その後の条件は確認不要。
+</div>
+
+<div class="check">
+  <div class="check-ttl">確認問題 ③ 条件分岐</div>
+  <ol>
+    <li>上の成績判定プログラムで <code>ten = 75</code> のとき表示される文字は <span class="fill"></span></li>
+    <li>「x が正（0より大）なら『正』、0なら『ゼロ』、負なら『負』を表示する」プログラムを DNCL で書け。</li>
+    <li>次の条件のうち、<code>ten = 90</code> のとき「S」と表示される正しいプログラムを選べ。<br>
+      <div class="choices">
+        <span class="ch"><span class="num">①</span>条件を <code>ten >= 60</code> → <code>ten >= 90</code> の順</span>
+        <span class="ch"><span class="num">②</span>条件を <code>ten >= 90</code> → <code>ten >= 60</code> の順</span>
+        <span class="ch"><span class="num">③</span>どちらの順でも結果は同じ</span>
+      </div>
+    </li>
+  </ol>
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 3 章）</div>
+  <div class="sc-item"><span class="cb"></span>アプリ・仕様・試験の if 文表記の違いを説明できる</div>
+  <div class="sc-item"><span class="cb"></span>多分岐は上から評価し、最初に真になった1つだけ実行されると説明できる</div>
+  <div class="sc-item"><span class="cb"></span>条件の順序（広い範囲の前に狭い範囲）の重要性を説明できる</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 3 章：条件分岐</div>
+</section>
+
+<!-- ════════════ 第4章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch4);">
+  <div class="ch-num">CHAPTER 4</div>
+  <div class="ch-title">for ループ</div>
+  <div class="ch-desc">カウント制御ループ・トレース・配列との組み合わせ</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>for ループの3表記を読み取り、実行回数を正確に計算できる</li>
+    <li>増加・減少（<code>1 ずつ減らしながら</code>）の両方を書ける</li>
+    <li>カウンタパターン・合計パターンを配列と組み合わせて使える</li>
+  </ul>
+</div>
+
+<h2>4-1　for ループの表記比較</h2>
+<table class="notation-tbl">
+  <tr>
+    <th>表記</th>
+    <th class="col-app">📱 アプリ / 📗 仕様</th>
+    <th class="col-exam">📝 試験での表記例</th>
+  </tr>
+  <tr>
+    <td>増加 for</td>
+    <td class="app"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">i を 1 から N まで 1 ずつ増やしながら，
+｜　処理
+を繰り返す</pre></td>
+    <td class="exam"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">i を 1 から N まで 1 ずつ増やしながら繰り返す:
+｜　処理</pre></td>
+  </tr>
+  <tr>
+    <td>減少 for</td>
+    <td class="app"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">i を N から 1 まで 1 ずつ減らしながら，
+｜　処理
+を繰り返す</pre></td>
+    <td class="exam"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">i を N から 1 まで 1 ずつ減らしながら繰り返す:
+｜　処理</pre></td>
+  </tr>
+</table>
+
+<h2>4-2　典型パターン</h2>
+<div class="row2">
+  <div class="code-wrap">
+    <div class="code-ttl">合計パターン</div>
+<pre>ten = [68, 82, 55, 90, 73]
+gokei = 0
+i を 1 から 要素数[ten] まで
+　　1 ずつ増やしながら，
+｜　gokei = gokei + ten[i]
+を繰り返す
+gokei を表示する</pre>
+  </div>
+  <div class="code-wrap">
+    <div class="code-ttl">カウンタパターン</div>
+<pre>ninzu = 0
+i を 1 から 要素数[ten] まで
+　　1 ずつ増やしながら，
+｜　もし ten[i] >= 70 ならば
+｜　｜　ninzu = ninzu + 1
+｜　を実行する
+を繰り返す
+ninzu を表示する</pre>
+  </div>
+</div>
+
+<div class="point"><b>実行回数：</b><code>i を A から B まで 1 ずつ増やしながら</code> の実行回数は <b>B − A + 1</b> 回。例えば 1 から 5 まで → 5 − 1 + 1 = <b>5 回</b>。</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  <b>①</b> ループの「終了値」に <code>要素数[配列名]</code> を使う形が最頻出。<br>
+  <b>②</b> ループ前に累積変数（gokei, ninzu など）を 0 で初期化する行を見落とさない。<br>
+  <b>③</b> 「逆順ループ（1 ずつ減らしながら）」で配列を末尾から処理するパターンも出題される。
+</div>
+
+<div class="check">
+  <div class="check-ttl">確認問題 ④ for ループ</div>
+  <ol>
+    <li><code>ten = [68, 82, 55, 90, 73]</code> のとき上の合計プログラムを実行すると <code>gokei</code> の値は <span class="fill"></span></li>
+    <li>配列 <code>scores = [4, 7, 2, 9, 1, 6]</code> を末尾から先頭の順に表示するプログラムを書け。</li>
+    <li><code>i を 3 から 15 まで 3 ずつ増やしながら i を表示する</code> とき、何回表示されるか。また最後に表示される値は何か。
+      <br>回数：<span class="fill"></span>　最後の値：<span class="fill"></span>
+    </li>
+  </ol>
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 4 章）</div>
+  <div class="sc-item"><span class="cb"></span>for ループの実行回数 B − A + 1 を計算できる</div>
+  <div class="sc-item"><span class="cb"></span>合計・カウンタパターンを自分で書ける</div>
+  <div class="sc-item"><span class="cb"></span>減少ループで配列を逆順処理できる</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 4 章：for ループ</div>
+</section>
+
+<!-- ════════════ 第5章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch5);">
+  <div class="ch-num">CHAPTER 5</div>
+  <div class="ch-title">前判定ループ（while）</div>
+  <div class="ch-desc">条件制御ループ・探索パターン・無限ループ対策</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>while ループの3表記を読み取れる（「〜の間，」vs「条件の間繰り返す:」）</li>
+    <li>探索パターン（条件を満たす最初の位置を探す）を実装・読解できる</li>
+    <li>配列の範囲外参照を防ぐ「二重条件」の意味を説明できる</li>
+  </ul>
+</div>
+
+<h2>5-1　前判定ループの表記比較</h2>
+<table class="notation-tbl">
+  <tr>
+    <th>表記</th>
+    <th class="col-app">📱 アプリ / 📗 仕様</th>
+    <th class="col-exam">📝 試験での表記例</th>
+  </tr>
+  <tr>
+    <td>while 文</td>
+    <td class="app"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">条件式 の間，
+｜　処理
+を繰り返す</pre></td>
+    <td class="exam"><pre style="background:none;color:var(--ink);padding:2px;font-size:11px;">条件式 の間繰り返す:
+｜　処理</pre></td>
+  </tr>
+</table>
+
+<p>先頭で条件を判定し、真なら処理を実行してまた先頭に戻ります。<b>最初から偽なら 0 回実行</b>されます。</p>
+
+<h2>5-2　探索パターン（最重要）</h2>
+<div class="code-wrap">
+  <div class="code-ttl">例 ― ten 配列で最初に 70 以上の位置を探す</div>
+<pre>ten = [55, 62, 80, 45, 91]
+i = 1
+i <= 要素数[ten] かつ ten[i] < 70 の間，
+｜　i = i + 1
+を繰り返す
+もし i <= 要素数[ten] ならば
+｜　「見つかった位置：」 と i を表示する
+を実行し，そうでなければ
+｜　「見つかりませんでした」 を表示する
+を実行する</pre>
+</div>
+
+<div class="point"><b>二重条件のポイント：</b><code>i &lt;= 要素数[ten] かつ ten[i] &lt; 70</code> の左側「配列の範囲内か」が重要。これがないと、見つからなかった場合に <code>ten[6]</code>（存在しない要素）を参照してエラーになります。<b>左側が偽になればショートサーキット（右側を評価しない）</b>。</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  探索ループの空欄補充問題が頻出。<b>ループを「止まる条件」で考えると混乱する</b>。「while の中の条件 = 続ける条件」で考え、「何を満たすまで i を進めるか」で考える。ループを抜けた後の i が答えの位置。
+</div>
+
+<div class="check">
+  <div class="check-ttl">確認問題 ⑤ 前判定ループ</div>
+  <ol>
+    <li><code>n = 1 / n &lt; 100 の間，｜　n = n × 2 を繰り返す</code> 実行後の n の値は <span class="fill"></span></li>
+    <li>上の探索プログラムで <code>ten = [55, 62, 80, 45, 91]</code> のとき、ループ終了後の i の値と表示内容は。<br>
+      i の値：<span class="fill"></span>　　表示：<span class="fill fill-l"></span>
+    </li>
+  </ol>
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 5 章）</div>
+  <div class="sc-item"><span class="cb"></span>前判定ループは最初から偽なら 0 回実行されると説明できる</div>
+  <div class="sc-item"><span class="cb"></span>探索パターンの「二重条件」の意味（範囲外防止）を説明できる</div>
+  <div class="sc-item"><span class="cb"></span>ループ内で条件変数を更新しないと無限ループになる理由を説明できる</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 5 章：前判定ループ（while）</div>
+</section>
+
+<!-- ════════════ 第6章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch6);">
+  <div class="ch-num">CHAPTER 6</div>
+  <div class="ch-title">後判定ループ・中断する</div>
+  <div class="ch-desc">必ず1回実行・止まる条件が逆・中断する の使いどころ</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>後判定ループは必ず1回実行される点と、「〜になるまで」が止まる条件（前判定と逆）を説明できる</li>
+    <li><code>中断する</code> を使った線形探索の効率化パターンを読み解ける</li>
+    <li>前判定・後判定・for の使い分け基準を説明できる</li>
+  </ul>
+</div>
+
+<h2>6-1　後判定ループの表記と比較</h2>
+<table class="notation-tbl">
+  <tr>
+    <th></th>
+    <th class="col-spec">前判定（while）</th>
+    <th class="col-exam">後判定（do-while）</th>
+  </tr>
+  <tr><td>条件評価</td><td class="spec">処理の<b>前</b></td><td class="exam">処理の<b>後</b></td></tr>
+  <tr><td>最低実行回数</td><td class="spec">0 回</td><td class="exam"><b>1 回</b></td></tr>
+  <tr><td>ループ継続条件</td><td class="spec">条件が<b>真</b>の間続ける</td><td class="exam">条件が<b>真</b>になったら<b>止まる</b></td></tr>
+</table>
+
+<div class="syntax-box">
+  <div class="stl">後判定ループ構文（仕様表記）</div>
+  <pre>繰り返し，
+｜　処理
+を，条件式 になるまで実行する</pre>
+</div>
+
+<div class="code-wrap">
+  <div class="code-ttl">例 ― 後判定ループで配列を順に処理</div>
+<pre>i = 0
+繰り返し，
+｜　i = i + 1
+｜　ten[i] を表示する
+を，i = 要素数[ten] になるまで実行する</pre>
+</div>
+
+<h2>6-2　中断する</h2>
+<div class="code-wrap">
+  <div class="code-ttl">例 ― 配列で最初に 80 以上の値を見つけたら即終了</div>
+<pre>mitsuketa = 0
+i を 1 から 要素数[ten] まで 1 ずつ増やしながら，
+｜　もし ten[i] >= 80 ならば
+｜　｜　mitsuketa = ten[i]
+｜　｜　中断する
+｜　を実行する
+を繰り返す
+もし mitsuketa > 0 ならば
+｜　「最初の80以上：」 と mitsuketa を表示する
+を実行する</pre>
+</div>
+<div class="point"><b>パターン：</b><code>mitsuketa = 0</code> で初期化 → 見つかったら値を代入して <code>中断する</code> → ループ後に 0 かどうかで「見つかったか」を判定。</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  後判定ループの「を，〜になるまで実行する」は<b>止まる条件</b>（前判定の「続ける条件」とは逆）。<code>中断する</code> がある場合とない場合の動作の違いを比較する設問が出る。
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 6 章）</div>
+  <div class="sc-item"><span class="cb"></span>後判定ループの「になるまで」は止まる条件（続ける条件ではない）と説明できる</div>
+  <div class="sc-item"><span class="cb"></span><code>中断する</code> で for ループを途中脱出できると説明できる</div>
+  <div class="sc-item"><span class="cb"></span>前判定・後判定・for の使い分け基準を説明できる</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 6 章：後判定ループ・中断する</div>
+</section>
+
+<!-- ════════════ 第7章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch7);">
+  <div class="ch-num">CHAPTER 7</div>
+  <div class="ch-title">配列</div>
+  <div class="ch-desc">1 始まり添字・多次元配列・複数代入（左から順に実行）・集計配列</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>配列の添字が 1 始まりである理由と、<code>要素数[配列名]</code> の使い方を説明できる</li>
+    <li>2次元配列 <code>M[i][j]</code> を読み取り、全要素を処理できる</li>
+    <li>複数の代入を「<code>，</code>」で1行に並べると<b>左から順に</b>実行されることを説明でき、値の交換には一時変数が必要だと分かる</li>
+  </ul>
+</div>
+
+<h2>7-1　配列の基本（1始まり添字）</h2>
+<div style="background:#f4f6fa;border-radius:7px;padding:10px;margin:8px 0;">
+  <b>配列 ten = [55, 82, 70, 91, 60]</b>
+  <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
+    <div style="text-align:center;"><div style="border:1.5px solid var(--accent);border-radius:4px;padding:4px 12px;font-weight:700;">55</div><div style="font-size:10px;color:var(--sub);margin-top:2px;">ten[1]</div></div>
+    <div style="text-align:center;"><div style="border:1.5px solid var(--accent);border-radius:4px;padding:4px 12px;font-weight:700;">82</div><div style="font-size:10px;color:var(--sub);margin-top:2px;">ten[2]</div></div>
+    <div style="text-align:center;"><div style="border:1.5px solid var(--accent);border-radius:4px;padding:4px 12px;font-weight:700;">70</div><div style="font-size:10px;color:var(--sub);margin-top:2px;">ten[3]</div></div>
+    <div style="text-align:center;"><div style="border:1.5px solid var(--accent);border-radius:4px;padding:4px 12px;font-weight:700;">91</div><div style="font-size:10px;color:var(--sub);margin-top:2px;">ten[4]</div></div>
+    <div style="text-align:center;"><div style="border:1.5px solid var(--accent);border-radius:4px;padding:4px 12px;font-weight:700;">60</div><div style="font-size:10px;color:var(--sub);margin-top:2px;">ten[5]</div></div>
+  </div>
+  <div style="font-size:11px;color:var(--sub);margin-top:6px;">先頭：<code>ten[1]</code>　末尾：<code>ten[要素数[ten]]</code> = <code>ten[5]</code> = 60</div>
+</div>
+
+<h2>7-2　多次元配列（仕様特有）</h2>
+<div class="spec-extra">
+  <div class="se-ttl">2次元配列 M[行][列]</div>
+  <p>配列の要素に配列を格納することで、表形式のデータを扱えます。</p>
+  <div class="code-wrap">
+    <div class="code-ttl">例 ― 3クラス×4人の点数（M[クラス番号][生徒番号]）</div>
+<pre>M = [[80, 75, 90, 60],
+     [70, 88, 55, 92],
+     [65, 80, 95, 72]]
+
+「1組3番の点数：」 と M[1][3] を表示する   → 90
+
+gokei = 0
+j を 1 から 4 まで 1 ずつ増やしながら，
+｜　gokei = gokei + M[2][j]
+を繰り返す
+「2組の合計：」 と gokei を表示する         → 305</pre>
+  </div>
+  添字は <b>行（1から）</b> → <b>列（1から）</b> の順。試験では「<code>表[i][j]</code>」のような変数名で出題されます。
+</div>
+
+<h2>7-3　複数の代入を1行に並べる（仕様特有）</h2>
+<div class="spec-extra">
+  <div class="se-ttl">「，」で区切ると、左から順に実行される（同時ではない）</div>
+  <p>DNCL では、複数の代入文を「<code>，</code>」で区切って 1 行に並べることができます。公式仕様では <b>代入文は左から順に実行されます</b>。「右辺を先にまとめて評価する」わけではない点に注意してください。</p>
+  <div class="code-wrap">
+    <div class="code-ttl">例 ― 合計に加えてからカウンタを進める</div>
+<pre>goukei ← goukei ＋ x, x ← x ＋ 1
+　左の goukei ← goukei ＋ x を実行してから、
+　右の x ← x ＋ 1 を実行する（左 → 右の順）</pre>
+  </div>
+  <div class="caution"><b>よくある誤解（値の交換）：</b><code>a ← b, b ← a</code> は値の<b>交換にはなりません</b>。左から順に実行されるため、まず <code>a ← b</code> で a が b の値になり、続く <code>b ← a</code> では a がすでに更新済みなので、<b>a も b も同じ値（元の b）</b>になってしまいます。<br>
+  値を入れ替えるには一時変数を使います：<code>w ← a, a ← b, b ← w</code>（a=10, b=20 なら実行後は a=20, b=10）。</div>
+</div>
+
+<h2>7-4　集計配列パターン</h2>
+<div class="code-wrap">
+  <div class="code-ttl">例 ― アンケート回答（1〜5）を集計</div>
+<pre>shukei = [0, 0, 0, 0, 0]
+kaitou = [2, 3, 1, 3, 2, 5, 3]
+i を 1 から 要素数[kaitou] まで 1 ずつ増やしながら，
+｜　k = kaitou[i]
+｜　shukei[k] = shukei[k] + 1
+を繰り返す</pre>
+</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  <b>①</b> 配列の末尾要素は <code>配列名[要素数[配列名]]</code>。<br>
+  <b>②</b> 2次元配列の読み取り問題（<code>M[2][3]</code> の値は？）が出題される。<br>
+  <b>③</b> 「<code>，</code>」区切りの複数代入は<b>左から順に</b>実行される点がポイント。値の交換は一時変数を使う（<code>a ← b, b ← a</code> では交換にならない）。
+</div>
+
+<div class="check">
+  <div class="check-ttl">確認問題 ⑦ 配列</div>
+  <ol>
+    <li><code>ten = [55, 82, 70, 91, 60]</code> のとき <code>ten[要素数[ten]]</code> の値は <span class="fill"></span></li>
+    <li><code>a ← 5, b ← 3, a ← b, b ← a</code> を左から順に実行したとき、最後の a と b の値はそれぞれいくつか。<br>
+      a = <span class="fill"></span>　b = <span class="fill"></span>
+    </li>
+    <li>上の集計プログラムで <code>kaitou = [2, 3, 1, 3, 2, 5, 3]</code> のとき、<code>shukei[3]</code> の値は <span class="fill"></span></li>
+  </ol>
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 7 章）</div>
+  <div class="sc-item"><span class="cb"></span>DNCL の配列は 1 始まりであることを説明できる（Python の 0 始まりと混同しない）</div>
+  <div class="sc-item"><span class="cb"></span>2次元配列 M[i][j] で i が行、j が列であると確認できた</div>
+  <div class="sc-item"><span class="cb"></span>「，」区切りの複数代入が左から順に実行されること、交換には一時変数が要ることを説明できる</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 7 章：配列</div>
+</section>
+
+<!-- ════════════ 第8章 ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ch8);">
+  <div class="ch-num">CHAPTER 8</div>
+  <div class="ch-title">関数</div>
+  <div class="ch-desc">関数の定義・呼び出し・組み込み関数（二乗・べき乗・乱数・奇数）</div>
+</div>
+
+<div class="obj-box">
+  <div class="obj-ttl">📌 この章の学習目標</div>
+  <ul>
+    <li>関数の定義・呼び出し・返り値の3要素を説明できる</li>
+    <li>DNCL の組み込み関数（二乗・べき乗・乱数・奇数）を使いこなせる</li>
+    <li>関数が条件式の中に使われるパターンを読み取れる</li>
+  </ul>
+</div>
+
+<h2>8-1　関数の定義と呼び出し</h2>
+<div class="syntax-box">
+  <div class="stl">構文 ― 定義</div>
+  <pre>関数 関数名(引数1, 引数2, …) を
+｜　処理
+｜　返す(返り値)
+と定義する</pre>
+</div>
+
+<div class="row2">
+  <div class="code-wrap">
+    <div class="code-ttl">例 ― 税込価格を返す関数</div>
+<pre>関数 zeikomi(kakaku) を
+｜　返す(kakaku × 110 ÷ 100)
+と定義する
+
+「税込：」 と zeikomi(980) を表示する
+「税込：」 と zeikomi(1500) を表示する</pre>
+  </div>
+  <div class="code-wrap">
+    <div class="code-ttl">例 ― 成績ランクを返す関数</div>
+<pre>関数 rank(p) を
+｜　もし p >= 90 ならば
+｜　｜　返す(「S」)
+｜　を実行する
+｜　もし p >= 60 ならば
+｜　｜　返す(「A」)
+｜　を実行する
+｜　返す(「C」)
+と定義する</pre>
+  </div>
+</div>
+<div style="background:#f9f9f9;border:1px solid var(--line);border-radius:5px;padding:5px 12px;font-size:11.5px;margin:4px 0;"><b>▶ 出力：</b>税込：1078 / 税込：1650</div>
+
+<div class="caution"><b>定義は呼び出しより前に書く。</b><code>返す(値)</code> が実行された瞬間に関数は終了します（その後の行は実行されない）。</div>
+
+<h2>8-2　DNCL 組み込み関数（仕様特有）</h2>
+<div class="spec-extra">
+  <div class="se-ttl">用意された関数（自分で定義しなくても使える）</div>
+  <table class="notation-tbl">
+    <tr><th>関数</th><th>意味</th><th>例 → 結果</th></tr>
+    <tr><td><code>二乗(x)</code></td><td>x の 2 乗（x²）</td><td><code>二乗(5)</code> → 25</td></tr>
+    <tr><td><code>べき乗(a, n)</code></td><td>a の n 乗（aⁿ）</td><td><code>べき乗(2, 10)</code> → 1024</td></tr>
+    <tr><td><code>乱数(n)</code></td><td>1〜n のランダムな整数</td><td><code>乱数(6)</code> → 1〜6</td></tr>
+    <tr><td><code>奇数(n)</code></td><td>n が奇数なら真、偶数なら偽</td><td><code>奇数(7)</code> → 真</td></tr>
+    <tr><td><code>二進で表示する(n)</code></td><td>n を 2 進数で表示</td><td><code>二進で表示する(10)</code> → 1010</td></tr>
+  </table>
+  <div class="code-wrap">
+    <div class="code-ttl">例 ― 組み込み関数の利用</div>
+<pre>「2の10乗：」 と べき乗(2, 10) を表示する    → 1024
+「5の二乗：」 と 二乗(5) を表示する           → 25
+もし 奇数(乱数(10)) ならば
+｜　「奇数の目！」 を表示する
+を実行する</pre>
+  </div>
+</div>
+
+<div class="exam-point">
+  <div class="ep-ttl">試験に出やすいポイント</div>
+  <b>①</b> <code>返す(値)</code> が実行された瞬間に関数終了。多段 if 文の中に複数の <code>返す</code> がある場合、最初に到達した1つだけが実行される。<br>
+  <b>②</b> 組み込み関数は問題文の注記に「この問題では〇〇関数を使える」と書かれる場合が多い。<br>
+  <b>③</b> 「関数呼び出しの結果を条件として使う」パターン：<code>もし 奇数(n) ならば</code>
+</div>
+
+<div class="check">
+  <div class="check-ttl">確認問題 ⑧ 関数</div>
+  <ol>
+    <li><code>zeikomi(1260)</code> の返り値は <span class="fill"></span>（整数割り算に注意）</li>
+    <li><code>べき乗(3, 4)</code> の値は <span class="fill"></span></li>
+    <li>配列 <code>ten = [55, 82, 70, 91, 63]</code> に対し、<code>rank(p)</code> が「S」を返す要素の個数を数えるプログラムを書け。</li>
+  </ol>
+</div>
+
+<div class="self-check">
+  <div class="sc-ttl">✅ 自己チェック（第 8 章）</div>
+  <div class="sc-item"><span class="cb"></span>関数定義の構文を書け（関数名・引数・処理・返す・と定義する）</div>
+  <div class="sc-item"><span class="cb"></span>DNCL の組み込み関数5種を列挙できる</div>
+  <div class="sc-item"><span class="cb"></span><code>返す</code> に到達した瞬間に関数が終了することを説明できる</div>
+</div>
+<div class="foot">共通テスト対策 DNCL 教科書 ― 第 8 章：関数</div>
+</section>
+
+<!-- ════════════ まとめ ════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:var(--ink);">
+  <div class="ch-num">SUMMARY</div>
+  <div class="ch-title">まとめ・確認問題 解答例</div>
+  <div class="ch-desc">全章の要点・表記対応表・解答例</div>
+</div>
+
+<h2>全体まとめ表</h2>
+<table class="notation-tbl">
+  <tr><th>要素</th><th>公式仕様キーワード</th><th>最重要ポイント</th></tr>
+  <tr><td>変数・代入</td><td><code>←</code>（試験では <code>=</code>）</td><td>右辺 → 左辺。<code>n を 1 増やす</code> は <code>n ← n + 1</code> と同じ</td></tr>
+  <tr><td>演算子</td><td><code>÷ % × かつ または</code></td><td><code>÷</code> は整数割り算。<code>/</code> は実数割り算。<code>%</code> は余り</td></tr>
+  <tr><td>条件分岐</td><td><code>もし〜ならば / を実行する</code></td><td>上から評価・最初の真で止まる。条件の順序に注意</td></tr>
+  <tr><td>for ループ</td><td><code>ずつ増やしながら / を繰り返す</code></td><td>B − A + 1 回。配列には <code>要素数[配列]</code> を終了値に</td></tr>
+  <tr><td>while ループ</td><td><code>の間，/ を繰り返す</code></td><td>最初から偽なら 0 回。探索パターンは二重条件</td></tr>
+  <tr><td>後判定</td><td><code>繰り返し / になるまで実行する</code></td><td>必ず1回実行。「になるまで」が止まる条件（逆に注意）</td></tr>
+  <tr><td>配列</td><td><code>配列名[i] / 要素数[配列名]</code></td><td>添字1始まり。<code>M[i][j]</code> で2次元。複数代入は「，」区切りで左から順</td></tr>
+  <tr><td>関数</td><td><code>関数〜を / と定義する / 返す()</code></td><td>定義→呼び出し順。<code>返す</code> で即終了。組み込み関数5種</td></tr>
+</table>
+
+<h2>仕様特有構文 チェックリスト</h2>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px; margin:8px 0;">
+  <div class="spec-extra" style="margin:0;padding:8px 12px;">
+    <div class="se-ttl" style="font-size:11.5px;">複数代入（，区切り）</div>
+    左から順に実行。交換は <code>w ← a, a ← b, b ← w</code>
+  </div>
+  <div class="spec-extra" style="margin:0;padding:8px 12px;">
+    <div class="se-ttl" style="font-size:11.5px;">インクリメント</div>
+    <code>n を 1 増やす</code> = <code>n ← n + 1</code>
+  </div>
+  <div class="spec-extra" style="margin:0;padding:8px 12px;">
+    <div class="se-ttl" style="font-size:11.5px;">外部入力</div>
+    <code>n を外部から入力する</code>
+  </div>
+  <div class="spec-extra" style="margin:0;padding:8px 12px;">
+    <div class="se-ttl" style="font-size:11.5px;">組み込み関数</div>
+    二乗・べき乗・乱数・奇数・二進で表示する
+  </div>
+  <div class="spec-extra" style="margin:0;padding:8px 12px;">
+    <div class="se-ttl" style="font-size:11.5px;">2次元配列</div>
+    <code>M[i][j]</code>（行・列ともに1始まり）
+  </div>
+  <div class="spec-extra" style="margin:0;padding:8px 12px;">
+    <div class="se-ttl" style="font-size:11.5px;">整数 vs 実数除算</div>
+    <code>÷</code> は切り捨て、<code>/</code> は小数あり
+  </div>
+</div>
+
+<h2>確認問題 解答例</h2>
+<div class="row2">
+  <div>
+    <h3>① 変数と代入</h3>
+    <div class="point" style="font-size:12px;">
+      1. x = 3 → 12 → 10。答え：<b>10</b><br>
+      2. <code>gokei = gokei + ten</code><br>
+      3. <code>ninzu を外部から入力する / もし ninzu > 0 ならば / ｜　ninzu を表示する / を実行する</code>
+    </div>
+    <h3>② 演算子</h3>
+    <div class="point" style="font-size:12px;">
+      1. <code>17 ÷ 5 = 3</code>、<code>17 % 5 = 2</code><br>
+      2. 真になるもの：<b>①③④</b><br>
+      　①6%3=0→真　②6%2=0だが6>7は偽→偽<br>
+      　③6%4=2≠0だが6%3=0→真　④6>5かつ6&lt;8→真
+    </div>
+    <h3>③ 条件分岐</h3>
+    <div class="point" style="font-size:12px;">
+      1. ten=75 → 75≧90は偽 → 75≧75は真 → <b>A</b><br>
+      2. if x>0: 正 / elif x=0: ゼロ / else: 負<br>
+      3. <b>②</b>（広い条件を後に書く）
+    </div>
+    <h3>④ for ループ</h3>
+    <div class="point" style="font-size:12px;">
+      1. gokei = 68+82+55+90+73 = <b>368</b><br>
+      2. <code>i を 要素数[scores] から 1 まで 1 ずつ減らしながら，｜　scores[i] を表示する を繰り返す</code><br>
+      3. i = 3,6,9,12,15 → <b>5 回</b>、最後の値：<b>15</b>
+    </div>
+  </div>
+  <div>
+    <h3>⑤ 前判定ループ</h3>
+    <div class="point" style="font-size:12px;">
+      1. n: 1→2→4→8→16→32→64→128（128で100以上に）→ <b>128</b><br>
+      2. i=1(55&lt;70→続行)→i=2(62&lt;70→続行)→i=3(80≧70→停止)。i=<b>3</b>。表示：「見つかった位置：3」
+    </div>
+    <h3>⑥ 後判定・中断する</h3>
+    <div class="point" style="font-size:12px;">
+      後判定は必ず1回実行・「になるまで」が止まる条件（前判定の続ける条件とは逆）。<br>
+      中断するがなければ80以上を見つけた後も残りの要素をすべて走査し、mitsuketa が上書きされる可能性がある。
+    </div>
+    <h3>⑦ 配列</h3>
+    <div class="point" style="font-size:12px;">
+      1. ten[5] = <b>60</b><br>
+      2. 「，」区切りは左から順に実行：<code>a ← b</code> で a=3、続く <code>b ← a</code> では a がすでに 3 なので b=3 → a = <b>3</b>、b = <b>3</b><br>
+      3. kaitou = [2,3,1,3,2,5,3] → 3 が 3 回 → shukei[3] = <b>3</b>
+    </div>
+    <h3>⑧ 関数</h3>
+    <div class="point" style="font-size:12px;">
+      1. zeikomi(1260) = 1260×110÷100 = 138600÷100 = <b>1386</b><br>
+      2. べき乗(3,4) = 3⁴ = <b>81</b><br>
+      3. cnt=0、forループで rank(ten[i])=「S」なら cnt を 1 増やす。ten=[55,82,70,<b>91</b>,63] → cnt = <b>1</b>
+    </div>
+  </div>
+</div>
+
+<div class="foot">共通テスト対策 DNCL 教科書 ― まとめ・解答例</div>
+</section>
+
+</body>
+</html>

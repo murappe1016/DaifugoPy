@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNCL 総合演習 ― 共通テスト形式</title>
+<link rel="stylesheet" href="material.css">
+<style>
+:root{
+  --ink:#1d2433; --sub:#5a6479; --line:#c4ccd9; --soft:#f4f6fa;
+  --accent:#2f6df0; --accent-bg:#eaf1ff;
+  --code-bg:#1e2536; --code-ink:#e7edf7;
+  --ok:#1e8e54; --ok-bg:#e8f7ee;
+  --warn:#c0392b; --warn-bg:#fdecea;
+  --gold:#b8860b; --gold-bg:#fdf6e3;
+  --fill:#fffdf5; --blank-bg:#fff8e1;
+}
+*{box-sizing:border-box;}
+html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+     color:var(--ink); margin:0; background:#e9edf3; line-height:1.6; font-size:13px;}
+.sheet{background:#fff; width:210mm; margin:14px auto; padding:14mm 15mm;
+       box-shadow:0 2px 14px rgba(0,0,0,.12);}
+
+/* ── ヘッダー ── */
+.doc-head{border-bottom:3px solid var(--accent); padding-bottom:8px; margin-bottom:10px;}
+h1{font-size:20px; margin:0;} h1 .em{color:var(--accent);}
+.doc-head .meta{color:var(--sub); font-size:11.5px; margin-top:3px;}
+.score-box{float:right; border:2px solid var(--line); border-radius:8px;
+           padding:4px 14px; font-size:12px; text-align:center; margin-top:2px;}
+.score-box span{display:block; font-size:20px; font-weight:700; line-height:1.2;}
+
+/* ── 大問ヘッダー ── */
+.daimon{background:var(--ink); color:#fff; border-radius:7px;
+        padding:6px 12px; font-size:15px; font-weight:700; margin:16px 0 8px;
+        page-break-after:avoid;}
+.daimon-intro{background:var(--soft); border:1px solid var(--line); border-radius:6px;
+              padding:8px 11px; font-size:12px; margin-bottom:8px;}
+.daimon-intro b{color:var(--accent);}
+
+/* ── 小問 ── */
+.mondai{margin:10px 0;}
+.mondai .q-head{font-weight:700; font-size:12.5px; color:var(--ink); margin-bottom:4px;}
+.mondai .q-head .qnum{display:inline-block; background:var(--accent); color:#fff;
+                      border-radius:50%; width:19px; height:19px; text-align:center;
+                      line-height:19px; font-size:11px; margin-right:5px;}
+
+/* ── コードブロック ── */
+.code-wrap{border:1px solid var(--line); border-radius:7px; overflow:hidden; margin:6px 0;}
+.code-wrap .code-ttl{font-size:11px; font-weight:700; padding:3px 10px;
+                      background:var(--soft); border-bottom:1px solid var(--line); color:var(--sub);}
+pre{margin:0; padding:8px 12px; font-size:11.5px; line-height:1.65; white-space:pre-wrap;
+    background:var(--code-bg); color:var(--code-ink);
+    font-family:"Hiragino Kaku Gothic ProN",ui-monospace,Menlo,Consolas,monospace;}
+.bl{display:inline-block; background:var(--blank-bg); color:var(--ink);
+    border:1.5px solid #d4a017; border-radius:3px; min-width:40px; text-align:center;
+    font-weight:700; font-size:12px; padding:0 5px; vertical-align:middle; line-height:1.4;}
+.blw{min-width:60px;}
+.blww{min-width:90px;}
+
+/* ── 選択肢 ── */
+.choices{display:flex; flex-wrap:wrap; gap:5px 12px; margin:5px 0;}
+.choices li{list-style:none; font-size:12px;}
+.choices li::before{content:"⓪①②③④⑤⑥⑦⑧⑨"; /* overridden per item */}
+.ch{display:inline-block; font-size:12px;}
+.ch .num{display:inline-block; border:1px solid var(--line); border-radius:3px;
+         padding:0 5px; margin-right:3px; background:var(--accent-bg); font-weight:700;}
+
+/* ── 解答欄 ── */
+.ans-table{width:100%; border-collapse:collapse; margin:7px 0; font-size:11.5px;}
+.ans-table th,.ans-table td{border:1px solid var(--line); padding:5px 8px; text-align:center;}
+.ans-table th{background:var(--accent-bg);}
+.ans-table td{background:var(--fill); min-width:40px; height:26px;}
+.ans-table td.ans{background:var(--ok-bg); color:var(--ok); font-weight:700;}
+
+/* ── 注釈・ヒント ── */
+.note{background:var(--gold-bg); border-left:4px solid var(--gold); border-radius:5px;
+      padding:6px 10px; font-size:11.5px; margin:6px 0;}
+.note b{color:var(--gold);}
+.warn{background:var(--warn-bg); border-left:4px solid var(--warn); border-radius:5px;
+      padding:6px 10px; font-size:11.5px; margin:6px 0;}
+
+/* ── 変数表 ── */
+.trace-tbl{border-collapse:collapse; font-size:11.5px; margin:5px 0;}
+.trace-tbl th,.trace-tbl td{border:1px solid var(--line); padding:4px 8px; text-align:center;}
+.trace-tbl th{background:var(--accent-bg);}
+.trace-tbl td.fill{background:var(--blank-bg); width:56px; height:22px;}
+.trace-tbl td.ans{background:var(--ok-bg); color:var(--ok); font-weight:700;}
+
+/* ── 教師用解答 ── */
+.teacher{margin-top:10px; border:1.5px dashed #b9bfcb; border-radius:8px;
+         padding:9px 12px; background:#fbfcfe;}
+.teacher .lbl{font-size:11px; font-weight:700; color:var(--sub); margin-bottom:6px;}
+
+/* ── 2列レイアウト ── */
+.row2{display:grid; grid-template-columns:1fr 1fr; gap:10px; align-items:start;}
+.row3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; align-items:start;}
+
+/* ── データ表 ── */
+.data-tbl{border-collapse:collapse; font-size:12px; margin:6px 0;}
+.data-tbl th,.data-tbl td{border:1px solid var(--line); padding:4px 9px; text-align:center;}
+.data-tbl th{background:var(--soft);}
+
+/* フッター */
+.foot{margin-top:12px; padding-top:6px; border-top:1px dashed var(--line);
+      color:var(--sub); font-size:10.5px; text-align:center;}
+
+/* ── ここも押さえておこう ── */
+.osaetokou{background:#f0f7ff; border:2px solid #2f6df0; border-radius:8px;
+           padding:10px 13px; margin:12px 0; page-break-inside:avoid;}
+.osaetokou .ott{font-weight:700; font-size:13px; color:#2f6df0; margin-bottom:6px;}
+.osaetokou .ott::before{content:"📌 ";}
+.osaetokou .oitem{margin:6px 0;}
+.osaetokou .oitem b{color:#1d2433;}
+.osaetokou pre{font-size:11px; margin:3px 0 6px; border-radius:4px;}
+
+@media print{
+  body{background:#fff;}
+  .sheet{box-shadow:none; margin:0; width:auto; padding:11mm 12mm;}
+  .daimon{break-after:avoid;}
+  .mondai{break-inside:avoid;}
+  .code-wrap{break-inside:avoid;}
+  .sheet-break{page-break-before:always;}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================================================== PAGE 1 ======================================================== -->
+<section class="sheet">
+<div class="doc-head">
+  <div class="score-box">得点<span>　　／100</span></div>
+  <h1>DNCL <span class="em">総合演習</span>　― 共通テスト形式 ―</h1>
+  <div class="meta">大富豪プログラミングで学んだ DNCL を、様々な場面で使いこなす。全 5 大問・22 問。</div>
+</div>
+
+<div class="note">
+  <b>記号の読み方：</b>
+  <span style="margin-right:14px;">← 代入</span>
+  <span style="margin-right:14px;">＋ － × ÷ ％ 演算子</span>
+  <span style="margin-right:14px;">＝ ≠ ＞ ＜ ≧ ≦ 比較</span>
+  <span>要素数[配列] 配列の長さ　／　添字は 1 始まり</span>
+</div>
+
+<!-- ═══════════════════ 大問1 ═══════════════════ -->
+<div class="daimon">大問１　成績処理（25点）</div>
+<div class="daimon-intro">
+  クラス 5 人のテスト点数が配列 <b>ten</b> に格納されている。<br>
+  <b>ten = [68, 82, 55, 90, 73]</b>（ten[1]=68、ten[2]=82、…、ten[5]=90）
+</div>
+
+<!-- 問1 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">1</span>次のプログラムを実行すると、変数 <code>gokei</code> の値はいくつになるか。トレース表を完成させ、答えを選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap">
+    <div class="code-ttl">プログラム A</div>
+<pre>gokei ← 0
+i を 1 から 要素数[ten] まで 1 ずつ増やしながら，
+｜　gokei ← gokei ＋ ten[i]
+を繰り返す
+「合計は、」 と gokei を表示する</pre>
+  </div>
+  <table class="trace-tbl">
+    <tr><th>i</th><th>ten[i]</th><th>gokei（加算後）</th></tr>
+    <tr><td>初期</td><td>—</td><td>0</td></tr>
+    <tr><td>1</td><td>68</td><td class="fill"></td></tr>
+    <tr><td>2</td><td>82</td><td class="fill"></td></tr>
+    <tr><td>3</td><td>55</td><td class="fill"></td></tr>
+    <tr><td>4</td><td>90</td><td class="fill"></td></tr>
+    <tr><td>5</td><td>73</td><td class="fill"></td></tr>
+  </table>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>358</span>
+    <span class="ch"><span class="num">②</span>368</span>
+    <span class="ch"><span class="num">③</span>378</span>
+    <span class="ch"><span class="num">④</span>388</span>
+  </div>
+</div>
+
+<!-- 問2 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">2</span>プログラム A の最後に次の 1 行を追加すると、何が表示されるか。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">追加行</div>
+<pre>「平均は、」 と gokei ÷ 要素数[ten] を表示する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>73</span>
+    <span class="ch"><span class="num">②</span>73.6</span>
+    <span class="ch"><span class="num">③</span>74</span>
+    <span class="ch"><span class="num">④</span>75</span>
+  </div>
+  <div class="note"><b>ヒント：</b>DNCL の ÷ は小数点以下を切り捨てる整数の割り算。</div>
+</div>
+
+<!-- 問3 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">3</span>次のプログラムの空欄 <span class="bl">ア</span>・<span class="bl">イ</span> に入る式・値を選べ。（最高点を求めるプログラム）<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム B</div>
+<pre>saikou ← <span class="bl">ア</span>
+i を 1 から 要素数[ten] まで 1 ずつ増やしながら，
+｜　もし ten[i] <span class="bl">イ</span> saikou ならば
+｜　｜　saikou ← ten[i]
+｜　を実行する
+を繰り返す
+「最高点は、」 と saikou を表示する</pre></div>
+  <div class="row2">
+    <div>
+      <b>ア の選択肢</b>
+      <div class="choices">
+        <span class="ch"><span class="num">①</span>0</span>
+        <span class="ch"><span class="num">②</span>ten[1]</span>
+        <span class="ch"><span class="num">③</span>ten[5]</span>
+        <span class="ch"><span class="num">④</span>100</span>
+      </div>
+    </div>
+    <div>
+      <b>イ の選択肢</b>
+      <div class="choices">
+        <span class="ch"><span class="num">①</span>＞</span>
+        <span class="ch"><span class="num">②</span>＜</span>
+        <span class="ch"><span class="num">③</span>＝</span>
+        <span class="ch"><span class="num">④</span>≠</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 問4 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">4</span>プログラム B を改造して「最低点」を求めるには、空欄 <span class="bl">ア</span>・<span class="bl">イ</span> をどう変えるか。正しい組み合わせを選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="choices" style="flex-direction:column;gap:4px;">
+    <span class="ch"><span class="num">①</span>ア = ten[1]、イ = ＜</span>
+    <span class="ch"><span class="num">②</span>ア = 0、イ = ＜</span>
+    <span class="ch"><span class="num">③</span>ア = ten[1]、イ = ＞</span>
+    <span class="ch"><span class="num">④</span>ア = 100、イ = ≦</span>
+  </div>
+</div>
+
+<!-- 問5 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">5</span>次の空欄 <span class="bl">ウ</span> を埋めて、70点以上の人数を数えるプログラムを完成させよ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム C</div>
+<pre>ninzu ← 0
+i を 1 から 要素数[ten] まで 1 ずつ増やしながら，
+｜　もし <span class="bl blww">ウ</span> ならば
+｜　｜　ninzu ← ninzu ＋ 1
+｜　を実行する
+を繰り返す
+「70点以上は、」 と ninzu を表示する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>ten[i] ＞ 70</span>
+    <span class="ch"><span class="num">②</span>ten[i] ≧ 70</span>
+    <span class="ch"><span class="num">③</span>ten[i] ＜ 70</span>
+    <span class="ch"><span class="num">④</span>ten[i] ＝ 70</span>
+  </div>
+  <p style="font-size:11.5px;margin:4px 0;">また、このプログラムを実行すると「70点以上は、」の後に何が表示されるか。<span class="bl">　　</span></p>
+</div>
+
+<div class="osaetokou">
+  <div class="ott">ここも押さえておこう！ ― 複数代入（1行に並べる）・インクリメント構文</div>
+  <div class="oitem">
+    <b>① 複数の代入を「，」で1行に並べる</b><br>
+    DNCL では複数の代入文を「<code>，</code>」で区切って1行に書けます。公式仕様では
+    <b>左から順に</b>実行されます（「同時に」ではありません）。
+    <div class="code-wrap" style="margin:4px 0;">
+      <div class="code-ttl">例 ― 合計に加えてからカウンタを進める</div>
+<pre>goukei ← goukei ＋ x, x ← x ＋ 1
+　左の goukei ← goukei ＋ x → 右の x ← x ＋ 1 の順に実行</pre>
+    </div>
+    <b>値の交換に注意：</b><code>a ← b, b ← a</code> は交換になりません。左から順に実行され、
+    <code>a ← b</code> で <code>a</code> が <code>b</code> の値になった後、<code>b ← a</code> では <code>a</code> がすでに
+    更新済みなので、<b>a も b も元の b の値</b>になってしまいます。交換するには一時変数を使います：
+    <code>w ← a, a ← b, b ← w</code>。
+  </div>
+  <div class="oitem">
+    <b>② インクリメント・デクリメント構文</b><br>
+    DNCL には「変数を 1 増やす」を表す短縮構文があります。
+    <div class="code-wrap" style="margin:4px 0;">
+      <div class="code-ttl">インクリメントの 2 通りの書き方（どちらも同じ意味）</div>
+<pre>kaunto を 1 増やす            ← 短縮構文（DNCL 仕様）
+kaunto ← kaunto ＋ 1         ← 通常の代入（どちらでも正解）</pre>
+    </div>
+    試験では「<code>kosu を 1 増やす</code>」のように出題されることがあります。
+    両方の書き方を読み書きできるようにしておきましょう。
+  </div>
+</div>
+
+<div class="foot">DNCL 総合演習 ― 大問1（1/3）</div>
+</section>
+
+<!-- ======================================================== PAGE 2 ======================================================== -->
+<section class="sheet sheet-break">
+
+<!-- ═══════════════════ 大問2 ═══════════════════ -->
+<div class="daimon">大問２　気温データ分析（20点）</div>
+<div class="daimon-intro">
+  ある地点の 1 週間（7日分）の最高気温（℃）が配列 <b>kion</b> に格納されている。<br>
+  <b>kion = [27, 31, 29, 33, 28, 35, 30]</b>（kion[1]が1日目、kion[7]が7日目）
+</div>
+
+<!-- 問6 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">6</span>次のプログラムを実行したときの表示を答えよ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム D</div>
+<pre>cnt ← 0
+i を 1 から 要素数[kion] まで 1 ずつ増やしながら，
+｜　もし kion[i] ≧ 30 ならば
+｜　｜　cnt ← cnt ＋ 1
+｜　を実行する
+を繰り返す
+「30℃以上の日は、」 と cnt を表示する</pre></div>
+  <p style="font-size:12px;">表示される内容：「30℃以上の日は、<span class="bl blw">　　</span>」</p>
+</div>
+
+<!-- 問7 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">7</span>「最初に 30℃以上になる日」を前判定ループで探すプログラムの空欄 <span class="bl">エ</span>・<span class="bl">オ</span> を選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム E</div>
+<pre>i ← 1
+<span class="bl blww">エ</span> の間，
+｜　i ← i ＋ 1
+を繰り返す
+もし i ≦ 要素数[kion] ならば
+｜　「最初に30℃以上になるのは」 と i と 「日目」 を表示する
+を実行し，そうでなければ
+｜　「30℃以上の日はありません」 を表示する
+を実行する</pre></div>
+  <div class="row2">
+    <div>
+      <b>エ の選択肢（ループ継続条件）</b>
+      <div class="choices" style="flex-direction:column;gap:3px;">
+        <span class="ch"><span class="num">①</span>i ≦ 要素数[kion] かつ kion[i] ＜ 30</span>
+        <span class="ch"><span class="num">②</span>i ≦ 要素数[kion] または kion[i] ＜ 30</span>
+        <span class="ch"><span class="num">③</span>i ≦ 要素数[kion] かつ kion[i] ≧ 30</span>
+        <span class="ch"><span class="num">④</span>kion[i] ＜ 30</span>
+      </div>
+    </div>
+    <div>
+      <b>オ（プログラム E の実行結果）</b>
+      <div class="choices" style="flex-direction:column;gap:3px;">
+        <span class="ch"><span class="num">①</span>最初に30℃以上になるのは 1 日目</span>
+        <span class="ch"><span class="num">②</span>最初に30℃以上になるのは 2 日目</span>
+        <span class="ch"><span class="num">③</span>最初に30℃以上になるのは 3 日目</span>
+        <span class="ch"><span class="num">④</span>30℃以上の日はありません</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 問8 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">8</span>次のプログラムが「週の平均気温（整数）」を表示するよう、空欄 <span class="bl">カ</span> を埋めよ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム F</div>
+<pre>gokei ← 0
+i を 1 から 要素数[kion] まで 1 ずつ増やしながら，
+｜　gokei ← gokei ＋ kion[i]
+を繰り返す
+「週平均気温は、」 と <span class="bl blww">カ</span> を表示する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>gokei ÷ 7</span>
+    <span class="ch"><span class="num">②</span>gokei ÷ 要素数[kion]</span>
+    <span class="ch"><span class="num">③</span>gokei ／ 要素数[kion]</span>
+    <span class="ch"><span class="num">④</span>gokei × 7</span>
+  </div>
+  <p style="font-size:11.5px;margin:4px 0;">また、表示される数値を答えよ。<span class="bl blw">　　</span></p>
+</div>
+
+<!-- 問9 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">9</span>次のプログラムの実行後、変数 <code>maxDay</code> の値はいくつか。（気温が最も高い日の番号を求める）<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム G</div>
+<pre>maxDay ← 1
+i を 2 から 要素数[kion] まで 1 ずつ増やしながら，
+｜　もし kion[i] ＞ kion[maxDay] ならば
+｜　｜　maxDay ← i
+｜　を実行する
+を繰り返す
+「最も暑い日は」 と maxDay と 「日目（」 と kion[maxDay] と 「℃）」 を表示する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>4（33℃）</span>
+    <span class="ch"><span class="num">②</span>5（28℃）</span>
+    <span class="ch"><span class="num">③</span>6（35℃）</span>
+    <span class="ch"><span class="num">④</span>7（30℃）</span>
+  </div>
+</div>
+
+<div class="osaetokou">
+  <div class="ott">ここも押さえておこう！ ― 外部入力</div>
+  <div class="oitem">
+    <b>外部からデータを入力する</b><br>
+    DNCL では「ユーザーがキーボードから値を入力する」操作を以下のように書きます。
+    <div class="code-wrap" style="margin:4px 0;">
+      <div class="code-ttl">例 ― 気温データを外部から入力して処理する</div>
+<pre>n を外部から入力する           ← n に入力値が入る
+もし n ≧ 30 ならば
+｜　「真夏日です」 を表示する
+を実行する</pre>
+    </div>
+    試験問題では「あらかじめ与えられた配列に入力値が格納されている」という設定が多いですが、
+    外部入力の構文を読めることも重要です。<br>
+    また、<b>複数回の入力</b>はループと組み合わせます：
+    <div class="code-wrap" style="margin:4px 0;">
+<pre>i を 1 から 5 まで 1 ずつ増やしながら，
+｜　kion[i] を外部から入力する
+を繰り返す</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 大問3 ═══════════════════ -->
+<div class="daimon">大問３　買い物と関数（20点）</div>
+<div class="daimon-intro">
+  スーパーの商品価格（円）が配列 <b>kakaku</b> に格納されている。<br>
+  <b>kakaku = [120, 350, 80, 500, 210]</b>（kakaku[1]〜kakaku[5]の順）<br>
+  1000 円以上の購入で 10% 割引が適用される。
+</div>
+
+<!-- 問10 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">10</span>次の関数 <code>discount</code> について、<code>discount(1200)</code> を呼び出したときの返り値を答えよ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">関数定義</div>
+<pre>関数 discount(kingaku) を
+｜　もし kingaku ≧ 1000 ならば
+｜　｜　返す(kingaku × 9 ÷ 10)
+｜　を実行する
+｜　返す(kingaku)
+と定義する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>1080</span>
+    <span class="ch"><span class="num">②</span>1100</span>
+    <span class="ch"><span class="num">③</span>1200</span>
+    <span class="ch"><span class="num">④</span>120</span>
+  </div>
+  <p style="font-size:11.5px;margin:4px 0;">また <code>discount(800)</code> の返り値は <span class="bl blw">　　</span> である。</p>
+</div>
+
+<!-- 問11 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">11</span>すべての商品を購入する合計額を求め、割引後の金額を表示するプログラムの空欄 <span class="bl">キ</span> を選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム H（関数 discount が定義済みとする）</div>
+<pre>gokei ← 0
+i を 1 から 要素数[kakaku] まで 1 ずつ増やしながら，
+｜　gokei ← gokei ＋ kakaku[i]
+を繰り返す
+「お支払い金額は、」 と <span class="bl blww">キ</span> を表示する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>gokei</span>
+    <span class="ch"><span class="num">②</span>discount(gokei)</span>
+    <span class="ch"><span class="num">③</span>discount(kakaku)</span>
+    <span class="ch"><span class="num">④</span>gokei × 9 ÷ 10</span>
+  </div>
+  <p style="font-size:11.5px;margin:4px 0;">このプログラムを実行すると表示される金額は <span class="bl blw">　　</span> 円である。</p>
+</div>
+
+<!-- 問12 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">12</span>価格が最も安い商品の価格を求める関数 <code>minPrice</code> を定義する。空欄 <span class="bl">ク</span>・<span class="bl">ケ</span> を選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">関数定義</div>
+<pre>関数 minPrice(P) を
+｜　saisho ← P[1]
+｜　i を 2 から 要素数[P] まで 1 ずつ増やしながら，
+｜　｜　もし P[i] <span class="bl">ク</span> saisho ならば
+｜　｜　｜　saisho ← <span class="bl blw">ケ</span>
+｜　｜　を実行する
+｜　を繰り返す
+｜　返す(saisho)
+と定義する</pre></div>
+  <div class="row2">
+    <div>
+      <b>ク</b>
+      <div class="choices">
+        <span class="ch"><span class="num">①</span>＞</span>
+        <span class="ch"><span class="num">②</span>＜</span>
+        <span class="ch"><span class="num">③</span>＝</span>
+      </div>
+    </div>
+    <div>
+      <b>ケ</b>
+      <div class="choices">
+        <span class="ch"><span class="num">①</span>saisho</span>
+        <span class="ch"><span class="num">②</span>P[1]</span>
+        <span class="ch"><span class="num">③</span>P[i]</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 問13 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">13</span>次のプログラムの出力として正しいものを選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム I（minPrice 関数が定義済み）</div>
+<pre>「最安値は、」 と minPrice(kakaku) と 「円」 を表示する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>最安値は、80円</span>
+    <span class="ch"><span class="num">②</span>最安値は、120円</span>
+    <span class="ch"><span class="num">③</span>最安値は、210円</span>
+    <span class="ch"><span class="num">④</span>最安値は、350円</span>
+  </div>
+</div>
+
+<div class="osaetokou">
+  <div class="ott">ここも押さえておこう！ ― DNCL に用意された関数</div>
+  <div class="oitem">
+    DNCL では、自分で定義しなくても使えるビルトイン関数が用意されています。
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0;">
+      <tr style="background:var(--accent-bg);">
+        <th style="border:1px solid var(--line);padding:4px 8px;">関数</th>
+        <th style="border:1px solid var(--line);padding:4px 8px;">意味</th>
+        <th style="border:1px solid var(--line);padding:4px 8px;">例</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>二乗(x)</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;">x の 2 乗（x²）</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>二乗(5)</code> → 25</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>べき乗(a, n)</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;">a の n 乗（aⁿ）</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>べき乗(2, 10)</code> → 1024</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>乱数(n)</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;">1〜n のランダムな整数</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>乱数(6)</code> → 1〜6 のいずれか</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>奇数(n)</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;">n が奇数なら真、偶数なら偽</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>奇数(7)</code> → 真</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>二進で表示する(n)</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;">n を 2 進数で表示</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>二進で表示する(10)</code> → 1010</td>
+      </tr>
+    </table>
+    <div class="code-wrap" style="margin:4px 0;">
+      <div class="code-ttl">例 ― サイコロゲームのシミュレーション</div>
+<pre>目 ← 乱数(6)
+「サイコロの目：」 と 目 を表示する
+もし 奇数(目) ならば
+｜　「奇数！」 を表示する
+を実行する</pre>
+    </div>
+  </div>
+</div>
+
+<div class="foot">DNCL 総合演習 ― 大問2・3（2/3）</div>
+</section>
+
+<!-- ======================================================== PAGE 3 ======================================================== -->
+<section class="sheet sheet-break">
+
+<!-- ═══════════════════ 大問4 ═══════════════════ -->
+<div class="daimon">大問４　数値の性質（20点）</div>
+<div class="daimon-intro">
+  整数の性質（偶数・奇数・倍数・余り）を調べるプログラムを読み解く。
+</div>
+
+<!-- 問14 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">14</span>次のプログラムは、1 から 10 の整数のうち「3 の倍数」を表示する。空欄 <span class="bl">コ</span> を選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム J</div>
+<pre>i を 1 から 10 まで 1 ずつ増やしながら，
+｜　もし <span class="bl blww">コ</span> ＝ 0 ならば
+｜　｜　i を表示する
+｜　を実行する
+を繰り返す</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>i ÷ 3</span>
+    <span class="ch"><span class="num">②</span>i ％ 3</span>
+    <span class="ch"><span class="num">③</span>i ％ 2</span>
+    <span class="ch"><span class="num">④</span>3 ÷ i</span>
+  </div>
+</div>
+
+<!-- 問15 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">15</span>次のプログラムを実行すると、何が表示されるか。すべて答えよ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム K（FizzBuzz 変形）</div>
+<pre>i を 1 から 15 まで 1 ずつ増やしながら，
+｜　もし i ％ 15 ＝ 0 ならば
+｜　｜　「FizzBuzz」 を表示する
+｜　を実行し，そうでなければ もし i ％ 3 ＝ 0 ならば
+｜　｜　「Fizz」 を表示する
+｜　を実行し，そうでなければ もし i ％ 5 ＝ 0 ならば
+｜　｜　「Buzz」 を表示する
+｜　を実行し，そうでなければ
+｜　｜　i を表示する
+｜　を実行する
+を繰り返す</pre></div>
+  <p style="font-size:11.5px;margin:5px 0;">i = 5 のとき表示される：<span class="bl blw">　　</span>　　i = 9 のとき：<span class="bl blw">　　</span>　　i = 15 のとき：<span class="bl blw">　　　　</span></p>
+</div>
+
+<!-- 問16 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">16</span>次の関数 <code>classify</code> について、<code>classify(12)</code> の返り値を答えよ。また、<code>classify(7)</code> の返り値も答えよ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">関数定義</div>
+<pre>関数 classify(n) を
+｜　もし n ％ 2 ＝ 0 かつ n ％ 3 ＝ 0 ならば
+｜　｜　返す(「6の倍数」)
+｜　を実行し，そうでなければ もし n ％ 2 ＝ 0 ならば
+｜　｜　返す(「偶数」)
+｜　を実行し，そうでなければ
+｜　｜　返す(「奇数」)
+｜　を実行する
+と定義する</pre></div>
+  <p style="font-size:11.5px;margin:5px 0;">classify(12) の返り値：<span class="bl blww">　　　　</span>　　classify(7) の返り値：<span class="bl blww">　　　　</span></p>
+</div>
+
+<!-- 問17 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">17</span>次のプログラムには誤りが 1 か所ある。正しく直すには、どの行をどう変えるべきか記述せよ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（5点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム L（1〜100の合計を求める予定）</div>
+<pre>gokei ← 0
+i ← 1
+i ≦ 100 の間，
+｜　gokei ← gokei ＋ i
+を繰り返す
+「合計は、」 と gokei を表示する</pre></div>
+  <div class="warn">このプログラムは意図通りに動きません。原因と修正方法を答えてください。</div>
+  <table style="font-size:12px;width:100%;border-collapse:collapse;margin-top:6px;">
+    <tr><td style="border:1px solid var(--line);padding:5px 8px;background:var(--soft);width:30%;font-weight:700;">問題の原因</td>
+        <td style="border:1px solid var(--line);padding:5px 8px;height:30px;"></td></tr>
+    <tr><td style="border:1px solid var(--line);padding:5px 8px;background:var(--soft);font-weight:700;">修正方法</td>
+        <td style="border:1px solid var(--line);padding:5px 8px;height:30px;"></td></tr>
+  </table>
+</div>
+
+<div class="osaetokou">
+  <div class="ott">ここも押さえておこう！ ― 除算の種類と試験での表記バリエーション</div>
+  <div class="oitem">
+    <b>① 整数除算（÷）と実数除算（/）の違い</b><br>
+    DNCL では演算子によって除算の結果が変わります。
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0;">
+      <tr style="background:var(--accent-bg);">
+        <th style="border:1px solid var(--line);padding:4px 8px;">演算子</th>
+        <th style="border:1px solid var(--line);padding:4px 8px;">意味</th>
+        <th style="border:1px solid var(--line);padding:4px 8px;">例</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>÷</code>（全角）</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;">整数除算（小数点以下切り捨て）</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>7 ÷ 2</code> → <b>3</b></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>/</code>（半角）</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;">実数除算（小数も出る）</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>7 / 2</code> → <b>3.5</b></td>
+      </tr>
+    </table>
+    共通テストでは <code>÷</code> が多く使われますが、<code>/</code> で実数除算を示す問題も出ます。
+    問題の注記を必ず確認しましょう。
+  </div>
+  <div class="oitem">
+    <b>② 試験での表記バリエーション</b><br>
+    共通テストは DNCL 仕様と完全に同じではない場合があります（仕様書にも明記されています）。
+    <table style="width:100%;border-collapse:collapse;font-size:11.5px;margin:6px 0;">
+      <tr style="background:var(--accent-bg);">
+        <th style="border:1px solid var(--line);padding:4px 8px;">項目</th>
+        <th style="border:1px solid var(--line);padding:4px 8px;">公式仕様</th>
+        <th style="border:1px solid var(--line);padding:4px 8px;">試験での表記例</th>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;">代入</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>←</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>=</code></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;">if 文</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>もし 条件 ならば ｜　... を実行する</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>もし 条件 ならば: ｜　...</code></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;">while 文</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>条件 の間，｜　... を繰り返す</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>条件 の間繰り返す: ｜　...</code></td>
+      </tr>
+      <tr>
+        <td style="border:1px solid var(--line);padding:4px 8px;">表示</td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>「...」 を表示する</code></td>
+        <td style="border:1px solid var(--line);padding:4px 8px;"><code>表示する(「...」)</code></td>
+      </tr>
+    </table>
+    <b>対策：</b>表記が違っても「何をしているか」を読む力をつけることが大切です。アルゴリズムの意味を理解すれば表記の違いに惑わされません。
+  </div>
+</div>
+
+<!-- ═══════════════════ 大問5 ═══════════════════ -->
+<div class="daimon">大問５　アンケート集計（15点）</div>
+<div class="daimon-intro">
+  クラスの 6 人が好きな教科を番号で回答した。1=国語, 2=数学, 3=英語, 4=理科, 5=社会。<br>
+  <b>kaitou = [2, 3, 1, 3, 2, 3]</b>（kaitou[1]〜kaitou[6]の順）
+</div>
+
+<!-- 問18 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">18</span>「数学（2）」と回答した人数を数えるプログラムの空欄 <span class="bl">サ</span> を選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（3点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム M</div>
+<pre>cnt ← 0
+i を 1 から 要素数[kaitou] まで 1 ずつ増やしながら，
+｜　もし <span class="bl blww">サ</span> ならば
+｜　｜　cnt ← cnt ＋ 1
+｜　を実行する
+を繰り返す
+「数学を選んだ人数は、」 と cnt を表示する</pre></div>
+  <div class="choices">
+    <span class="ch"><span class="num">①</span>kaitou[i] ＝ 2</span>
+    <span class="ch"><span class="num">②</span>kaitou[i] ＝ 1</span>
+    <span class="ch"><span class="num">③</span>i ＝ 2</span>
+    <span class="ch"><span class="num">④</span>kaitou[i] ＞ 2</span>
+  </div>
+  <p style="font-size:11.5px;margin:4px 0;">実行すると「数学を選んだ人数は、<span class="bl">　　</span>」と表示される。</p>
+</div>
+
+<!-- 問19 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">19</span>後判定ループを使って「最初から順に見て、最初に見つかった『3（英語）』の位置」を求めるプログラムの空欄 <span class="bl">シ</span>・<span class="bl">ス</span> を選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（4点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム N</div>
+<pre>i ← 0
+繰り返し，
+｜　i ← i ＋ 1
+を，<span class="bl blww">シ</span> になるまで実行する
+「最初に3が出るのは」 と i と 「番目」 を表示する</pre></div>
+  <div class="row2">
+    <div>
+      <b>シ の選択肢（終了条件）</b>
+      <div class="choices" style="flex-direction:column;gap:3px;">
+        <span class="ch"><span class="num">①</span>kaitou[i] ＝ 3</span>
+        <span class="ch"><span class="num">②</span>kaitou[i] ≠ 3</span>
+        <span class="ch"><span class="num">③</span>i ＝ 要素数[kaitou]</span>
+        <span class="ch"><span class="num">④</span>i ＞ 要素数[kaitou]</span>
+      </div>
+    </div>
+    <div>
+      <b>実行結果（ス）</b>
+      <div class="choices" style="flex-direction:column;gap:3px;">
+        <span class="ch"><span class="num">①</span>最初に3が出るのは 1 番目</span>
+        <span class="ch"><span class="num">②</span>最初に3が出るのは 2 番目</span>
+        <span class="ch"><span class="num">③</span>最初に3が出るのは 3 番目</span>
+        <span class="ch"><span class="num">④</span>最初に3が出るのは 6 番目</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 問20 -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">20</span>各教科の集計数を配列 <b>shukei</b>（shukei[1]=国語の人数、…、shukei[5]=社会の人数）に格納するプログラムの空欄 <span class="bl">セ</span>・<span class="bl">ソ</span> を選べ。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（4点）</span></div>
+  <div class="code-wrap"><div class="code-ttl">プログラム O</div>
+<pre>shukei ← [0, 0, 0, 0, 0]
+i を 1 から 要素数[kaitou] まで 1 ずつ増やしながら，
+｜　k ← <span class="bl blw">セ</span>
+｜　shukei[k] ← <span class="bl blww">ソ</span>
+を繰り返す
+j を 1 から 5 まで 1 ずつ増やしながら，
+｜　j と 「番は、」 と shukei[j] と 「人」 を表示する
+を繰り返す</pre></div>
+  <div class="row2">
+    <div>
+      <b>セ（k に代入する式）</b>
+      <div class="choices" style="flex-direction:column;gap:3px;">
+        <span class="ch"><span class="num">①</span>kaitou[i]</span>
+        <span class="ch"><span class="num">②</span>shukei[i]</span>
+        <span class="ch"><span class="num">③</span>i</span>
+      </div>
+    </div>
+    <div>
+      <b>ソ（shukei[k] に代入する式）</b>
+      <div class="choices" style="flex-direction:column;gap:3px;">
+        <span class="ch"><span class="num">①</span>shukei[k] ＋ 1</span>
+        <span class="ch"><span class="num">②</span>shukei[k] ＋ kaitou[i]</span>
+        <span class="ch"><span class="num">③</span>k ＋ 1</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 問21・22（自由記述） -->
+<div class="mondai">
+  <div class="q-head"><span class="qnum">21</span>プログラム O を実行したとき「3番は、<span class="bl">　　</span>人」と表示される。</div>
+</div>
+
+<div class="mondai">
+  <div class="q-head"><span class="qnum">22</span>【記述】次の問いに、DNCL で答えよ。<br>
+  配列 <b>kaitou</b>（= [2,3,1,3,2,3]）を逆順に表示する（最後の要素から順に）プログラムを書け。<span style="color:var(--sub);font-size:11px;margin-left:8px;">（4点）</span></div>
+  <div style="border:1px solid var(--line);border-radius:6px;height:80px;background:var(--fill);padding:8px;font-size:12px;font-family:'Hiragino Kaku Gothic ProN',monospace;">
+  </div>
+</div>
+
+<div class="osaetokou">
+  <div class="ott">ここも押さえておこう！ ― 多次元配列</div>
+  <div class="oitem">
+    <b>2次元配列（行列データ）</b><br>
+    DNCL では配列の要素に配列を格納することで、表形式のデータを扱えます。
+    <div class="code-wrap" style="margin:4px 0;">
+      <div class="code-ttl">例 ― 3クラス×5人の点数表（M[クラス][生徒番号]）</div>
+<pre>M ← [[80, 75, 90, 60, 85],
+      [70, 88, 55, 92, 78],
+      [65, 80, 95, 72, 83]]
+
+「1組3番の点数：」 と M[1][3] を表示する    ← 90
+「2組全員の合計：」
+gokei ← 0
+j を 1 から 5 まで 1 ずつ増やしながら，
+｜　gokei ← gokei ＋ M[2][j]
+を繰り返す
+gokei を表示する                            ← 383</pre>
+    </div>
+    添字は <b>行（1から）</b>、<b>列（1から）</b> の順です。
+    試験では「<code>表[i][j]</code>」のような変数名で出題されることがあります。
+    <br><br>
+    <b>よく出るパターン：全行の合計を求める</b>
+    <div class="code-wrap" style="margin:4px 0;">
+<pre>i を 1 から 要素数[M] まで 1 ずつ増やしながら，
+｜　gyou_gokei ← 0
+｜　j を 1 から 要素数[M[1]] まで 1 ずつ増やしながら，
+｜　｜　gyou_gokei ← gyou_gokei ＋ M[i][j]
+｜　を繰り返す
+｜　i と 「組の合計：」 と gyou_gokei を表示する
+を繰り返す</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ─── 解答欄まとめ ─── -->
+<div style="margin-top:14px;border:2px solid var(--accent);border-radius:8px;padding:10px 12px;">
+  <div style="font-weight:700;font-size:12.5px;color:var(--accent);margin-bottom:6px;">■ 解答欄まとめ</div>
+  <table class="ans-table">
+    <tr>
+      <th>問</th><th>1</th><th>2</th><th>3(ア)</th><th>3(イ)</th><th>4</th><th>5(ウ)</th><th>5(人数)</th>
+      <th>6</th><th>7(エ)</th><th>7(オ)</th><th>8(カ)</th><th>8(平均)</th>
+    </tr>
+    <tr>
+      <td style="background:var(--soft);font-weight:700;">答</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td><td></td>
+    </tr>
+    <tr>
+      <th>問</th><th>9</th><th>10</th><th>10(800)</th><th>11(キ)</th><th>11(金額)</th>
+      <th>12(ク)</th><th>12(ケ)</th><th>13</th><th>14</th><th>15(×3)</th><th>16(×2)</th><th>18(サ)</th>
+    </tr>
+    <tr>
+      <td style="background:var(--soft);font-weight:700;">答</td>
+      <td></td><td></td><td></td><td></td><td></td>
+      <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<div class="foot">DNCL 総合演習 ― 大問4・5・解答欄（3/3）</div>
+</section>
+
+<!-- ======================================================== ANSWER KEY ======================================================== -->
+<section class="sheet sheet-break">
+<div class="teacher">
+  <div class="lbl">▼ 教師用解答（配布時は切り取る／折る）</div>
+  <div class="row3" style="margin-bottom:8px;">
+    <div>
+      <b style="font-size:12px;">大問1（成績処理）</b>
+      <table class="ans-table" style="margin-top:4px;">
+        <tr><th>問</th><th>答</th><th>配点</th></tr>
+        <tr><td>1（gokei）</td><td class="ans">③ 368</td><td>5</td></tr>
+        <tr><td>2（平均）</td><td class="ans">① 73</td><td>5</td></tr>
+        <tr><td>3 ア</td><td class="ans">② ten[1]</td><td rowspan="2">5</td></tr>
+        <tr><td>3 イ</td><td class="ans">① ＞</td></tr>
+        <tr><td>4（最低点）</td><td class="ans">① ten[1]・＜</td><td>5</td></tr>
+        <tr><td>5 ウ</td><td class="ans">② ≧ 70</td><td rowspan="2">5</td></tr>
+        <tr><td>5 人数</td><td class="ans">3</td></tr>
+      </table>
+      <p style="font-size:10.5px;margin:3px 0;color:var(--sub);">
+        問1トレース：68→150→205→295→368<br>
+        問4：最低点初期化は ten[1]=68。条件は＜で「今より小さければ更新」<br>
+        問5：≧70 → 68✗ 82✓ 55✗ 90✓ 73✓ = 3人
+      </p>
+    </div>
+    <div>
+      <b style="font-size:12px;">大問2（気温データ）</b>
+      <table class="ans-table" style="margin-top:4px;">
+        <tr><th>問</th><th>答</th><th>配点</th></tr>
+        <tr><td>6（cnt）</td><td class="ans">4</td><td>5</td></tr>
+        <tr><td>7 エ</td><td class="ans">① i≦要素数[kion] かつ kion[i]＜30</td><td rowspan="2">5</td></tr>
+        <tr><td>7 オ</td><td class="ans">② 最初に30℃以上になるのは 2 日目</td></tr>
+        <tr><td>8 カ</td><td class="ans">② gokei÷要素数[kion]</td><td rowspan="2">5</td></tr>
+        <tr><td>8 平均</td><td class="ans">30</td></tr>
+        <tr><td>9（maxDay）</td><td class="ans">③ 6（35℃）</td><td>5</td></tr>
+      </table>
+      <p style="font-size:10.5px;margin:3px 0;color:var(--sub);">
+        問6：31✓ 33✓ 35✓ 30✓ = 4日<br>
+        問7：i=1(27＜30→継続)→i=2(31≧30→停止)、i=2日目<br>
+        問8：gokei=27+31+29+33+28+35+30=213、213÷7=30（切り捨て）<br>
+        問9：maxDay=1→2(31)→4(33)→6(35)で終了、maxDay=6
+      </p>
+    </div>
+    <div>
+      <b style="font-size:12px;">大問3（買い物・関数）</b>
+      <table class="ans-table" style="margin-top:4px;">
+        <tr><th>問</th><th>答</th><th>配点</th></tr>
+        <tr><td>10（1200）</td><td class="ans">① 1080</td><td rowspan="2">5</td></tr>
+        <tr><td>10（800）</td><td class="ans">800</td></tr>
+        <tr><td>11 キ</td><td class="ans">② discount(gokei)</td><td rowspan="2">5</td></tr>
+        <tr><td>11 金額</td><td class="ans">1134</td></tr>
+        <tr><td>12 ク</td><td class="ans">② ＜</td><td rowspan="2">5</td></tr>
+        <tr><td>12 ケ</td><td class="ans">③ P[i]</td></tr>
+        <tr><td>13</td><td class="ans">① 最安値は、80円</td><td>5</td></tr>
+      </table>
+      <p style="font-size:10.5px;margin:3px 0;color:var(--sub);">
+        問10：1200×9÷10=1080（整数割り算）。800は1000未満→そのまま返す<br>
+        問11：gokei=120+350+80+500+210=1260。discount(1260)=1260×9÷10=1134。<br>
+        ※実際の計算：1260×9=11340、11340÷10=1134<br>
+        問13：80が最小（kakaku[3]）
+      </p>
+    </div>
+  </div>
+  <div class="row3">
+    <div>
+      <b style="font-size:12px;">大問4（数値の性質）</b>
+      <table class="ans-table" style="margin-top:4px;">
+        <tr><th>問</th><th>答</th><th>配点</th></tr>
+        <tr><td>14 コ</td><td class="ans">② i ％ 3</td><td>5</td></tr>
+        <tr><td>15（i=5）</td><td class="ans">Buzz</td><td rowspan="3">5</td></tr>
+        <tr><td>15（i=9）</td><td class="ans">Fizz</td></tr>
+        <tr><td>15（i=15）</td><td class="ans">FizzBuzz</td></tr>
+        <tr><td>16（12）</td><td class="ans">6の倍数</td><td rowspan="2">5</td></tr>
+        <tr><td>16（7）</td><td class="ans">奇数</td></tr>
+        <tr><td>17</td><td class="ans" style="font-size:10.5px;text-align:left;">i ← i ＋ 1 が抜けている（無限ループ）。ループ内に追加する</td><td>5</td></tr>
+      </table>
+    </div>
+    <div>
+      <b style="font-size:12px;">大問5（アンケート集計）</b>
+      <table class="ans-table" style="margin-top:4px;">
+        <tr><th>問</th><th>答</th><th>配点</th></tr>
+        <tr><td>18 サ</td><td class="ans">① kaitou[i] ＝ 2</td><td rowspan="2">3</td></tr>
+        <tr><td>18 人数</td><td class="ans">2</td></tr>
+        <tr><td>19 シ</td><td class="ans">① kaitou[i] ＝ 3</td><td rowspan="2">4</td></tr>
+        <tr><td>19 ス</td><td class="ans">② 2番目</td></tr>
+        <tr><td>20 セ</td><td class="ans">① kaitou[i]</td><td rowspan="2">4</td></tr>
+        <tr><td>20 ソ</td><td class="ans">① shukei[k] ＋ 1</td></tr>
+        <tr><td>21（3番）</td><td class="ans">3</td><td>2</td></tr>
+        <tr><td>22（記述）</td><td class="ans" style="text-align:left;font-size:10px;">下記参照</td><td>4</td></tr>
+      </table>
+      <p style="font-size:10.5px;margin:3px 0;color:var(--sub);">
+        問18：kaitou=[2,3,1,3,2,3]、2は2回 → cnt=2<br>
+        問19：i=0→1(kaitou[1]=2≠3継続)→i=2(kaitou[2]=3=3→停止)、2番目<br>
+        問20：k=kaitou[i]（教科番号）、shukei[k]を1増やす<br>
+        問21：英語(3)の人数 → 3,3,3の3か所 = 3人
+      </p>
+    </div>
+    <div>
+      <b style="font-size:12px;">問22 解答例</b>
+      <div class="code-wrap" style="margin-top:4px;">
+<pre style="font-size:10.5px;">i を 要素数[kaitou] から 1 まで
+　　1 ずつ減らしながら，
+｜　kaitou[i] を表示する
+を繰り返す</pre>
+      </div>
+      <p style="font-size:10.5px;color:var(--sub);margin:4px 0;">
+        表示順：3→2→3→1→3→2<br>
+        ※「1ずつ減らしながら」が<br>ポイント。
+      </p>
+      <div style="margin-top:8px;background:#fdf6e3;border:1px solid #e8cc88;border-radius:5px;padding:6px 9px;font-size:10.5px;">
+        <b style="color:#b8860b;">問22 採点ルーブリック（4点）</b>
+        <table style="width:100%;border-collapse:collapse;margin-top:4px;font-size:10px;">
+          <tr style="background:#f4f6fa;"><th style="border:1px solid #c4ccd9;padding:2px 4px;">点</th><th style="border:1px solid #c4ccd9;padding:2px 4px;text-align:left;">基準</th></tr>
+          <tr><td style="border:1px solid #c4ccd9;padding:2px 4px;text-align:center;">4</td><td style="border:1px solid #c4ccd9;padding:2px 4px;">「減らしながら」で終了値1まで正しく記述、表示も正確</td></tr>
+          <tr><td style="border:1px solid #c4ccd9;padding:2px 4px;text-align:center;">3</td><td style="border:1px solid #c4ccd9;padding:2px 4px;">ループの方向・範囲は正しいが表示の記述に軽微な誤り</td></tr>
+          <tr><td style="border:1px solid #c4ccd9;padding:2px 4px;text-align:center;">2</td><td style="border:1px solid #c4ccd9;padding:2px 4px;">「減らしながら」を使っているが範囲が不正確</td></tr>
+          <tr><td style="border:1px solid #c4ccd9;padding:2px 4px;text-align:center;">1</td><td style="border:1px solid #c4ccd9;padding:2px 4px;">逆順の意図は読み取れるが構文に誤りあり</td></tr>
+          <tr><td style="border:1px solid #c4ccd9;padding:2px 4px;text-align:center;">0</td><td style="border:1px solid #c4ccd9;padding:2px 4px;">未記入または逆順の概念が見られない</td></tr>
+        </table>
+      </div>
+      <div style="margin-top:6px;background:var(--accent-bg);border-radius:5px;padding:6px 9px;font-size:11px;">
+        <b>採点基準（22問）</b><br>
+        大問1:25点 大問2:20点<br>
+        大問3:20点 大問4:20点<br>
+        大問5:15点　計100点
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="foot">DNCL 総合演習 ― 教師用解答（4/4）</div>
+</section>
+
+</body>
+</html>

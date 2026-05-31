@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教師用指導ガイド ― 大富豪プログラミング教材</title>
+<link rel="stylesheet" href="material.css">
+<style>
+:root{
+  --ink:#1d2433; --sub:#5a6479; --line:#c8d0dd; --soft:#f4f6fa;
+  --accent:#2f6df0; --accent-bg:#eaf1ff; --accent-dark:#1a4db8;
+  --ok:#1e8e54; --ok-bg:#e8f7ee; --ok-dark:#155c38;
+  --warn:#b8860b; --warn-bg:#fdf6e3; --warn-dark:#8a6000;
+  --danger:#c0392b; --danger-bg:#fdecea;
+}
+*{box-sizing:border-box;}
+html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",system-ui,sans-serif;
+     color:var(--ink); margin:0; background:#dde2ea; line-height:1.7; font-size:13px;}
+.sheet{background:#fff; width:210mm; margin:14px auto; padding:15mm 16mm;
+       box-shadow:0 2px 16px rgba(0,0,0,.14);}
+.cover{display:flex; flex-direction:column; justify-content:center; align-items:center;
+       min-height:180mm; text-align:center;}
+.cover .book-label{font-size:12px; letter-spacing:3px; color:var(--sub); margin-bottom:16px;
+  border-top:2px solid var(--danger); border-bottom:2px solid var(--danger);
+  padding:4px 20px; display:inline-block;}
+.cover h1{font-size:28px; font-weight:900; margin:0 0 8px; line-height:1.3;}
+.cover .sub-title{font-size:15px; color:var(--sub); margin:0 0 24px;}
+.cover .toc-box{background:var(--soft); border:1px solid var(--line); border-radius:10px;
+  padding:14px 24px; text-align:left; width:340px; font-size:12.5px;}
+.cover .toc-box h3{margin:0 0 8px; font-size:13px; color:var(--sub);}
+.cover .toc-row{padding:3px 0; border-bottom:1px dotted var(--line);}
+.cover .toc-row:last-child{border-bottom:none;}
+.cover .foot-note{font-size:11px; color:var(--sub); margin-top:20px;}
+.chapter-header{border-radius:10px; padding:12px 18px; margin:-3mm -3mm 14px; color:#fff;}
+.ch-num{font-size:11px; font-weight:700; letter-spacing:1px; opacity:.8; margin-bottom:2px;}
+.ch-title{font-size:20px; font-weight:900; margin:0 0 3px;}
+.ch-desc{font-size:12px; opacity:.9; margin:0;}
+h2{font-size:14px; margin:16px 0 7px; padding:5px 12px 5px 10px;
+   border-left:4px solid var(--accent); background:var(--accent-bg); border-radius:0 6px 6px 0;}
+h3{font-size:13px; margin:12px 0 5px; color:var(--accent-dark);}
+.point{background:var(--ok-bg); border:1px solid #b0ddc0; border-left:5px solid var(--ok);
+       border-radius:6px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.point b{color:var(--ok-dark);}
+.caution{background:var(--warn-bg); border:1px solid #e8cc88; border-left:5px solid var(--warn);
+         border-radius:6px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.caution b{color:var(--warn-dark);}
+.danger-box{background:var(--danger-bg); border:1px solid #f0b0a8; border-left:5px solid var(--danger);
+        border-radius:6px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.danger-box b{color:var(--danger);}
+table.comp{width:100%; border-collapse:collapse; font-size:12px; margin:8px 0;}
+table.comp th,table.comp td{border:1px solid var(--line); padding:5px 9px;}
+table.comp th{background:var(--accent-bg); font-weight:700;}
+table.comp tr:nth-child(even) td{background:#fafbfd;}
+.tip-box{background:#fff8e1; border:1px solid #f0d080; border-left:5px solid var(--warn);
+         border-radius:6px; padding:8px 12px; margin:8px 0; font-size:12.5px;}
+.tip-box b{color:var(--warn-dark);}
+.illust{background:var(--soft); border:1px solid var(--line); border-radius:8px;
+        padding:10px 14px; margin:8px 0; font-size:12px;}
+.illust .caption{font-size:11px; color:var(--sub); margin-top:5px; text-align:center;}
+.rubric-table{width:100%; border-collapse:collapse; font-size:12px; margin:8px 0;}
+.rubric-table th,.rubric-table td{border:1px solid var(--line); padding:5px 8px;}
+.rubric-table th{background:#e8f0fe; font-weight:700; text-align:center;}
+.rubric-table td:first-child{text-align:center; font-weight:700;}
+.foot{margin-top:12px; padding-top:6px; border-top:1px dashed var(--line);
+      color:var(--sub); font-size:10.5px; text-align:center;}
+.sheet-break{page-break-before:always;}
+.confidential{display:inline-block; background:#c0392b; color:#fff; font-size:10px;
+              font-weight:700; padding:2px 8px; border-radius:4px; margin-left:8px; vertical-align:middle;}
+@media print{
+  body{background:#fff;}
+  .sheet{box-shadow:none; margin:0; width:auto; padding:11mm 13mm;}
+  .sheet-break{page-break-before:always;}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ 表紙 ════════════════════ -->
+<section class="sheet">
+<div class="cover">
+  <div class="book-label">教師用資料　非売品</div>
+  <h1>大富豪プログラミング教材<br>教師用指導ガイド</h1>
+  <p class="sub-title">高校「情報Ⅰ」アルゴリズムとプログラミング対応</p>
+  <div class="toc-box">
+    <h3>目 次</h3>
+    <div class="toc-row">1. 教材の全体像と使用目的</div>
+    <div class="toc-row">2. 教材一覧と役割分担</div>
+    <div class="toc-row">3. 授業展開モデル（時数計画）</div>
+    <div class="toc-row">4. 章別指導ポイントと躓きやすいポイント</div>
+    <div class="toc-row">5. よくある誤りと指導対応</div>
+    <div class="toc-row">6. 記述問題の採点ルーブリック</div>
+    <div class="toc-row">7. 生徒の学習進捗チェックリスト</div>
+  </div>
+  <p class="foot-note">本資料は教員用配布資料です。生徒への配布・共有はご遠慮ください。</p>
+</div>
+</section>
+
+<!-- ════════════════════ P2: 教材全体像 ════════════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:#2c3e50;">
+  <div class="ch-num">SECTION 1</div>
+  <div class="ch-title">教材の全体像と使用目的</div>
+  <div class="ch-desc">この教材セットの設計思想と学習指導要領との対応を確認する。</div>
+</div>
+
+<h2>1-1　設計思想</h2>
+<p>本教材は、高校「情報Ⅰ」の<b>「④アルゴリズムとプログラミング」</b>分野において、<b>共通テスト用プログラム表記（DNCL）</b>の読み書きができることを最終目標としています。</p>
+<p>中心となる教材は<b>「大富豪プログラミング（DaifugoPy）」</b>という Web ブラウザで動作するプログラミング演習アプリです。大富豪というゲームのルールを題材にすることで、</p>
+<ul style="font-size:12.5px;">
+  <li>プログラムの<b>動作結果が直感的に確認</b>できる（「この手が勝てるはずだ」という検証動機）</li>
+  <li><b>同一の文脈</b>（手札・ゲームの状態）を通じてアルゴリズムの学習が継続する</li>
+  <li>ゲームルール = 実世界の問題として、<b>プログラミング的思考の転移</b>を促す</li>
+</ul>
+
+<div class="caution"><b>注意：本教材の範囲</b><br>
+本教材セットは「④アルゴリズムとプログラミング」<b>のみ</b>を扱います。「①情報社会の問題解決」「②コミュニケーションと情報デザイン」「③情報通信ネットワーク」「⑤データの活用」は含まれていないため、別途ご指導ください。</div>
+
+<h2>1-2　学習指導要領との対応</h2>
+<table class="comp">
+  <tr><th>指導要領の学習内容</th><th>対応する教材・問題</th></tr>
+  <tr><td>アルゴリズムの基本的な考え方</td><td>textbook.html 第 0 章、cheatsheet.html</td></tr>
+  <tr><td>変数・演算・代入</td><td>textbook.html 第 1〜2 章、基礎問題 b01〜b09</td></tr>
+  <tr><td>条件分岐・反復処理</td><td>textbook.html 第 3〜6 章、基礎問題 b10〜b22</td></tr>
+  <tr><td>配列（リスト）の活用</td><td>textbook.html 第 7 章、基礎問題 b14〜b17、b23〜b24</td></tr>
+  <tr><td>関数（手続き）の定義と呼び出し</td><td>textbook.html 第 8 章、基礎問題 b25〜b26</td></tr>
+  <tr><td>プログラムのデバッグ・検証</td><td>DaifugoPy アプリのテストケース採点機能</td></tr>
+  <tr><td>共通テスト形式の読解・記述</td><td>dncl_exercises.html（ワークシート 22 問）</td></tr>
+</table>
+
+<h2>1-3　ブルームのタキソノミーと教材の対応</h2>
+<table class="comp">
+  <tr><th>認知レベル</th><th>目標</th><th>対応する活動</th></tr>
+  <tr><td>①記憶</td><td>DNCL 構文を覚える</td><td>cheatsheet.html で構文一覧を参照</td></tr>
+  <tr><td>②理解</td><td>プログラムの動作を説明できる</td><td>textbook.html の例示・トレース表</td></tr>
+  <tr><td>③応用</td><td>与えられた問題を DNCL で書ける</td><td>基礎問題 b01〜b26（自動採点）</td></tr>
+  <tr><td>④分析</td><td>プログラムの誤りを特定できる</td><td>dncl_exercises.html の虫食い問題</td></tr>
+  <tr><td>⑤評価</td><td>複数の解法を比較・選択できる</td><td>dncl_exercises.html 大問 4〜5</td></tr>
+  <tr><td>⑥創造</td><td>新しいゲームルールをプログラムで表現できる</td><td>（発展学習・レポート課題）</td></tr>
+</table>
+<div class="foot">教師用指導ガイド ― 第 1 節：教材の全体像と使用目的</div>
+</section>
+
+<!-- ════════════════════ P3: 教材一覧と役割 ════════════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:#2c3e50;">
+  <div class="ch-num">SECTION 2</div>
+  <div class="ch-title">教材一覧と役割分担</div>
+  <div class="ch-desc">各ファイルの位置づけと、どの授業場面で使うかを整理する。</div>
+</div>
+
+<h2>2-1　教材ファイル一覧</h2>
+<table class="comp">
+  <tr><th>ファイル</th><th>種別</th><th>対象</th><th>用途・説明</th></tr>
+  <tr><td><b>index.html</b></td><td>演習アプリ</td><td>生徒</td><td>大富豪プログラミング本体。b01〜b26 の基礎問題を自動採点で演習する。</td></tr>
+  <tr><td><b>textbook.html</b></td><td>教科書（印刷可）</td><td>生徒</td><td>DNCL の全要素を第 0〜8 章で体系的に学ぶ参照教材。印刷して配布推奨。</td></tr>
+  <tr><td><b>cheatsheet.html</b></td><td>早見表（印刷可）</td><td>生徒</td><td>DNCL 構文の全一覧。演習中にいつでも参照できる 1〜2 枚のリファレンス。</td></tr>
+  <tr><td><b>dncl_exercises.html</b></td><td>ワークシート（印刷可）</td><td>生徒</td><td>22 問・100 点の共通テスト形式演習問題。5 大問構成。4 ページ目に解答欄あり。</td></tr>
+  <tr><td><b>answer_key.html</b></td><td>解答（印刷可）</td><td>教員</td><td>基礎問題の解答例一覧。<span class="confidential">配布注意</span></td></tr>
+  <tr><td><b>teacher_guide.html</b></td><td>指導資料（本書）</td><td>教員</td><td>授業設計・躓き対応・採点ルーブリックをまとめた本ガイド。<span class="confidential">配布注意</span></td></tr>
+  <tr><td><b>dncl_python.html</b></td><td>対照表（参考）</td><td>生徒・教員</td><td>DNCL と Python の構文対照表。Python を学んだ生徒への補足資料。</td></tr>
+  <tr><td><b>loop_trace.html</b></td><td>演習ツール（参考）</td><td>生徒</td><td>ループのトレース練習ツール。</td></tr>
+</table>
+
+<h2>2-2　cheatsheet.html と textbook.html の違い</h2>
+<table class="comp">
+  <tr><th></th><th>cheatsheet.html（早見表）</th><th>textbook.html（教科書）</th></tr>
+  <tr><td>量</td><td>1〜2 ページ（コンパクト）</td><td>10 ページ以上（詳細）</td></tr>
+  <tr><td>内容</td><td>構文・演算子の一覧</td><td>概念の説明・例・練習問題</td></tr>
+  <tr><td>使い場面</td><td>演習中の「ど忘れ」確認</td><td>新しい要素を学ぶとき・理解を深めるとき</td></tr>
+  <tr><td>推奨使用タイミング</td><td>常時机上に置く</td><td>各章の授業時・自習・復習</td></tr>
+</table>
+
+<div class="point"><b>推奨使用フロー：</b>① 教科書で概念を学ぶ → ② 早見表を手元に置いて演習アプリで練習 → ③ ワークシートで確認テスト → ④ 教科書で振り返り</div>
+<div class="foot">教師用指導ガイド ― 第 2 節：教材一覧と役割分担</div>
+</section>
+
+<!-- ════════════════════ P4: 時数計画 ════════════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:#2c3e50;">
+  <div class="ch-num">SECTION 3</div>
+  <div class="ch-title">授業展開モデル（時数計画）</div>
+  <div class="ch-desc">週の授業数や進度に合わせてカスタマイズしてください。</div>
+</div>
+
+<h2>3-1　標準モデル（全 18 コマ想定）</h2>
+<table class="comp">
+  <tr><th>コマ</th><th>内容</th><th>教材</th><th>備考</th></tr>
+  <tr><td>1</td><td>オリエンテーション・アルゴリズムとは（第 0 章）</td><td>textbook Ch.0、cheatsheet</td><td>フローチャートを手書きさせる</td></tr>
+  <tr><td>2</td><td>変数と代入（第 1 章）・b01〜b03</td><td>textbook Ch.1、DaifugoPy</td><td>← の意味を繰り返し確認</td></tr>
+  <tr><td>3</td><td>変数と代入（続き）・b04〜b05・演算子入門（第 2 章前半）</td><td>textbook Ch.2（2-1〜2-2）</td><td></td></tr>
+  <tr><td>4</td><td>演算子（第 2 章）・b06〜b09</td><td>textbook Ch.2、DaifugoPy</td><td>÷ の整数割り算を強調</td></tr>
+  <tr><td>5</td><td>条件分岐（第 3 章前半）・b10〜b11</td><td>textbook Ch.3（3-1〜3-2）</td><td>「を実行する」で必ず閉じる</td></tr>
+  <tr><td>6</td><td>条件分岐（第 3 章後半）・b12〜b13</td><td>textbook Ch.3（3-3〜3-4）</td><td>多分岐の順序確認</td></tr>
+  <tr><td>7</td><td>for ループ（第 4 章前半）・b14〜b15</td><td>textbook Ch.4</td><td>カウンタ初期化の重要性</td></tr>
+  <tr><td>8</td><td>for ループ（第 4 章後半）・b16〜b17</td><td>textbook Ch.4、DaifugoPy</td><td>配列 × ループパターン</td></tr>
+  <tr><td>9</td><td>前判定ループ（第 5 章）・b18〜b20</td><td>textbook Ch.5</td><td>無限ループ対策を体験</td></tr>
+  <tr><td>10</td><td>後判定ループ・中断する（第 6 章）・b21〜b22</td><td>textbook Ch.6</td><td>前判定との比較</td></tr>
+  <tr><td>11</td><td>配列（第 7 章前半）・b23〜b24</td><td>textbook Ch.7</td><td>1 始まり添字の確認</td></tr>
+  <tr><td>12</td><td>配列（第 7 章後半：集計配列）</td><td>textbook Ch.7（7-4）</td><td>集計パターンの演習</td></tr>
+  <tr><td>13</td><td>関数（第 8 章）・b25〜b26</td><td>textbook Ch.8</td><td>定義→呼び出しの順序</td></tr>
+  <tr><td>14</td><td>全体復習・早見表を見ながら確認問題</td><td>cheatsheet、textbook まとめ</td><td></td></tr>
+  <tr><td>15〜17</td><td>ワークシート演習（dncl_exercises.html）</td><td>印刷配布</td><td>大問単位で進める</td></tr>
+  <tr><td>18</td><td>ワークシート解説・まとめ</td><td>answer_key、teacher_guide</td><td></td></tr>
+</table>
+
+<h2>3-2　短縮モデル（全 12 コマ）</h2>
+<p>時間が限られる場合は、第 6 章（後判定ループ）と第 8 章（関数）を自習課題として扱い、コア 6 章（変数・演算子・条件分岐・for・配列・前判定）に集中することを推奨します。</p>
+<div class="tip-box"><b>💡 ヒント：</b>共通テストの出題傾向では、条件分岐・for ループ・配列の組み合わせが頻出です。時間が足りない場合はこの 3 要素を優先してください。</div>
+<div class="foot">教師用指導ガイド ― 第 3 節：授業展開モデル</div>
+</section>
+
+<!-- ════════════════════ P5: 躓きポイント ════════════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:#2c3e50;">
+  <div class="ch-num">SECTION 4 &amp; 5</div>
+  <div class="ch-title">章別指導ポイントと よくある誤り</div>
+  <div class="ch-desc">各章での重点指導事項と、生徒が陥りやすいミスへの対応策。</div>
+</div>
+
+<h2>4-1　章別の重点ポイント</h2>
+<table class="comp">
+  <tr><th>章</th><th>最重要ポイント</th><th>指導の工夫</th></tr>
+  <tr><td>第 0 章</td><td>順次・分岐・反復の 3 要素</td><td>フローチャートを手書きさせると定着しやすい</td></tr>
+  <tr><td>第 1 章</td><td>← は「代入」であり「等号」ではない</td><td>「箱に入れる」イメージを視覚化する</td></tr>
+  <tr><td>第 2 章</td><td>÷ は整数割り算（切り捨て）</td><td>7÷2 を計算させて3になることを確認</td></tr>
+  <tr><td>第 3 章</td><td>「を実行する」で必ず閉じる</td><td>括弧の対応に見立てて確認させる</td></tr>
+  <tr><td>第 4 章</td><td>ループ前のカウンタ初期化</td><td>初期化を省いたときの動作を見せる</td></tr>
+  <tr><td>第 5 章</td><td>ループ内で条件変数を更新する</td><td>無限ループを故意に起こして体験させる</td></tr>
+  <tr><td>第 6 章</td><td>「になるまで」＝止まる条件（前判定と逆）</td><td>前判定との比較表を見ながら確認</td></tr>
+  <tr><td>第 7 章</td><td>添字は 1 から始まる（Python は 0）</td><td>図で視覚化。Python との違いを明示</td></tr>
+  <tr><td>第 8 章</td><td>定義 → 呼び出しの順序</td><td>関数を後に書いてエラーになる例を見せる</td></tr>
+</table>
+
+<h2>5-1　よくある誤りと指導対応</h2>
+<table class="comp">
+  <tr><th>誤りのパターン</th><th>原因</th><th>指導対応</th></tr>
+  <tr><td>演算子を半角で入力する（&gt; &lt; + * /）</td><td>キーボードの半角入力に慣れている</td><td>アプリの演算子ボタンでクリック入力させる。半角検出エラーメッセージで自己修正を促す。</td></tr>
+  <tr><td><code>x = 5</code> と書く（← を = にする）</td><td>数学の等号との混同</td><td>「← は矢印で、右から左へ入れる」と繰り返し強調。= は比較演算子と説明。</td></tr>
+  <tr><td>ループ前のカウンタ初期化を忘れる</td><td>初期値が不定だという感覚が薄い</td><td>初期化なしで実行し、予期しない値になることを体験させる。</td></tr>
+  <tr><td>前判定ループで条件変数を更新しない → 無限ループ</td><td>ループ終了の仕組みへの理解不足</td><td>「条件が変わらなければ永遠に回る」とフローチャートで示す。</td></tr>
+  <tr><td>配列の添字を 0 から始める</td><td>Python 等の先行学習の影響</td><td>DNCL は 1 始まりと明示的に提示。実行して確認させる。</td></tr>
+  <tr><td>「を実行する」を書き忘れる</td><td>末尾の閉じ文の存在を忘れる</td><td>「もし〜を実行する」を 1 つの塊として覚えさせる。括弧の対応に例える。</td></tr>
+  <tr><td>後判定の「なるまで」を「の間」と混同</td><td>前判定と後判定の違いの理解不足</td><td>比較表（textbook 第 6 章）を使って対比させる。</td></tr>
+  <tr><td>関数を呼び出した後に定義する</td><td>Python の関数より前にも書ける経験</td><td>「DNCL では必ず先に定義」を強調。</td></tr>
+</table>
+
+<div class="danger-box"><b>特に注意：半角演算子の問題</b><br>
+日本語キーボードに慣れた生徒は、Shift なしで入力できる半角の &gt; &lt; + * / を自然に入力してしまいます。本アプリには半角演算子の自動検出機能があり、エラーメッセージで通知しますが、根本的には「DNCL の演算子はすべて全角」という認識を定着させることが重要です。</div>
+<div class="foot">教師用指導ガイド ― 第 4・5 節：指導ポイントと誤り対応</div>
+</section>
+
+<!-- ════════════════════ P6: ルーブリック ════════════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:#2c3e50;">
+  <div class="ch-num">SECTION 6</div>
+  <div class="ch-title">記述問題の採点ルーブリック</div>
+  <div class="ch-desc">ワークシート（dncl_exercises.html）の記述問題採点基準と、プログラム作成問題の共通基準。</div>
+</div>
+
+<h2>6-1　プログラム作成問題の共通ルーブリック（5 点配点の場合）</h2>
+<table class="rubric-table">
+  <tr><th>点数</th><th>基準</th></tr>
+  <tr><td>5</td><td>すべてのテストケースを正しく通過するプログラムを、構文エラーなく記述できている</td></tr>
+  <tr><td>4</td><td>ほぼ正しいが、端数処理・境界値（最初の要素・最後の要素）のいずれかで誤りがある</td></tr>
+  <tr><td>3</td><td>アルゴリズムの方向性は正しいが、初期化漏れ・ループ範囲のズレ・添字のミスがある</td></tr>
+  <tr><td>2</td><td>部分的に正しい要素（ループ構造・条件式のいずれか）が含まれているが、全体として動作しない</td></tr>
+  <tr><td>1</td><td>DNCL の構文を一部使おうとしているが、正しく組み合わせられていない</td></tr>
+  <tr><td>0</td><td>白紙、またはプログラムとは言えない記述のみ</td></tr>
+</table>
+
+<h2>6-2　ワークシート 問 22（自由記述）採点ルーブリック</h2>
+<p><small>問題：配列 <code>データ = [3, 1, 4, 1, 5]</code> の要素を逆順に表示するプログラムを DNCL で書け。</small></p>
+<table class="rubric-table">
+  <tr><th>点数</th><th>基準</th></tr>
+  <tr><td>4</td><td><code>i を 要素数[データ] から 1 まで 1 ずつ減らしながら，｜　データ[i] を表示する を繰り返す</code> または同等の正しいプログラムを記述している</td></tr>
+  <tr><td>3</td><td>逆順ループの方向（減らしながら）は正しいが、初期値・終了値のいずれかに 1 のズレがある</td></tr>
+  <tr><td>2</td><td>ループ構造は書けているが方向が逆（増やしながら）、または添字の使い方が不正確</td></tr>
+  <tr><td>1</td><td>for ループを書こうとしている意図は読み取れるが、構文が大きく崩れている</td></tr>
+  <tr><td>0</td><td>白紙、または問題の意図と全く異なる記述</td></tr>
+</table>
+
+<h2>6-3　短答・穴埋め問題の採点方針</h2>
+<div class="illust">
+  <ul style="margin:0;font-size:12.5px;">
+    <li>演算子の全角・半角は厳密に採点する（＞ と > は別）</li>
+    <li>「を実行する」「を繰り返す」などの終端キーワードの有無は採点対象とする</li>
+    <li>変数名の揺れ（得点・点数など）は問題文に変数名が指定されていなければ許容する</li>
+    <li>インデント（｜　）の有無は採点対象とする（ブロック構造を正しく書いているか）</li>
+    <li>選択問題は正解のみ 1 点。部分点なし。</li>
+  </ul>
+</div>
+<div class="foot">教師用指導ガイド ― 第 6 節：採点ルーブリック</div>
+</section>
+
+<!-- ════════════════════ P7: 進捗チェックリスト ════════════════════ -->
+<section class="sheet sheet-break">
+<div class="chapter-header" style="background:#2c3e50;">
+  <div class="ch-num">SECTION 7</div>
+  <div class="ch-title">生徒の学習進捗チェックリスト</div>
+  <div class="ch-desc">各章終了時に確認する達成基準。生徒自身が記入することもできる。</div>
+</div>
+
+<h2>7-1　章別達成チェックリスト</h2>
+<p style="font-size:12px;">✅ = できる　△ = もう少し　✗ = まだ</p>
+<table class="comp">
+  <tr><th>章</th><th>確認項目</th><th>チェック</th></tr>
+  <tr><td rowspan="2"><b>0 章</b></td><td>順次・分岐・反復の 3 要素を説明できる</td><td style="min-width:60px;"></td></tr>
+  <tr><td>フローチャートのひし形・長方形・楕円の意味を言える</td><td></td></tr>
+  <tr><td rowspan="3"><b>1 章</b></td><td><code>変数名 ← 値</code> の構文を書ける</td><td></td></tr>
+  <tr><td><code>x ← x ＋ 1</code> の意味を説明できる</td><td></td></tr>
+  <tr><td>変数と文字列を組み合わせた表示文を書ける</td><td></td></tr>
+  <tr><td rowspan="3"><b>2 章</b></td><td><code>÷</code> が整数割り算であることを説明できる</td><td></td></tr>
+  <tr><td>比較演算子 6 種を全角で書ける</td><td></td></tr>
+  <tr><td><code>かつ</code>・<code>または</code> の真理値を正しく答えられる</td><td></td></tr>
+  <tr><td rowspan="3"><b>3 章</b></td><td>if 文を「を実行する」で正しく閉じられる</td><td></td></tr>
+  <tr><td>3 分岐以上の if-elif-else を書ける</td><td></td></tr>
+  <tr><td>入れ子分岐でインデント（｜　）を正しく深められる</td><td></td></tr>
+  <tr><td rowspan="3"><b>4 章</b></td><td>for ループの構文を完全な形で書ける</td><td></td></tr>
+  <tr><td>ループ前にカウンタを 0 で初期化する理由を説明できる</td><td></td></tr>
+  <tr><td>配列全要素を for ループで走査するプログラムを書ける</td><td></td></tr>
+  <tr><td rowspan="2"><b>5 章</b></td><td>前判定ループの構文を正しく書ける</td><td></td></tr>
+  <tr><td>for ループと前判定ループの使い分けを説明できる</td><td></td></tr>
+  <tr><td rowspan="2"><b>6 章</b></td><td>後判定ループの「になるまで」が「止まる条件」であることを理解した</td><td></td></tr>
+  <tr><td><code>中断する</code> を使う理由を具体例で説明できる</td><td></td></tr>
+  <tr><td rowspan="3"><b>7 章</b></td><td>配列の添字が 1 から始まることを説明できる</td><td></td></tr>
+  <tr><td><code>要素数[配列名]</code> で配列の長さを取得できる</td><td></td></tr>
+  <tr><td>集計配列パターン（<code>集計[k] ← 集計[k] ＋ 1</code>）を理解した</td><td></td></tr>
+  <tr><td rowspan="3"><b>8 章</b></td><td>関数の定義構文（関数〜と定義する）を書ける</td><td></td></tr>
+  <tr><td>引数と返り値の意味を説明できる</td><td></td></tr>
+  <tr><td>関数を定義してから呼び出す順序を理解した</td><td></td></tr>
+</table>
+
+<div class="point"><b>活用方法：</b>コマ終了時に「今日の自己チェック」として記入させるか、単元テスト前の振り返り活動として活用してください。△・✗ の項目は textbook.html の該当章に戻って確認するよう指示してください。</div>
+<div class="foot">教師用指導ガイド ― 第 7 節：学習進捗チェックリスト　／　大富豪プログラミング教材　教師用</div>
+</section>
+
+</body>
+</html>

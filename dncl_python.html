@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DNCL ↔ Python 対応表</title>
+<style>
+  :root{
+    --ink:#1d2433; --sub:#5a6479; --line:#d7dce5; --soft:#f4f6fa;
+    --accent:#2f6df0; --accent-bg:#eaf1ff;
+    --dncl:#0d5a8a; --py:#1e8e54; --py-bg:#e8f7ee; --dncl-bg:#e7f1fb;
+    --warn:#c0392b; --warn-bg:#fdecea; --gold:#b8860b; --gold-bg:#fdf6e3;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  body{font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",
+        system-ui,sans-serif; color:var(--ink); margin:0; background:#e9edf3;
+        line-height:1.55; font-size:13px;}
+  .sheet{background:#fff; width:210mm; margin:14px auto; padding:14mm; box-shadow:0 2px 14px rgba(0,0,0,.12);}
+  .doc-head{border-bottom:3px solid var(--accent); padding-bottom:8px; margin-bottom:8px;}
+  h1{font-size:21px; margin:0;} h1 .em{color:var(--accent);}
+  .doc-head .meta{color:var(--sub); font-size:12px; margin-top:3px;}
+  h2{font-size:14.5px; margin:16px 0 7px; padding:5px 11px; background:var(--ink); color:#fff; border-radius:6px;}
+  .warnbox{background:var(--warn-bg); border:1px solid #f3b7b0; border-left:5px solid var(--warn);
+        border-radius:7px; padding:9px 12px; margin:10px 0; font-size:12.5px;}
+  .warnbox b{color:var(--warn);}
+  table{width:100%; border-collapse:collapse; margin:6px 0 4px; font-size:12px;}
+  th,td{border:1px solid var(--line); padding:6px 9px; text-align:left; vertical-align:top;}
+  th{background:var(--accent-bg); color:var(--ink); font-weight:700;}
+  tr:nth-child(even) td{background:#fafbfd;}
+  .c-dncl{font-family:"Hiragino Kaku Gothic ProN",ui-monospace,Menlo,monospace;
+        color:var(--dncl); background:var(--dncl-bg); padding:1px 6px; border-radius:4px; white-space:nowrap;}
+  .c-py{font-family:ui-monospace,Menlo,Consolas,monospace; color:var(--py);
+        background:var(--py-bg); padding:1px 6px; border-radius:4px;}
+  .colmean{width:26%;} .coldncl{width:37%;} .colpy{width:37%;}
+  .pair{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0;}
+  .pre-wrap{border:1px solid var(--line); border-radius:8px; overflow:hidden;}
+  .pre-wrap .ttl{font-weight:700; font-size:12px; padding:4px 10px; border-bottom:1px solid var(--line);}
+  .pre-wrap.dncl .ttl{background:var(--dncl-bg); color:var(--dncl);}
+  .pre-wrap.py .ttl{background:var(--py-bg); color:var(--py);}
+  pre{margin:0; padding:9px 12px; font-size:11.5px; line-height:1.5; white-space:pre-wrap;
+      font-family:"Hiragino Kaku Gothic ProN",ui-monospace,Menlo,Consolas,monospace;}
+  .note{background:var(--gold-bg); border:1px solid #ecd9a6; border-left:5px solid var(--gold);
+        border-radius:6px; padding:8px 12px; margin:9px 0; font-size:11.5px;}
+  .note b{color:var(--gold);}
+  .foot{margin-top:14px; padding-top:7px; border-top:1px dashed var(--line); color:var(--sub); font-size:10.5px; text-align:center;}
+  @media print{ body{background:#fff;} .sheet{box-shadow:none; margin:0; width:auto; padding:11mm;} h2{break-after:avoid;} table{break-inside:avoid;} }
+</style>
+</head>
+<body>
+<section class="sheet">
+  <div class="doc-head">
+    <h1>DNCL <span class="em">↔</span> Python 対応表</h1>
+    <div class="meta">大富豪プログラミングの表記（共通テスト用プログラム表記に準拠）を、Python の書き方と並べて理解する。</div>
+  </div>
+
+  <div class="warnbox">
+    <b>いちばん大事な違い：添字（番号）の起点。</b>
+    DNCL の <span class="c-dncl">手札[1]</span> は<b>1番目</b>＝Python では <span class="c-py">hand[0]</span>。
+    DNCL は<b>1始まり</b>、Python は<b>0始まり</b>。<span class="c-dncl">手札[要素数[手札]]</span>（最後）は Python で <span class="c-py">hand[len(hand)-1]</span> または <span class="c-py">hand[-1]</span>。
+  </div>
+
+  <h2>① 代入・表示</h2>
+  <table>
+    <tr><th class="colmean">意味</th><th class="coldncl">DNCL（このアプリ）</th><th class="colpy">Python</th></tr>
+    <tr><td>変数に代入</td><td><span class="c-dncl">n ← 5</span></td><td><span class="c-py">n = 5</span></td></tr>
+    <tr><td>値を表示</td><td><span class="c-dncl">n を表示する</span></td><td><span class="c-py">print(n)</span></td></tr>
+    <tr><td>文字列と値をつなぐ</td><td><span class="c-dncl">「合計は、」 と n を表示する</span></td><td><span class="c-py">print("合計は、", n)</span></td></tr>
+    <tr><td>1ずつ増やす</td><td><span class="c-dncl">i ← i ＋ 1</span></td><td><span class="c-py">i = i + 1</span> （<span class="c-py">i += 1</span>）</td></tr>
+  </table>
+
+  <h2>② 演算子</h2>
+  <table>
+    <tr><th class="colmean">意味</th><th class="coldncl">DNCL</th><th class="colpy">Python</th></tr>
+    <tr><td>等しい／等しくない</td><td><span class="c-dncl">＝</span>　<span class="c-dncl">≠</span></td><td><span class="c-py">==</span>　<span class="c-py">!=</span></td></tr>
+    <tr><td>大小比較</td><td><span class="c-dncl">＞ ≧ ＜ ≦</span></td><td><span class="c-py">&gt; &gt;= &lt; &lt;=</span></td></tr>
+    <tr><td>足す・引く・かける</td><td><span class="c-dncl">＋ － ×</span></td><td><span class="c-py">+ - *</span></td></tr>
+    <tr><td>割る（<b>整数</b>・切り捨て）</td><td><span class="c-dncl">÷</span></td><td><span class="c-py">//</span>（<span class="c-py">/</span> は小数）</td></tr>
+    <tr><td>余り</td><td><span class="c-dncl">％</span></td><td><span class="c-py">%</span></td></tr>
+    <tr><td>かつ・または・でない</td><td><span class="c-dncl">かつ　または　でない</span></td><td><span class="c-py">and　or　not</span></td></tr>
+  </table>
+  <div class="note"><b>注意：</b>DNCL の <span class="c-dncl">÷</span> は答えの小数点以下を切り捨てる整数の割り算。Python では <span class="c-py">//</span> が対応（<span class="c-py">7 // 2 == 3</span>）。</div>
+
+  <h2>③ 配列・要素数</h2>
+  <table>
+    <tr><th class="colmean">意味</th><th class="coldncl">DNCL</th><th class="colpy">Python</th></tr>
+    <tr><td>i番目の要素（1始まり→0始まり）</td><td><span class="c-dncl">手札[i]</span></td><td><span class="c-py">hand[i-1]</span></td></tr>
+    <tr><td>先頭・最後</td><td><span class="c-dncl">手札[1]</span>／<span class="c-dncl">手札[要素数[手札]]</span></td><td><span class="c-py">hand[0]</span>／<span class="c-py">hand[-1]</span></td></tr>
+    <tr><td>要素数（長さ）</td><td><span class="c-dncl">要素数[手札]</span></td><td><span class="c-py">len(hand)</span></td></tr>
+    <tr><td>要素に代入</td><td><span class="c-dncl">T[1] ← 5</span></td><td><span class="c-py">T[0] = 5</span></td></tr>
+  </table>
+
+  <h2>④ 条件分岐</h2>
+  <div class="pair">
+    <div class="pre-wrap dncl"><div class="ttl">DNCL</div><pre>もし 手札[1] ＞ 場の強さ ならば
+｜　出す(手札[1], 1)
+を実行し，そうでなければ
+｜　パスする
+を実行する</pre></div>
+    <div class="pre-wrap py"><div class="ttl">Python</div><pre>if hand[0] &gt; field:
+    play(hand[0], 1)
+else:
+    pass_turn()</pre></div>
+  </div>
+
+  <h2>⑤ 繰り返し</h2>
+  <div class="pair">
+    <div class="pre-wrap dncl"><div class="ttl">DNCL（for）</div><pre>i を 1 から 要素数[手札] まで
+　　　1 ずつ増やしながら，
+｜　合計 ← 合計 ＋ 手札[i]
+を繰り返す</pre></div>
+    <div class="pre-wrap py"><div class="ttl">Python（for）</div><pre>for i in range(1, len(hand)+1):
+    total = total + hand[i-1]
+# よりPythonらしく:
+# for c in hand: total += c</pre></div>
+  </div>
+  <div class="pair">
+    <div class="pre-wrap dncl"><div class="ttl">DNCL（前判定 while）</div><pre>i ≦ 要素数[手札] の間，
+｜　i ← i ＋ 1
+を繰り返す</pre></div>
+    <div class="pre-wrap py"><div class="ttl">Python（while）</div><pre>while i &lt;= len(hand):
+    i = i + 1</pre></div>
+  </div>
+  <div class="note"><b>後判定ループ</b>（<span class="c-dncl">繰り返し，… を，条件 になるまで実行する</span>）は「必ず1回実行」する形。Python に専用構文はなく <span class="c-py">while True: … if 条件: break</span> で書く。<span class="c-dncl">中断する</span> ＝ <span class="c-py">break</span>。</div>
+
+  <h2>⑥ 関数</h2>
+  <div class="pair">
+    <div class="pre-wrap dncl"><div class="ttl">DNCL</div><pre>関数 出せるか(c) を
+｜　もし c ＞ 場の強さ ならば
+｜　｜　返す(1)
+｜　を実行する
+｜　返す(0)
+と定義する</pre></div>
+    <div class="pre-wrap py"><div class="ttl">Python</div><pre>def can_play(c):
+    if c &gt; field:
+        return 1
+    return 0</pre></div>
+  </div>
+
+  <h2>⑦ まるごと翻訳例（b16：出せる枚数を数える）</h2>
+  <div class="pair">
+    <div class="pre-wrap dncl"><div class="ttl">DNCL</div><pre>cnt ← 0
+i を 1 から 要素数[手札] まで
+　　　1 ずつ増やしながら，
+｜　もし 手札[i] ＞ 場の強さ ならば
+｜　｜　cnt ← cnt ＋ 1
+｜　を実行する
+を繰り返す
+「出せるカードは、」 と cnt を表示する</pre></div>
+    <div class="pre-wrap py"><div class="ttl">Python</div><pre>cnt = 0
+for i in range(1, len(hand)+1):
+    if hand[i-1] &gt; field:
+        cnt = cnt + 1
+print("出せるカードは、", cnt)</pre></div>
+  </div>
+
+  <div class="note">
+    <b>共通テストとの関係：</b> 大学入学共通テスト「情報I」の<b>共通テスト用プログラム表記</b>も、代入 <span class="c-dncl">←</span>・
+    <span class="c-dncl">もし〜ならば</span>・<span class="c-dncl">〜の間繰り返す</span>・配列の <b>1始まり</b> など、ここで学ぶ書き方とほぼ共通。
+    本アプリで身につけた読み書きは、そのまま試験の擬似言語の読解力につながる。
+  </div>
+
+  <div class="foot">大富豪プログラミング ／ DNCL ↔ Python 対応表</div>
+</section>
+</body>
+</html>
