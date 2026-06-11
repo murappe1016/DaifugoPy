@@ -506,14 +506,13 @@
 <p>大富豪プログラミングは、トランプの大富豪（大貧民）を元にした<strong>簡略版ルール</strong>でカードを出します。<strong>「どのカードを出すか」をDNCLコードで書くのがこのアプリの目的</strong>です。</p>
 
 <div class="caution-box">
-⚠️ <strong>通常の大富豪とのちがい（アプリ独自のルール）</strong><br><br>
+⚠️ <strong>通常の大富豪とのちがい（アプリ独自のルール）</strong><br>
 <table style="margin:0;">
   <tr><th>項目</th><th>通常の大富豪</th><th>このアプリ</th></tr>
   <tr><td>プレイ人数</td><td>3〜6人など</td><td><strong>1対1（自分 vs CPU）</strong></td></tr>
   <tr><td>出せる枚数</td><td>1枚・2枚・3枚・4枚…</td><td><strong>シングル（1枚）またはペア（2枚）のみ</strong></td></tr>
   <tr><td>革命・8切りなど</td><td>あり（ゲームによる）</td><td><strong>8切りあり（革命なし）</strong></td></tr>
 </table>
-<br>
 プログラミング学習に集中できるよう、ルールを絞っています。<br>
 <span style="font-size:11px;color:#666;">※8切り（8を出すと場が流れる）はフリープレイで体験できます。問題の採点には影響しません。</span>
 </div>
@@ -532,7 +531,7 @@
 <div class="info-box">
   <strong>手札は弱い順に並んでいます。</strong><br>
   例：手札が「5」「10」「K」の3枚のとき<br>
-  &emsp;<code>手札[1]</code> = 5（最弱）&emsp;<code>手札[2]</code> = 10&emsp;<code>手札[3]</code> = 13（最強 = K）<br><br>
+  &emsp;<code>手札[1]</code> = 5（最弱）&emsp;<code>手札[2]</code> = 10&emsp;<code>手札[3]</code> = 13（最強 = K）<br>
   <strong>添字（番号）は 1 から始まります。</strong><code>手札[0]</code> は存在しません。
 </div>
 
@@ -837,6 +836,8 @@ score <span class="kw">←</span> score <span class="kw">＋</span> <span class=
 </div>
 
 <p>これは「真ん中のカードの位置」を求めるときに役立ちます。たとえば手札が3枚なら、真ん中は <code>(3 ＋ 1) ÷ 2 ＝ 2</code> 番目です。</p>
+
+<p style="font-size:12px;color:#555;">（参考）小数まで求める割り算は <code>/</code> で書けます：<code>7 / 2 ＝ 3.5</code>。共通テストの仕様でも「<code>÷</code>＝整数の割り算・<code>/</code>＝小数も求める割り算」と区別されています（→ 試験対策テキスト 第2章）。</p>
 </div>
 <div class="pg pg-tight">
 <h2>📖 2-3　％ は「余り」 ―― 偶数・奇数の判定</h2>
@@ -1334,10 +1335,8 @@ C[r] <span class="kw">←</span> C[r] ＋ <span class="val">1</span></div>
 </div>
 
 <div class="try-box">📱 b21「要素数で配列サイズを調べる」 に挑戦しましょう！</div>
-
-<div style="margin-top:14px;"></div>
-<div class="column-compact">
-
+</div>
+<div class="pg">
 <div class="column-hdr">
   <div class="prob-icon">◆</div>
   <div>
@@ -1381,7 +1380,6 @@ C[回答] <span class="kw">←</span> C[回答] ＋ <span class="val">1</span>
 
 </div>
 </div>
-</div><!-- end pg -->
 <div class="pg pg-tight">
 <div class="ch-header ch8">
   <div class="ch-num">CHAPTER 8</div>

@@ -115,9 +115,9 @@ def prob_id(blk):
     m = re.search(r'class="prob-title-jp"[^>]*>\s*([bB]\d+)', blk)
     return m.group(1) if m else ""
 
-# 直前の概念ページに結合するコラム（章4・章7）
-#   章4: 4-3 と同じページに / 章7: 7-4 と同じページに
-COLUMN_MERGE = ["「÷」と「％」はセットで覚える", "ループは「くり返しの自動化」", "配列は「データをまとめて扱う」"]
+# 直前の概念ページに結合するコラム（章2・章4）
+#   章7の配列コラムは結合すると A4 を超えるため独立ページとする
+COLUMN_MERGE = ["「÷」と「％」はセットで覚える", "ループは「くり返しの自動化」"]
 
 # 問題ID → タイトル（IDなし）の対応表
 def _title_only(blk):
@@ -232,11 +232,11 @@ def make_main():
             # 概念ページ末尾の既存ポインタ（「次のページへ → 問題 bXX」）はそのまま活かす。
             continue
         if k == "concept":
-            # 0-4続き を 0-4 に結合: 続きブロックは見出しを外して直前へ繋ぐ
-            if "0-4（続き）" in b:
+            # 0-3続き を 0-3 に結合: 続きブロックは見出しを外して直前へ繋ぐ
+            if "0-3（続き）" in b:
                 inner = re.sub(r'^\s*<div class="pg">', '', b)
-                inner = re.sub(r'<h2>0-4（続き）.*?</h2>', '', inner, flags=re.S)
-                # 直前の出力（0-4本体）の末尾 </div> を外して結合
+                inner = re.sub(r'<h2>0-3（続き）.*?</h2>', '', inner, flags=re.S)
+                # 直前の出力（0-3本体）の末尾 </div> を外して結合
                 if out and out[-1].rstrip().endswith("</div>"):
                     prev = out[-1].rstrip()
                     prev = prev[:prev.rfind("</div>")]

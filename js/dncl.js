@@ -58,8 +58,8 @@ function tokenizeExpr(str) {
     if (ch === '!' && str[i+1] === '=') { tokens.push({ type: 'OP', val: '≠' }); i += 2; continue; }
 
     // Half-width single-char operators — map to full-width equivalents used internally
-    // (DNCL spec uses half-width for +, -, >, <, %, =; full-width for ×, ÷)
-    const halfToFull = { '>': '＞', '<': '＜', '+': '＋', '-': '－', '*': '×', '/': '÷', '%': '％', '=': '＝' };
+    // (DNCL spec: ÷ = integer division, / = real division — so '/' maps to '／', not '÷')
+    const halfToFull = { '>': '＞', '<': '＜', '+': '＋', '-': '－', '*': '×', '/': '／', '%': '％', '=': '＝' };
     if (ch in halfToFull) { tokens.push({ type: 'OP', val: halfToFull[ch] }); i++; continue; }
 
     // Full-width single-char operators & punctuation
