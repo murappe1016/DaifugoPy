@@ -663,6 +663,9 @@ class DNCLInterpreter {
           throw new DNCLError(
             `「${s.name}」は小文字始まりなので通常の変数として使います。配列は大文字始まりにしてください（例: ${s.name[0].toUpperCase() + s.name.slice(1)}[添字] ← 値）`, 0);
         }
+        if (s.name === '捨て札') {
+          throw new DNCLError('変数名は「捨札」です（送りがなの「て」は入りません）。', 0);
+        }
         const idx = Math.floor(this._eval(s.idx));
         if (!Array.isArray(this.vars[s.name])) this.vars[s.name] = [];
         this.vars[s.name][idx - 1] = this._eval(s.val);
@@ -785,6 +788,9 @@ class DNCLInterpreter {
         }
         if (n === '場の強さ') return this.gs.fieldStrength;
         if (n === '場の枚数') return this.gs.fieldCount;
+        if (n === '捨て札') {
+          throw new DNCLError('変数名は「捨札」です（送りがなの「て」は入りません）。例: 捨札[1]、要素数[捨札]', 0);
+        }
         return n in this.vars ? this.vars[n] : 0;
       }
 
@@ -795,12 +801,18 @@ class DNCLInterpreter {
           if (arrName === '手札')       return this.gs.playerHand.length;
           if (arrName === '捨札')       return this.gs.allDiscard?.length ?? 0;
           if (arrName === '相手の手札') return this.gs.opponentHandSize   ?? 0;
+          if (arrName === '捨て札') {
+            throw new DNCLError('変数名は「捨札」です（送りがなの「て」は入りません）。例: 要素数[捨札]', 0);
+          }
           const ua = this.vars[arrName];
           return Array.isArray(ua) ? ua.length : 0;
         }
         const idx = Math.floor(this._eval(node.idx)) - 1;
         if (node.name === '相手の手札') {
           throw new DNCLError('「相手の手札」は要素数のみ参照できます（例: 要素数[相手の手札]）。インデックスアクセスは禁止です。', 0);
+        }
+        if (node.name === '捨て札') {
+          throw new DNCLError('変数名は「捨札」です（送りがなの「て」は入りません）。例: 捨札[1]', 0);
         }
         if (node.name === '手札')  return this.gs.playerHand[idx]    ?? 0;
         if (node.name === '捨札')  return this.gs.allDiscard?.[idx]  ?? 0;

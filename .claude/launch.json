@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "daifugo",
+      "name": "textbook",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["/tmp/serve_daifugo.py"],
-      "autoPort": true
+      "runtimeArgs": ["-m", "http.server", "8123"],
+      "port": 8123
     }
   ]
 }

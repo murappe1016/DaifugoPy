@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大富豪プログラミング ヒント集</title>
+  <link rel="stylesheet" href="material.css">
+  <link rel="stylesheet" href="print.css">
+  <script src="print.js?v=2" defer></script>
+  <style>
+    /* ── ページ設定（print.css に委譲 ── ここでは最低限のみ）── */
+    body { color: #1a1a2e; }
+
+    /* ── ページ区切り ──────────────────────────────── */
+    .pg { page-break-before: always; break-before: page; }
+
+    /* ── 表紙 ──────────────────────────────────────── */
+    .cover {
+      text-align: center; padding: 60px 20px 40px;
+      background: linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%);
+      color: #fff; border-radius: 10px; margin-bottom: 12px;
+      min-height: 200px;
+    }
+    .cover h1 { font-size: 28px; letter-spacing: 2px; margin: 0 0 10px; }
+    .cover .subtitle { font-size: 15px; opacity: .85; margin-bottom: 20px; }
+    .cover .badge {
+      display: inline-block; background:#e94560; color:#fff;
+      border-radius: 20px; padding: 4px 16px; font-size: 12px; margin: 4px;
+    }
+    .cover .edition { margin-top: 28px; opacity: .6; font-size: 11px; }
+
+    /* ── 章ヘッダー ────────────────────────────────── */
+    .ch-header {
+      border-radius: 8px; padding: 18px 22px; margin-bottom: 16px;
+      color: #fff; page-break-after: avoid;
+    }
+    .ch-num { font-size: 12px; opacity: .8; letter-spacing: 3px; text-transform: uppercase; }
+    .ch-title { font-size: 24px; font-weight: 700; margin: 4px 0 2px; }
+    .ch-desc { font-size: 13px; opacity: .9; }
+    .ch0 { background: linear-gradient(135deg, #2c3e50, #3d566e); }
+    .ch1 { background: linear-gradient(135deg, #1a6b3a, #27ae60); }
+    .ch2 { background: linear-gradient(135deg, #1565c0, #42a5f5); }
+    .ch3 { background: linear-gradient(135deg, #6a1b9a, #ab47bc); }
+    .ch4 { background: linear-gradient(135deg, #ad1457, #ec407a); }
+    .ch5 { background: linear-gradient(135deg, #00838f, #26c6da); }
+    .ch6 { background: linear-gradient(135deg, #4527a0, #7e57c2); }
+    .ch7 { background: linear-gradient(135deg, #d84315, #ff7043); }
+    .ch8 { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+
+    /* ── 節ヘッダー ────────────────────────────────── */
+    h2 { font-size: 17px; color: #1a1a2e; border-bottom: 2px solid #e0e0e0;
+         padding-bottom: 4px; margin: 18px 0 10px; page-break-after: avoid; }
+    h3 { font-size: 14px; color: #2c3e50; margin: 14px 0 6px; page-break-after: avoid; }
+
+    /* ── 学習サイクル説明用 ─────────────────────────── */
+    .cycle-box {
+      display: flex; flex-direction: column; gap: 6px;
+      border: 1.5px solid #bbb; border-radius: 8px; padding: 14px 16px; margin: 12px 0;
+    }
+    .cycle-row {
+      display: flex; align-items: flex-start; gap: 10px; font-size: 13px;
+    }
+    .cycle-icon {
+      font-size: 20px; width: 30px; text-align: center; flex-shrink: 0; line-height: 1.4;
+    }
+    .cycle-text { flex: 1; }
+    .cycle-arrow { text-align: center; font-size: 18px; color: #888; margin: -2px 0; }
+
+    /* ── アイコン凡例 ──────────────────────────────── */
+    .icon-legend {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0;
+    }
+    .icon-row {
+      display: flex; align-items: center; gap: 8px;
+      background: #f5f5f5; border-radius: 6px; padding: 6px 10px;
+    }
+    .icon-big { font-size: 22px; }
+    .icon-desc { font-size: 12px; }
+    .icon-desc strong { display: block; font-size: 13px; }
+
+    /* ── アプリ画面図（ライトモード配色） ───────────────── */
+    .app-diagram {
+      border: 2px solid #c8cad6; border-radius: 6px; overflow: hidden;
+      font-size: 10.5px; margin: 12px 0; page-break-inside: avoid;
+      background: #f4f5f8;
+    }
+    /* タイトルバー */
+    .app-titlebar {
+      background: #eaecf1; color: #60687a; padding: 4px 10px; font-size: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #c8cad6;
+    }
+    .app-titlebar .tb-back { color: #1a73e8; }
+    .app-titlebar .tb-title { color: #1c1e26; font-weight: 700; }
+    .app-titlebar .tb-btns { display: flex; gap: 6px; }
+    .app-titlebar .tb-btn { background: #fff; border: 1px solid #c8cad6; color: #60687a;
+                             border-radius: 3px; padding: 1px 7px; font-size: 9.5px; }
+    .app-titlebar .tb-btn.reset { color: #e08800; }
+    /* 本体 */
+    .app-body { display: flex; min-height: 160px; }
+    /* 左パネル：変数一覧 */
+    .app-left { width: 115px; border-right: 1px solid #c8cad6; background: #eaecf1;
+                padding: 6px 5px; font-size: 10px; flex-shrink: 0; color: #1c1e26; }
+    .app-left-title { font-weight: 700; font-size: 9.5px; color: #60687a; letter-spacing: 1px;
+                      text-transform: uppercase; border-bottom: 1px solid #c8cad6;
+                      margin-bottom: 5px; padding-bottom: 3px; }
+    .app-var-group { margin-bottom: 6px; }
+    .app-var-header { color: #1a73e8; font-weight: 700; font-size: 10px; cursor: pointer; }
+    .app-var-header::before { content: '▼ '; font-size: 8px; }
+    .app-var-body { font-size: 9.5px; color: #60687a; padding-left: 8px; line-height: 1.8; }
+    /* 中央：エディタ */
+    .app-center { flex: 1; display: flex; flex-direction: column; background: #fff; }
+    .app-hint-bar { background: #fff8ee; border-bottom: 1px solid #c8cad6;
+                    padding: 4px 10px; font-size: 9.5px; color: #e08800; }
+    .app-editor { padding: 7px 10px; background: #fff; color: #1c1e26;
+                  font-family: monospace; font-size: 10px; flex: 1; }
+    .app-editor .sk { color: #1a73e8; }
+    .app-editor .active-area { background: #e8f5e9; border-radius: 2px; border-left: 3px solid #1e8c3a;
+                                padding: 1px 6px; color: #1e5c2a; display: block; margin: 2px 0 2px 12px; }
+    .app-editor .locked { color: #bbb; margin-left: 12px; display: block; }
+    .app-gamebar { background: #f4f5f8; border-top: 1px solid #c8cad6;
+                   padding: 4px 10px; font-size: 9.5px; color: #1a73e8; cursor: pointer; }
+    /* 右パネル：問題文＋採点 */
+    .app-right { width: 148px; border-left: 1px solid #c8cad6; padding: 6px;
+                 flex-shrink: 0; background: #f4f5f8; display: flex; flex-direction: column; }
+    .app-right-title { font-weight: 700; font-size: 9.5px; color: #60687a; letter-spacing: 1px;
+                       text-transform: uppercase; border-bottom: 1px solid #c8cad6;
+                       margin-bottom: 5px; padding-bottom: 3px; }
+    .app-mondai { font-size: 9.5px; color: #1c1e26; line-height: 1.6; margin-bottom: 6px;
+                  border-left: 2px solid #d93025; padding-left: 5px; }
+    .app-tc { background: #fff; border: 1px solid #c8cad6; border-radius: 3px; padding: 4px 6px;
+              margin-bottom: 3px; font-size: 9px; color: #1c1e26; }
+    .app-tc-label { font-weight: 700; color: #1a73e8; font-size: 8.5px; margin-bottom: 1px; }
+    .app-saiten { margin-top: auto; background: #1a73e8; color: #fff; border: none;
+                  border-radius: 4px; padding: 4px 0; width: 100%; font-size: 10px;
+                  text-align: center; cursor: pointer; font-weight: 700; }
+
+    /* ── カードランク表 ──────────────────────────────── */
+    .rank-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 10px 0; }
+    .rank-table th { background: #2c3e50; color: #fff; padding: 5px 8px; text-align: center; }
+    .rank-table td { border: 1px solid #ddd; padding: 5px 8px; text-align: center; }
+    .rank-weak { background: #d5f5e3; }
+    .rank-strong { background: #fadbd8; }
+
+    /* ── DNCL コードブロック ─────────────────────────── */
+    .code-block {
+      background: #1a1a2e; color: #abb2bf; border-radius: 6px;
+      padding: 10px 14px; font-family: monospace; font-size: 13px;
+      line-height: 1.7; margin: 10px 0; page-break-inside: avoid;
+      white-space: pre-wrap;
+    }
+    .code-block .kw { color: #c678dd; }
+    .code-block .val { color: #e5c07b; }
+    .code-block .str { color: #98c379; }
+    .code-block .cmt { color: #7f848e; }
+    .code-block .hl { background: #2d4a22; border-radius: 2px; padding: 0 2px; }
+    /* 模範解答集のコードは改行文字をそのまま行として表示する */
+    .answer-card .code-block { white-space: pre-wrap; }
+
+    /* ── 問題ページ（緑）────────────────────────────── */
+    .problem-page-hdr {
+      background: linear-gradient(135deg, #1a6b3a, #27ae60);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .prob-icon { font-size: 28px; }
+    .prob-id { font-size: 11px; opacity: .8; }
+    .prob-title-jp { font-size: 20px; font-weight: 700; }
+    .problem-body {
+      border: 2px solid #27ae60; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .problem-statement {
+      background: #f0faf6; border-left: 4px solid #27ae60;
+      padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0;
+      font-size: 14px; line-height: 1.9;
+    }
+    .use-vars {
+      background: #f8f9fa; border: 1px solid #dee2e6;
+      border-radius: 6px; padding: 10px 14px; margin: 10px 0;
+    }
+    .use-vars-title { font-weight: 700; font-size: 12px; color: #555; margin-bottom: 6px; }
+    .var-chip {
+      display: inline-block; background: #d4edda; border: 1px solid #27ae60;
+      border-radius: 4px; padding: 2px 8px; margin: 2px 3px;
+      font-family: monospace; font-size: 12px;
+    }
+    .section-indicator {
+      display: inline-block; background: #e8f5e9; border: 1.5px solid #27ae60;
+      border-radius: 6px; padding: 6px 12px; font-size: 12px; margin: 8px 0;
+    }
+    .try-box {
+      background: #1a6b3a; color: #fff; border-radius: 6px;
+      padding: 12px 16px; margin: 12px 0; text-align: center; font-size: 14px;
+    }
+    .try-box .next-hint { font-size: 11px; opacity: .85; margin-top: 4px; }
+
+    /* ── ヒントページ（オレンジ）──────────────────────── */
+    .hint-page-hdr {
+      background: linear-gradient(135deg, #e67e22, #f39c12);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .hint-body {
+      border: 2px solid #f39c12; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .hint-warning {
+      background: #fff3cd; border: 1.5px solid #f39c12; border-radius: 6px;
+      padding: 8px 12px; margin-bottom: 12px; font-size: 12px;
+    }
+    .step-list { list-style: none; padding: 0; margin: 0; }
+    .step-list li {
+      display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;
+      page-break-inside: avoid;
+    }
+    .step-num {
+      background: #e67e22; color: #fff; border-radius: 50%;
+      width: 24px; height: 24px; display: flex; align-items: center;
+      justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .step-text { flex: 1; padding-top: 2px; }
+    .think-box {
+      background: #fff8f0; border: 1.5px dashed #e67e22;
+      border-radius: 6px; padding: 8px 12px; margin: 8px 0; font-size: 12px;
+    }
+
+    /* ── 解説ページ（青）──────────────────────────────── */
+    .explain-page-hdr {
+      background: linear-gradient(135deg, #1565c0, #2196f3);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .explain-body {
+      border: 2px solid #2196f3; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .explain-note {
+      background: #e3f2fd; border: 1.5px solid #2196f3; border-radius: 6px;
+      padding: 8px 12px; margin-bottom: 12px; font-size: 12px;
+    }
+    .flow-diagram { margin: 12px 0; font-size: 12.5px; page-break-inside: avoid; }
+    .flow-row {
+      display: flex; align-items: center; gap: 8px; margin: 4px 0;
+    }
+    .flow-box {
+      border: 1.5px solid #2196f3; border-radius: 4px;
+      padding: 4px 10px; background: #e3f2fd; font-family: monospace;
+    }
+    .flow-arrow { color: #2196f3; font-size: 16px; }
+    .flow-result { color: #1565c0; font-weight: 700; }
+    .next-prob { background: #e3f2fd; border-radius: 6px; padding: 8px 12px; margin-top: 12px; font-size: 12px; text-align: center; }
+
+    /* ── コラム（紫）──────────────────────────────────── */
+    .column-hdr {
+      background: linear-gradient(135deg, #5c35c9, #8e44ad);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .column-body {
+      border: 2px solid #8e44ad; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .real-example {
+      background: #f5f0ff; border-left: 4px solid #8e44ad;
+      padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0;
+    }
+    /* 0-4（ルール統合ページ）を A4 に収めるための圧縮 */
+    .pg-tight { font-size: 12px; line-height: 1.45; }
+    .pg-tight table { font-size: 11px; margin: 4px 0; }
+    .pg-tight table th, .pg-tight table td { padding: 2px 6px; }
+    .pg-tight .info-box, .pg-tight .caution-box { padding: 7px 11px; margin: 6px 0; font-size: 12px; }
+    .pg-tight h2 { margin: 2px 0 4px; }
+    .pg-tight h3 { margin: 6px 0 3px; font-size: 14px; }
+    .pg-tight p { margin: 4px 0; }
+    .pg-tight br { line-height: 1.3; }
+    .pg-tight .code-block { font-size: 11px; line-height: 1.4; padding: 6px 10px; margin: 5px 0; }
+    .column-compact .code-block { font-size: 11px; line-height: 1.45; padding: 6px 9px; margin: 4px 0; }
+    /* 概念ページに結合したコラム（章3・章7）はコンパクト表示で A4 に収める */
+    .column-compact .column-body { padding: 10px 14px; }
+    .column-compact .real-example { padding: 6px 11px; margin: 7px 0; }
+    .column-compact .real-example h3 { margin: 1px 0 3px; font-size: 13px; }
+    .column-compact .real-example p { font-size: 11px; margin: 3px 0; }
+    .column-compact .column-body > p { font-size: 11.5px; margin: 4px 0; }
+    .column-compact .code-block { font-size: 11px; padding: 6px 9px; margin: 4px 0; }
+    .column-compact table { font-size: 11px; }
+    .column-compact table th, .column-compact table td { padding: 3px 6px; }
+
+    /* ── 模範解答（グレー）──────────────────────────────── */
+    .answer-hdr {
+      background: #34495e; color: #fff; border-radius: 8px 8px 0 0;
+      padding: 12px 18px; page-break-after: avoid;
+    }
+    .answer-card {
+      border: 1.5px solid #bdc3c7; border-radius: 6px;
+      margin-bottom: 12px; page-break-inside: avoid;
+    }
+    .answer-card-title {
+      background: #ecf0f1; padding: 6px 12px; font-weight: 700; font-size: 13px;
+      border-bottom: 1px solid #bdc3c7;
+    }
+    .answer-card-body { padding: 10px 14px; }
+
+    /* ── ユーティリティ ──────────────────────────────── */
+    .caution-box {
+      background: #fff6f6; border-left: 4px solid #e74c3c;
+      padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 12.5px;
+    }
+    .info-box {
+      background: #f0f7ff; border-left: 4px solid #2980b9;
+      padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 12.5px;
+    }
+    .check-list { list-style: none; padding: 0; }
+    .check-list li { padding: 3px 0; font-size: 13px; }
+    .check-list li::before { content: "☐ "; font-size: 15px; }
+    .write-area {
+      border: 1.5px dashed #aaa; border-radius: 4px;
+      min-height: 40px; background: #fffde7; margin: 6px 0; padding: 4px 8px;
+      font-size: 12px; color: #999;
+    }
+    table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+    th { background: #2c3e50; color: #fff; padding: 6px 8px; font-size: 12.5px; }
+    td { border: 1px solid #ddd; padding: 5px 8px; font-size: 12.5px; }
+    code { background: #eee; border-radius: 3px; padding: 1px 5px; font-size: 12.5px; font-family: monospace; }
+    .page-label { font-size: 10px; color: #aaa; text-align: right; margin-bottom: 2px; }
+  </style>
+</head>
+<body data-booklet="ヒント集">
+<div class="cover" style="border-color:#d97706;">
+  <div style="font-size:50px;margin-bottom:10px;">🃏</div>
+  <h1>大富豪プログラミング<br>ヒント集</h1>
+  <div class="subtitle">―― 行き詰まったときだけ読もう ――</div>
+  <div><span class="badge">全27問のヒント</span><span class="badge">答えは書いていません</span></div>
+  <div class="edition">高校「情報Ⅰ」 アルゴリズムとプログラミング対応</div>
+</div>
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 1 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div>
+    <div class="prob-id">b01 ヒント</div>
+    <div class="prob-title-jp">先頭のカードを出す</div>
+  </div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「最弱カード」は手札のどこにある？</strong><br>
+        手札は弱い順に並んでいて、番号（添字）は 1 から始まります。<br>
+        一番弱いカードの添字は何番でしょうか？
+        <div class="think-box">手札 = [3, 7, 10] のとき、最弱は「3」で手札[<span style="color:#e67e22;font-weight:700;">?</span>] に入っています。</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>カードを出すには何を使う？</strong><br>
+        「出す」操作のためには <code>出す(カードの値, 枚数)</code> を使います。<br>
+        「シングルで出す」なら枚数は何でしょうか？
+        <div class="think-box"><code>出す(_______, _______)</code> ← 2つの引数に何を入れる？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>コードにしてみよう</strong><br>
+        「手札の1番目のカードをシングルで出す」を DNCL に書くと…<br>
+        <code>出す( 手札[<span style="color:#e67e22;">?</span>] , <span style="color:#e67e22;">?</span> )</code><br>
+        <br>
+        数字を入れたら、アプリで試してみましょう。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b02 ヒント</div><div class="prob-title-jp">値を表示する</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「場の強さ」はどこに入っている？</strong><br>
+        <code>場の強さ</code> は、場に出ているカードのランクを表す<strong>変数</strong>です。基礎リファレンスにも書いてあります。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>表示するにはどう書く？</strong><br>
+        「〇〇 を表示する」の形に合わせます。〇〇の部分に表示したいものを入れましょう。
+        <div class="think-box"><code>_______ を表示する</code></div>
+      </div>
+    </li>
+  </ul></div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b03 ヒント</div><div class="prob-title-jp">式を表示する</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>文字列はどう書く？</strong><br>
+        DNCLでは文字列を「　」（全角カギカッコ）で囲みます。<br>
+        「場のカードは、」と書くと、その文字そのものが表示されます。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>文字列と変数をつなぐには？</strong><br>
+        <code>と</code> という単語でつなぎます。
+        <div class="think-box">
+          <code>「場のカードは、」 と _______ を表示する</code><br>
+          _______の部分に何を入れればいい？
+        </div>
+      </div>
+    </li>
+  </ul></div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b04 ヒント</div><div class="prob-title-jp">要素数で最強カードを出す</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>最強カードの添字は何番？</strong><br>
+        手札が3枚 [3, 7, 10] なら最強カードは <code>手札[3]</code>。<br>
+        手札が2枚 [5, 11] なら最強カードは <code>手札[2]</code>。<br>
+        「最強カードの添字」＝「手札の枚数」ですね。どんな枚数のときでも使える書き方は？
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>添字の中に <code>要素数[手札]</code> を使う</strong><br>
+        <div class="think-box">
+          <code>手札[　　　　　　　]</code> の [ ] の中に何を書く？
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>組み合わせてみよう</strong><br>
+        <code>出す( 手札[<span style="color:#e67e22;">?</span>] , 1)</code> の<span style="color:#e67e22;">?</span>部分に答えを入れましょう。
+      </div>
+    </li>
+  </ul></div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b05 ヒント</div><div class="prob-title-jp">変数で最強カードを出す</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>まず「n に枚数を入れる」1行目を書こう</strong><br>
+        <div class="think-box"><code>n ← _______</code>（何を入れる？）</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>次に「n 番目のカードを出す」2行目を書こう</strong><br>
+        <div class="think-box"><code>出す( 手札[_______] , 1 )</code></div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2行をエディタに書いて実行しよう</strong><br>
+        1行目と2行目は改行で区切ります。
+      </div>
+    </li>
+  </ul></div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b06 ヒント</div><div class="prob-title-jp">変数に代入して出す</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>まず「i に 2 を入れる」を書こう</strong><br>
+        <div class="think-box"><code>i ← _______</code></div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>次に「i 番目のカードを出す」を書こう</strong><br>
+        <code>手札[i]</code> は <code>i</code> に入っている数の番目のカードです。<br>
+        <code>i = 2</code> なら <code>手札[i]</code> は <code>手札[2]</code> と同じになります。
+        <div class="think-box"><code>出す( 手札[_______] , 1 )</code></div>
+      </div>
+    </li>
+  </ul></div>
+</div>
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 2 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b07 ヒント</div><div class="prob-title-jp">先頭2枚の合計を計算して表示する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>先頭2枚はどこにある？</strong><br>
+        手札の1番目は <code>手札[1]</code>、2番目は <code>手札[2]</code> です。<br>この2つを足すには、どんな記号を使うでしょうか？<div class="think-box">手札[1] <span style="color:#e67e22;font-weight:700;">?</span> 手札[2] ← 足し算の記号は？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>計算式をそのまま表示できる</strong><br>
+        <code>「文字列」 と 式 を表示する</code> の「式」の部分には、計算式をそのまま書けます。<br><div class="think-box">「先頭2枚の合計は、」 と <span style="color:#e67e22;">______</span> を表示する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>組み立ててみよう</strong><br>
+        文字列と「手札[1] ＋ 手札[2]」を <code>と</code> でつなげば完成です。全角の <code>＋</code> を使いましょう。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b08 ヒント</div><div class="prob-title-jp">真ん中のカードを出す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>真ん中の位置を式にできる？</strong><br>
+        手札が3枚なら真ん中は2番目、5枚なら3番目です。枚数から真ん中の位置を計算する式を考えましょう。<div class="think-box">3枚 → 位置2、5枚 → 位置3。(枚数 ＋ 1) ÷ 2 を計算してみると…？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>枚数はどう取得する？</strong><br>
+        手札の枚数は <code>要素数[手札]</code> で分かります。これをいったん変数に入れると式が読みやすくなります。<div class="think-box">n ← 要素数[手札]　／　i ← (n ＋ 1) ÷ 2</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>真ん中のカードを出す</strong><br>
+        計算した位置 <code>i</code> を使って <code>手札[i]</code> を取り出し、シングル（1枚）で出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b09 ヒント</div><div class="prob-title-jp">余りで偶奇を判定する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>偶数かどうかをどう判定する？</strong><br>
+        <code>％</code> は割り算の余りです。<code>枚数 ％ 2</code> が <code>0</code> なら偶数、<code>1</code> なら奇数になります。<div class="think-box">4 ％ 2 ＝ ?　／　3 ％ 2 ＝ ?</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>枚数を変数に入れておく</strong><br>
+        <code>n ← 要素数[手札]</code> としておくと、最強カードの添字 <code>手札[n]</code> にもそのまま使えて便利です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2通りに分ける</strong><br>
+        <code>もし n ％ 2 ＝ 0 ならば</code>（偶数）最弱、<code>そうでなければ</code>（奇数）最強を出す、という形にします。<div class="think-box">最弱は 手札[1]、最強は 手札[n] です。</div>
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 3 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b10 ヒント</div><div class="prob-title-jp">場より強ければ出す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「場より強い」を式にする</strong><br>
+        最弱カード <code>手札[1]</code> が場のカード <code>場の強さ</code> より大きいかを比べます。<div class="think-box">手札[1] <span style="color:#e67e22;font-weight:700;">?</span> 場の強さ ← どの比較記号？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>もし〜ならば の形に入れる</strong><br>
+        条件が成り立つときだけ出せばよいので、<code>そうでなければ</code> は不要です。<div class="think-box">もし 条件 ならば ／ ｜　処理 ／ を実行する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>出せないときは何もしない</strong><br>
+        条件が偽のときは何も書かなければ、アプリが自動でパスします。比較演算子は左パネルのボタンから入力しましょう。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b11 ヒント</div><div class="prob-title-jp">枚数に応じて出し方を変える</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「3枚以上」を式にする</strong><br>
+        「以上」は <code>≧</code> です。手札の枚数は <code>要素数[手札]</code> で分かります。<div class="think-box">要素数[手札] <span style="color:#e67e22;font-weight:700;">?</span> 3</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>2通りなので「そうでなければ」</strong><br>
+        3枚以上なら2番目、そうでなければ最弱、と2つに分かれます。<div class="think-box">もし 条件 ならば ／ 処理A ／ を実行し，そうでなければ ／ 処理B ／ を実行する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>それぞれ出すカードを書く</strong><br>
+        真のとき <code>手札[2]</code>、偽のとき <code>手札[1]</code> をシングルで出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b12 ヒント</div><div class="prob-title-jp">ペアで出す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「同じランク」をどう調べる？</strong><br>
+        手札は弱い順に並んでいるので、同じランクのカードは隣どうしになります。<code>手札[1]</code> と <code>手札[2]</code> が等しいか調べましょう。<div class="think-box">手札[1] <span style="color:#e67e22;font-weight:700;">?</span> 手札[2] ← 「等しい」記号は？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>ペアは枚数を2にする</strong><br>
+        <code>出す(値, 枚数)</code> の枚数を <code>2</code> にするとペアになります。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2通りに分ける</strong><br>
+        同じならペア <code>出す(手札[1], 2)</code>、違えばシングル <code>出す(手札[1], 1)</code> です。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b13 ヒント</div><div class="prob-title-jp">かつで複数条件をチェック</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>なぜ枚数チェックが必要？</strong><br>
+        もし手札が1枚しかないと <code>手札[2]</code> は存在しません。先に「2枚以上あるか」を確かめる必要があります。<div class="think-box">要素数[手札] ≧ 2</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>2つの条件を「かつ」でつなぐ</strong><br>
+        「2枚以上」と「先頭2枚が同じ」の<strong>両方</strong>が必要なので <code>かつ</code> でつなぎます。<div class="think-box">要素数[手札] ≧ 2 かつ 手札[1] ＝ 手札[2]</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>ペアかシングルか</strong><br>
+        両方成り立てばペア、そうでなければ最弱カードをシングルで出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b14 ヒント</div><div class="prob-title-jp">またはで条件を広げる</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>最強カードの位置を変数に</strong><br>
+        <code>cnt ← 要素数[手札]</code> とすれば、最強カードは <code>手札[cnt]</code> です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>2つの条件を「または」でつなぐ</strong><br>
+        「1枚（<code>要素数[手札] ＝ 1</code>）」か「最強がA以上（<code>14 ≦ 手札[cnt]</code>）」のどちらかで攻めます。<div class="think-box">要素数[手札] ＝ 1 または 14 ≦ 手札[cnt]</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>どちらかが真なら最強を出す</strong><br>
+        条件が真なら最強 <code>手札[cnt]</code>、そうでなければ最弱 <code>手札[1]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b15 ヒント</div><div class="prob-title-jp">でないで条件を否定する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「場以下」を式にする</strong><br>
+        まず「最弱カードが場以下」を素直に書きます。<code>手札[1] ≦ 場の強さ</code> です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>それを「でない」で逆にする</strong><br>
+        否定する条件は <code>( )</code> でくくってから <code>でない</code> を付けます。<div class="think-box">(手札[1] ≦ 場の強さ) でない</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>真のとき出す</strong><br>
+        「場以下 でない」＝「場より強い」なので、真のとき <code>手札[1]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 4 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b16 ヒント</div><div class="prob-title-jp">forで出せる枚数を数える</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>数える準備をする</strong><br>
+        ループの<strong>前</strong>で <code>cnt ← 0</code> として数える変数を用意します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>手札を1枚ずつ調べる</strong><br>
+        <code>i を 1 から 要素数[手札] まで 1 ずつ増やしながら，</code> で全部の手札を順に見ます。<div class="think-box">ループの中で 手札[i] ＞ 場の強さ かどうか調べる</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>条件を満たしたら1増やす</strong><br>
+        <code>もし 手札[i] ＞ 場の強さ ならば</code> のとき <code>cnt ← cnt ＋ 1</code> します。ループが終わったら <code>「出せるカードは、」 と cnt を表示する</code> で表示します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b17 ヒント</div><div class="prob-title-jp">forで出せる最弱カードを探す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「まだ無い」を0で表す</strong><br>
+        ループ前に <code>found ← 0</code>。0は「出せるカードはまだ見つかっていない」という印です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>最初に見つかった1枚だけ記録</strong><br>
+        手札はソート済みなので、<strong>最初に</strong>勝てたカードが最弱です。<code>found ＝ 0</code>（まだ未発見）のときだけ <code>found ← 手札[i]</code> と上書きします。<div class="think-box">もし 手札[i] ＞ 場の強さ かつ found ＝ 0 ならば</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>ループ後に出す</strong><br>
+        ループが終わったら <code>もし found ＞ 0 ならば 出す(found, 1)</code>。0のままなら自動でパスします。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 5 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b19 ヒント</div><div class="prob-title-jp">前判定ループで出せる札を探す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>カウンタを初期化</strong><br>
+        まず <code>i ← 1</code> で先頭から探し始めます。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>「進め続ける条件」を考える</strong><br>
+        「まだ範囲内（<code>i ≦ 要素数[手札]</code>）」で、かつ「まだ場に勝てない（<code>手札[i] ≦ 場の強さ</code>）」間は次へ進みます。<div class="think-box">i ≦ 要素数[手札] かつ 手札[i] ≦ 場の強さ の間，</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>抜けた後で判定</strong><br>
+        ループを抜けたとき <code>i ≦ 要素数[手札]</code> なら、<code>手札[i]</code> は場より強いカードです。それを出します。範囲を超えていたら見つからなかったので、何もしなければ自動でパスします。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 6 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b18 ヒント</div><div class="prob-title-jp">見つけたらループを中断する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>フラグを初期化</strong><br>
+        ループ前に <code>found ← 0</code> を置きます（まだ見つかっていない）。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>見つけたら記録して中断</strong><br>
+        <code>もし 手札[i] ＞ 場の強さ ならば</code> のとき、<code>found ← 手札[i]</code> で記録し、すぐ <code>中断する</code> でループを抜けます。<div class="think-box">手札はソート済みなので、最初に勝てた札が最弱。だから中断でOK。</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>ループ後に出す</strong><br>
+        <code>もし found ＞ 0 ならば 出す(found, 1)</code>。見つからなければ0のまま → 自動パス。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b27 ヒント</div><div class="prob-title-jp">8を探して場を流す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>探す条件を考える</strong><br>
+        b18 では「場より強い札」を探しました。今回探すのは「ちょうど 8 の札」。条件式はどう変わるでしょうか？<div class="think-box">手札[i] ？ 8　← どの比較記号？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>見つけたら出して中断</strong><br>
+        フラグ <code>found ← 0</code> を用意し、8 が見つかったら <code>found ← 1</code> にして出し、<code>中断する</code> でループを抜けます。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>見つからなかったとき</strong><br>
+        ループの後で <code>found</code> が <code>0</code> のままなら 8 はありません。最弱カード <code>手札[1]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b20 ヒント</div><div class="prob-title-jp">後判定ループで最後まで走る</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>カウンタを0から始める</strong><br>
+        <code>i ← 0</code> で初期化します。ループの中で先に <code>＋1</code> するので0スタートです。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>1回実行してから判定</strong><br>
+        <code>繰り返し，</code> の中で <code>i ← i ＋ 1</code> し、<code>を，i ＝ 要素数[手札] になるまで実行する</code> とします。<div class="think-box">最後の添字（＝要素数[手札]）に達したら止まる</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>最後のカードを出す</strong><br>
+        ループを抜けたとき <code>i</code> は最後の添字。<code>手札[i]</code>（最強カード）をシングルで出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 7 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b21 ヒント</div><div class="prob-title-jp">要素数で配列サイズを調べる</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>捨て札の枚数を調べる</strong><br>
+        <code>要素数[捨札]</code> で捨て札が何枚あるか分かります。0枚かどうかを判定しましょう。<div class="think-box">要素数[捨札] ＝ 0</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>最強カードの添字は？</strong><br>
+        最強カードは手札の最後なので、添字は <code>要素数[手札]</code> です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2通りに分ける</strong><br>
+        捨て札0枚なら最弱 <code>手札[1]</code>、そうでなければ最強 <code>手札[要素数[手札]]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b22 ヒント</div><div class="prob-title-jp">配列に値を代入する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>配列にコピーする</strong><br>
+        <code>T[1] ← 手札[1]</code>、<code>T[2] ← 手札[2]</code> で、先頭2枚を新しい配列 T に写します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>T[2] を取り出す</strong><br>
+        コピーした <code>T[2]</code> は手札の2番目と同じ値です。これをシングルで出します。<div class="think-box">出す(T[2], 1)</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>大文字に注意</strong><br>
+        配列名は大文字で始めます（<code>T</code>）。小文字だとただの変数になります。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b23 ヒント</div><div class="prob-title-jp">配列で捨て札をカウントする</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>集計用の配列を初期化する</strong><br>
+        数え始める前に、配列 <code>C</code> のすべてのランク（3〜15）を <code>0</code> にします。<div class="think-box">j を 3 から 15 まで 1 ずつ増やしながら，｜　C[j] ← 0</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>捨て札を1枚ずつ数える</strong><br>
+        forループで捨て札を順に見て、そのランクの <code>C</code> を1増やします。<div class="think-box">r ← 捨札[i]　／　C[r] ← C[r] ＋ 1</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>手札[1]が出ているか調べる</strong><br>
+        ループ後、<code>C[手札[1]]</code> が <code>0</code> より大きければ、手札[1]のランクはすでに捨て札に出ています。<div class="think-box">もし C[手札[1]] ＞ 0 ならば</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <strong>出し方を変える</strong><br>
+        すでに出ているなら相手も警戒済み → 最強 <code>手札[要素数[手札]]</code>。出ていなければ最弱 <code>手札[1]</code>。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 8 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b24 ヒント</div><div class="prob-title-jp">返り値なし関数を定義する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>関数を定義する</strong><br>
+        <code>関数 先頭を出す() を</code> … <code>と定義する</code> の形でくくります。中の処理は字下げします。<div class="think-box">関数 先頭を出す() を ／ ｜　出す(手札[1], 1) ／ と定義する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>呼び出しを忘れない</strong><br>
+        定義しただけでは何も起きません。最後に <code>先頭を出す()</code> と書いて呼び出します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2行の関係を意識</strong><br>
+        「定義（作る）」と「呼び出し（使う）」は別の操作です。両方が必要です。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b25 ヒント</div><div class="prob-title-jp">関数を定義して使う（引数と返り値）</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>引数つきで関数を定義</strong><br>
+        <code>関数 出せるか(c) を</code> … <code>と定義する</code>。<code>c</code> が受け取った値です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>結果を返す</strong><br>
+        <code>もし c ＞ 場の強さ ならば 返す(1) そうでなければ 返す(0)</code> とします。<div class="think-box">返す(値) で関数の外へ結果を渡す</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>呼び出して使う</strong><br>
+        <code>r ← 出せるか(手札[1])</code> で返り値を受け取り、<code>もし r ＞ 0 ならば 出す(手札[1], 1)</code> とします。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b26 ヒント</div><div class="prob-title-jp">関数で最強出せるカードを返す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>関数の中で最大値を探す</strong><br>
+        <code>best ← 0</code> から始め、forループで <code>手札[i] ＞ 場の強さ</code> のとき <code>best ← 手札[i]</code> と更新します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>手札はソート済み</strong><br>
+        弱い順なので、勝てるカードを見つけるたび更新すれば、最後に <code>best</code> には<strong>最大の</strong>勝てる札が残ります。<div class="think-box">ループ後に 返す(best)</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>呼び出して出す</strong><br>
+        <code>b ← 最強出せる()</code> で受け取り、<code>もし b ＞ 0 ならば 出す(b, 1)</code>。0ならパス。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+</body>
+</html>

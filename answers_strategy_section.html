@@ -1,0 +1,330 @@
+<!-- ══════════════════════════════════════════════════════
+     戦略問題 模範解答（p01〜p13）
+     ※ コードは font-size:12px / line-height:1.45 で統一。
+       1ページ ≤ 約220mm に収まるよう内容で改ページ。
+       柱（print.js）が「模範解答集」を表示するため
+       続きページのバナーは置かない。
+══════════════════════════════════════════════════════ -->
+<div class="pg answer-pg">
+<div class="answer-hdr">
+  <div style="font-size:22px;font-weight:700;">🃏 戦略問題 模範解答（p01〜p13）</div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">p01　相手が残り1枚なら最強カード（空き場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">もし 要素数[相手の手札] ＝ 1 ならば
+｜　出す(手札[要素数[手札]], 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong><code>要素数[相手の手札]</code> で相手の残り枚数を判定。最強カードは <code>手札[要素数[手札]]</code>（手札は昇順なので最後が最強）。</p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">p02　ペアがあれば出す（空き場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">pr ← 0
+i を 1 から 要素数[手札] － 1 まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＝ 手札[i＋1] かつ pr ＝ 0 ならば
+｜　｜　pr ← 手札[i]
+｜　を実行する
+を繰り返す
+もし pr ＞ 0 ならば
+｜　出す(pr, 2)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>手札は昇順なので <code>手札[i] ＝ 手札[i＋1]</code> で隣接ペアを検出。最初に見つかったペアが最弱ペア。</p>
+  </div>
+</div>
+</div>
+
+<div class="pg answer-pg">
+<div class="answer-card">
+  <div class="answer-card-title">p03　手札枚数で戦略切替（空き場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">もし 要素数[手札] ≧ 5 ならば
+｜　出す(手札[1], 1)
+を実行し，そうでなければ
+｜　pr ← 0
+｜　i を 1 から 要素数[手札] － 1 まで 1 ずつ増やしながら，
+｜　｜　もし 手札[i] ＝ 手札[i＋1] かつ pr ＝ 0 ならば
+｜　｜　｜　pr ← 手札[i]
+｜　｜　を実行する
+｜　を繰り返す
+｜　もし pr ＞ 0 ならば
+｜　｜　出す(pr, 2)
+｜　を実行し，そうでなければ
+｜　｜　出す(手札[1], 1)
+｜　を実行する
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>5枚以上は最弱シングル、4枚以下はペア優先。p02 のペア検出を <code>そうでなければ</code> の中に組み込む。</p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">p04　場より強い最弱を出す（シングル場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">c ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＞ 場の強さ かつ c ＝ 0 ならば
+｜　｜　c ← 手札[i]
+｜　を実行する
+を繰り返す
+もし c ＞ 0 ならば
+｜　出す(c, 1)
+を実行し，そうでなければ
+｜　パスする
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong><code>c ＝ 0</code> フラグで最初に見つかったものだけを記録（手札は昇順なので最初＝最弱）。</p>
+  </div>
+</div>
+</div>
+
+<div class="pg answer-pg">
+<div class="answer-card">
+  <div class="answer-card-title">p05　ペアは温存・シングルで出す（シングル場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">c ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　pf ← 0
+｜　もし i ＞ 1 ならば
+｜　｜　もし 手札[i] ＝ 手札[i－1] ならば
+｜　｜　｜　pf ← 1
+｜　｜　を実行する
+｜　を実行する
+｜　もし i ＜ 要素数[手札] ならば
+｜　｜　もし 手札[i] ＝ 手札[i＋1] ならば
+｜　｜　｜　pf ← 1
+｜　｜　を実行する
+｜　を実行する
+｜　もし pf ＝ 0 かつ 手札[i] ＞ 場の強さ かつ c ＝ 0 ならば
+｜　｜　c ← 手札[i]
+｜　を実行する
+を繰り返す
+もし c ＞ 0 ならば
+｜　出す(c, 1)
+を実行し，そうでなければ
+｜　パスする
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>前後チェックでペアを判定。<code>pf ＝ 0</code>（ペアでない）かつ場より強い最弱を出す。</p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">p06　出せる最弱ペア（ペア場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">pr ← 0
+i を 1 から 要素数[手札] － 1 まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＝ 手札[i＋1] かつ 手札[i] ＞ 場の強さ かつ pr ＝ 0 ならば
+｜　｜　pr ← 手札[i]
+｜　を実行する
+を繰り返す
+もし pr ＞ 0 ならば
+｜　出す(pr, 2)
+を実行し，そうでなければ
+｜　パスする
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>p02のペア検出に「場より強い（＞場の強さ）」条件を追加。最初に見つかったペア＝最弱ペア。</p>
+  </div>
+</div>
+</div>
+
+<div class="pg answer-pg">
+<div class="answer-card">
+  <div class="answer-card-title">p07　$が出ていれば最強で攻め（空き場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">ds ← 0
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　もし 捨札[i] ＝ 15 ならば
+｜　｜　ds ← 1
+｜　を実行する
+を繰り返す
+もし ds ＝ 1 ならば
+｜　出す(手札[要素数[手札]], 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>捨て札に15（$）があるかをフラグ変数 <code>ds</code> で記録。あれば最強（<code>手札[要素数[手札]]</code>）を出す。</p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">p08　$かつAで攻める（空き場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">ds ← 0
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　もし 捨札[i] ＝ 15 ならば
+｜　｜　ds ← 1
+｜　を実行する
+を繰り返す
+ac ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＝ 14 ならば
+｜　｜　ac ← 1
+｜　を実行する
+を繰り返す
+もし ds ＝ 1 かつ ac ＝ 1 ならば
+｜　出す(14, 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>2つのフラグ変数（<code>ds</code>・<code>ac</code>）を独立に調べ、両方そろったときだけ攻める。</p>
+  </div>
+</div>
+</div>
+
+<div class="pg answer-pg">
+<div class="answer-card">
+  <div class="answer-card-title">p09　捨札最大≥Kで最強を出す（空き場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">mx ← 0
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　もし 捨札[i] ＞ mx ならば
+｜　｜　mx ← 捨札[i]
+｜　を実行する
+を繰り返す
+もし mx ≧ 13 ならば
+｜　出す(手札[要素数[手札]], 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>最大値パターン（<code>捨札[i] ＞ mx なら mx ← 捨札[i]</code>）。捨て札が空なら <code>mx＝0</code>（K未満）で最弱を出す。</p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">p10　捨札最大でシングル場を切替（シングル場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">mx ← 0
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　もし 捨札[i] ＞ mx ならば
+｜　｜　mx ← 捨札[i]
+｜　を実行する
+を繰り返す
+もし mx ≧ 13 ならば
+｜　st ← 0
+｜　i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　｜　もし 手札[i] ＞ 場の強さ ならば
+｜　｜　｜　st ← 手札[i]
+｜　｜　を実行する
+｜　を繰り返す
+｜　出す(st, 1)
+を実行し，そうでなければ
+｜　wk ← 0
+｜　i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　｜　もし 手札[i] ＞ 場の強さ かつ wk ＝ 0 ならば
+｜　｜　｜　wk ← 手札[i]
+｜　｜　を実行する
+｜　を繰り返す
+｜　出す(wk, 1)
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>p09 と同じ最大値計算。≥K なら出せる最強（最後まで更新）、そうでなければ出せる最弱（最初に見つかったもの）を出す。</p>
+  </div>
+</div>
+</div>
+
+<div class="pg answer-pg">
+<div class="answer-card">
+  <div class="answer-card-title">p11　出尽くしなら出せる最弱（シングル場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">sm ← 0
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　もし 捨札[i] ＝ 場の強さ ならば
+｜　｜　sm ← sm ＋ 1
+｜　を実行する
+を繰り返す
+c ← 0
+もし sm ≧ 2 ならば
+｜　i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　｜　もし 手札[i] ＞ 場の強さ かつ c ＝ 0 ならば
+｜　｜　｜　c ← 手札[i]
+｜　｜　を実行する
+｜　を繰り返す
+を実行する
+もし c ＞ 0 ならば
+｜　出す(c, 1)
+を実行し，そうでなければ
+｜　パスする
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>同ランクカウント → 2枚（出尽くし）なら場より強い最弱を出す。1枚以下はパス（相手に上を出されるリスク回避）。</p>
+  </div>
+</div>
+</div>
+
+<div class="pg answer-pg">
+<div class="answer-card">
+  <div class="answer-card-title">p12　出尽くし→最強・残あり→最弱（シングル場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">sm ← 0
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　もし 捨札[i] ＝ 場の強さ ならば
+｜　｜　sm ← sm ＋ 1
+｜　を実行する
+を繰り返す
+mx ← 0
+wk ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＞ 場の強さ ならば
+｜　｜　mx ← 手札[i]
+｜　を実行する
+｜　もし 手札[i] ＞ 場の強さ かつ wk ＝ 0 ならば
+｜　｜　wk ← 手札[i]
+｜　を実行する
+を繰り返す
+もし sm ≧ 2 ならば
+｜　もし mx ＞ 0 ならば
+｜　｜　出す(mx, 1)
+｜　を実行し，そうでなければ
+｜　｜　パスする
+｜　を実行する
+を実行し，そうでなければ
+｜　もし wk ＞ 0 ならば
+｜　｜　出す(wk, 1)
+｜　を実行し，そうでなければ
+｜　｜　パスする
+｜　を実行する
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>p11 の発展。出尽くしなら攻め（最強）、残りがあれば守り（最弱）。1回のループで最強・最弱を同時に記録するのがポイント。</p>
+  </div>
+</div>
+</div>
+
+<div class="pg answer-pg">
+<div class="answer-card">
+  <div class="answer-card-title">p13　残り枚数を推定して出す（空き場）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:12px;line-height:1.45;">j を 3 から 15 まで 1 ずつ増やしながら，
+｜　残り[j] ← 2
+を繰り返す
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　残り[手札[i]] ← 残り[手札[i]] － 1
+を繰り返す
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　残り[捨札[i]] ← 残り[捨札[i]] － 1
+を繰り返す
+mx ← 手札[要素数[手札]]
+もし 残り[mx] ＝ 0 ならば
+｜　出す(mx, 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;"><strong>解説：</strong>各ランクは2枚。<code>残り[j] ← 2</code> で初期化後、手札と捨て札で引く。<code>残り[最強] ＝ 0</code> なら相手にそのランクがない → 安全に出せる。</p>
+  </div>
+</div>
+
+<!-- 最終ページの余白を活かした戦略まとめ -->
+<div class="print-section-point" style="margin-top:8mm;">
+  <div class="print-section-point-ttl">🎯 戦略問題で身につけた「型」</div>
+  <ul>
+    <li><strong>フラグ変数</strong>（ds・ac など）… 条件を満たすものが「あるか」を 0／1 で記録する</li>
+    <li><strong>最弱さがし</strong>（c ← 0 → 最初の1個だけ記録）… 手札は昇順なので最初に見つかる＝最弱</li>
+    <li><strong>最強さがし</strong>（最後まで更新）と <strong>最大値さがし</strong>（mx ＜ 値 で更新）</li>
+    <li><strong>カウント</strong>（sm ← sm ＋ 1）… 同じ条件のものが何枚あるか数える</li>
+    <li><strong>集計配列</strong>（残り[j] ← 2 で初期化 → 引いていく）… 場に出ていないカードを推定する</li>
+  </ul>
+  <p style="font-size:12px;margin:6px 0 0;color:#555;">これらは大学入学共通テスト「情報Ⅰ」のプログラミング問題でそのまま使える基本パターンです。</p>
+</div>
+</div>

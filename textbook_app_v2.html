@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大富豪プログラミング 完全攻略テキスト</title>
+  <link rel="stylesheet" href="material.css">
+  <link rel="stylesheet" href="print.css">
+  <script src="print.js?v=2" defer></script>
+  <style>
+    /* ── ページ設定（print.css に委譲 ── ここでは最低限のみ）── */
+    body { color: #1a1a2e; }
+
+    /* ── ページ区切り ──────────────────────────────── */
+    .pg { page-break-before: always; break-before: page; }
+
+    /* ── 表紙 ──────────────────────────────────────── */
+    .cover {
+      text-align: center; padding: 60px 20px 40px;
+      background: linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%);
+      color: #fff; border-radius: 10px; margin-bottom: 12px;
+      min-height: 200px;
+    }
+    .cover h1 { font-size: 28px; letter-spacing: 2px; margin: 0 0 10px; }
+    .cover .subtitle { font-size: 15px; opacity: .85; margin-bottom: 20px; }
+    .cover .badge {
+      display: inline-block; background:#e94560; color:#fff;
+      border-radius: 20px; padding: 4px 16px; font-size: 12px; margin: 4px;
+    }
+    .cover .edition { margin-top: 28px; opacity: .6; font-size: 11px; }
+
+    /* ── 章ヘッダー ────────────────────────────────── */
+    .ch-header {
+      border-radius: 8px; padding: 18px 22px; margin-bottom: 16px;
+      color: #fff; page-break-after: avoid;
+    }
+    .ch-num { font-size: 12px; opacity: .8; letter-spacing: 3px; text-transform: uppercase; }
+    .ch-title { font-size: 24px; font-weight: 700; margin: 4px 0 2px; }
+    .ch-desc { font-size: 13px; opacity: .9; }
+    .ch0 { background: linear-gradient(135deg, #2c3e50, #3d566e); }
+    .ch1 { background: linear-gradient(135deg, #1a6b3a, #27ae60); }
+    .ch2 { background: linear-gradient(135deg, #1565c0, #42a5f5); }
+    .ch3 { background: linear-gradient(135deg, #6a1b9a, #ab47bc); }
+    .ch4 { background: linear-gradient(135deg, #ad1457, #ec407a); }
+    .ch5 { background: linear-gradient(135deg, #00838f, #26c6da); }
+    .ch6 { background: linear-gradient(135deg, #4527a0, #7e57c2); }
+    .ch7 { background: linear-gradient(135deg, #d84315, #ff7043); }
+    .ch8 { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+
+    /* ── 節ヘッダー ────────────────────────────────── */
+    h2 { font-size: 17px; color: #1a1a2e; border-bottom: 2px solid #e0e0e0;
+         padding-bottom: 4px; margin: 18px 0 10px; page-break-after: avoid; }
+    h3 { font-size: 14px; color: #2c3e50; margin: 14px 0 6px; page-break-after: avoid; }
+
+    /* ── 学習サイクル説明用 ─────────────────────────── */
+    .cycle-box {
+      display: flex; flex-direction: column; gap: 6px;
+      border: 1.5px solid #bbb; border-radius: 8px; padding: 14px 16px; margin: 12px 0;
+    }
+    .cycle-row {
+      display: flex; align-items: flex-start; gap: 10px; font-size: 13px;
+    }
+    .cycle-icon {
+      font-size: 20px; width: 30px; text-align: center; flex-shrink: 0; line-height: 1.4;
+    }
+    .cycle-text { flex: 1; }
+    .cycle-arrow { text-align: center; font-size: 18px; color: #888; margin: -2px 0; }
+
+    /* ── アイコン凡例 ──────────────────────────────── */
+    .icon-legend {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0;
+    }
+    .icon-row {
+      display: flex; align-items: center; gap: 8px;
+      background: #f5f5f5; border-radius: 6px; padding: 6px 10px;
+    }
+    .icon-big { font-size: 22px; }
+    .icon-desc { font-size: 12px; }
+    .icon-desc strong { display: block; font-size: 13px; }
+
+    /* ── アプリ画面図（ライトモード配色） ───────────────── */
+    .app-diagram {
+      border: 2px solid #c8cad6; border-radius: 6px; overflow: hidden;
+      font-size: 10.5px; margin: 12px 0; page-break-inside: avoid;
+      background: #f4f5f8;
+    }
+    /* タイトルバー */
+    .app-titlebar {
+      background: #eaecf1; color: #60687a; padding: 4px 10px; font-size: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #c8cad6;
+    }
+    .app-titlebar .tb-back { color: #1a73e8; }
+    .app-titlebar .tb-title { color: #1c1e26; font-weight: 700; }
+    .app-titlebar .tb-btns { display: flex; gap: 6px; }
+    .app-titlebar .tb-btn { background: #fff; border: 1px solid #c8cad6; color: #60687a;
+                             border-radius: 3px; padding: 1px 7px; font-size: 9.5px; }
+    .app-titlebar .tb-btn.reset { color: #e08800; }
+    /* 本体 */
+    .app-body { display: flex; min-height: 160px; }
+    /* 左パネル：変数一覧 */
+    .app-left { width: 115px; border-right: 1px solid #c8cad6; background: #eaecf1;
+                padding: 6px 5px; font-size: 10px; flex-shrink: 0; color: #1c1e26; }
+    .app-left-title { font-weight: 700; font-size: 9.5px; color: #60687a; letter-spacing: 1px;
+                      text-transform: uppercase; border-bottom: 1px solid #c8cad6;
+                      margin-bottom: 5px; padding-bottom: 3px; }
+    .app-var-group { margin-bottom: 6px; }
+    .app-var-header { color: #1a73e8; font-weight: 700; font-size: 10px; cursor: pointer; }
+    .app-var-header::before { content: '▼ '; font-size: 8px; }
+    .app-var-body { font-size: 9.5px; color: #60687a; padding-left: 8px; line-height: 1.8; }
+    /* 中央：エディタ */
+    .app-center { flex: 1; display: flex; flex-direction: column; background: #fff; }
+    .app-hint-bar { background: #fff8ee; border-bottom: 1px solid #c8cad6;
+                    padding: 4px 10px; font-size: 9.5px; color: #e08800; }
+    .app-editor { padding: 7px 10px; background: #fff; color: #1c1e26;
+                  font-family: monospace; font-size: 10px; flex: 1; }
+    .app-editor .sk { color: #1a73e8; }
+    .app-editor .active-area { background: #e8f5e9; border-radius: 2px; border-left: 3px solid #1e8c3a;
+                                padding: 1px 6px; color: #1e5c2a; display: block; margin: 2px 0 2px 12px; }
+    .app-editor .locked { color: #bbb; margin-left: 12px; display: block; }
+    .app-gamebar { background: #f4f5f8; border-top: 1px solid #c8cad6;
+                   padding: 4px 10px; font-size: 9.5px; color: #1a73e8; cursor: pointer; }
+    /* 右パネル：問題文＋採点 */
+    .app-right { width: 148px; border-left: 1px solid #c8cad6; padding: 6px;
+                 flex-shrink: 0; background: #f4f5f8; display: flex; flex-direction: column; }
+    .app-right-title { font-weight: 700; font-size: 9.5px; color: #60687a; letter-spacing: 1px;
+                       text-transform: uppercase; border-bottom: 1px solid #c8cad6;
+                       margin-bottom: 5px; padding-bottom: 3px; }
+    .app-mondai { font-size: 9.5px; color: #1c1e26; line-height: 1.6; margin-bottom: 6px;
+                  border-left: 2px solid #d93025; padding-left: 5px; }
+    .app-tc { background: #fff; border: 1px solid #c8cad6; border-radius: 3px; padding: 4px 6px;
+              margin-bottom: 3px; font-size: 9px; color: #1c1e26; }
+    .app-tc-label { font-weight: 700; color: #1a73e8; font-size: 8.5px; margin-bottom: 1px; }
+    .app-saiten { margin-top: auto; background: #1a73e8; color: #fff; border: none;
+                  border-radius: 4px; padding: 4px 0; width: 100%; font-size: 10px;
+                  text-align: center; cursor: pointer; font-weight: 700; }
+
+    /* ── カードランク表 ──────────────────────────────── */
+    .rank-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 10px 0; }
+    .rank-table th { background: #2c3e50; color: #fff; padding: 5px 8px; text-align: center; }
+    .rank-table td { border: 1px solid #ddd; padding: 5px 8px; text-align: center; }
+    .rank-weak { background: #d5f5e3; }
+    .rank-strong { background: #fadbd8; }
+
+    /* ── DNCL コードブロック ─────────────────────────── */
+    .code-block {
+      background: #1a1a2e; color: #abb2bf; border-radius: 6px;
+      padding: 10px 14px; font-family: monospace; font-size: 13px;
+      line-height: 1.7; margin: 10px 0; page-break-inside: avoid;
+      white-space: pre-wrap;
+    }
+    .code-block .kw { color: #c678dd; }
+    .code-block .val { color: #e5c07b; }
+    .code-block .str { color: #98c379; }
+    .code-block .cmt { color: #7f848e; }
+    .code-block .hl { background: #2d4a22; border-radius: 2px; padding: 0 2px; }
+    /* 模範解答集のコードは改行文字をそのまま行として表示する */
+    .answer-card .code-block { white-space: pre-wrap; }
+
+    /* ── 問題ページ（緑）────────────────────────────── */
+    .problem-page-hdr {
+      background: linear-gradient(135deg, #1a6b3a, #27ae60);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .prob-icon { font-size: 28px; }
+    .prob-id { font-size: 11px; opacity: .8; }
+    .prob-title-jp { font-size: 20px; font-weight: 700; }
+    .problem-body {
+      border: 2px solid #27ae60; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .problem-statement {
+      background: #f0faf6; border-left: 4px solid #27ae60;
+      padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0;
+      font-size: 14px; line-height: 1.9;
+    }
+    .use-vars {
+      background: #f8f9fa; border: 1px solid #dee2e6;
+      border-radius: 6px; padding: 10px 14px; margin: 10px 0;
+    }
+    .use-vars-title { font-weight: 700; font-size: 12px; color: #555; margin-bottom: 6px; }
+    .var-chip {
+      display: inline-block; background: #d4edda; border: 1px solid #27ae60;
+      border-radius: 4px; padding: 2px 8px; margin: 2px 3px;
+      font-family: monospace; font-size: 12px;
+    }
+    .section-indicator {
+      display: inline-block; background: #e8f5e9; border: 1.5px solid #27ae60;
+      border-radius: 6px; padding: 6px 12px; font-size: 12px; margin: 8px 0;
+    }
+    .try-box {
+      background: #1a6b3a; color: #fff; border-radius: 6px;
+      padding: 12px 16px; margin: 12px 0; text-align: center; font-size: 14px;
+    }
+    .try-box .next-hint { font-size: 11px; opacity: .85; margin-top: 4px; }
+
+    /* ── ヒントページ（オレンジ）──────────────────────── */
+    .hint-page-hdr {
+      background: linear-gradient(135deg, #e67e22, #f39c12);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .hint-body {
+      border: 2px solid #f39c12; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .hint-warning {
+      background: #fff3cd; border: 1.5px solid #f39c12; border-radius: 6px;
+      padding: 8px 12px; margin-bottom: 12px; font-size: 12px;
+    }
+    .step-list { list-style: none; padding: 0; margin: 0; }
+    .step-list li {
+      display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;
+      page-break-inside: avoid;
+    }
+    .step-num {
+      background: #e67e22; color: #fff; border-radius: 50%;
+      width: 24px; height: 24px; display: flex; align-items: center;
+      justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .step-text { flex: 1; padding-top: 2px; }
+    .think-box {
+      background: #fff8f0; border: 1.5px dashed #e67e22;
+      border-radius: 6px; padding: 8px 12px; margin: 8px 0; font-size: 12px;
+    }
+
+    /* ── 解説ページ（青）──────────────────────────────── */
+    .explain-page-hdr {
+      background: linear-gradient(135deg, #1565c0, #2196f3);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .explain-body {
+      border: 2px solid #2196f3; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .explain-note {
+      background: #e3f2fd; border: 1.5px solid #2196f3; border-radius: 6px;
+      padding: 8px 12px; margin-bottom: 12px; font-size: 12px;
+    }
+    .flow-diagram { margin: 12px 0; font-size: 12.5px; page-break-inside: avoid; }
+    .flow-row {
+      display: flex; align-items: center; gap: 8px; margin: 4px 0;
+    }
+    .flow-box {
+      border: 1.5px solid #2196f3; border-radius: 4px;
+      padding: 4px 10px; background: #e3f2fd; font-family: monospace;
+    }
+    .flow-arrow { color: #2196f3; font-size: 16px; }
+    .flow-result { color: #1565c0; font-weight: 700; }
+    .next-prob { background: #e3f2fd; border-radius: 6px; padding: 8px 12px; margin-top: 12px; font-size: 12px; text-align: center; }
+
+    /* ── コラム（紫）──────────────────────────────────── */
+    .column-hdr {
+      background: linear-gradient(135deg, #5c35c9, #8e44ad);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .column-body {
+      border: 2px solid #8e44ad; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .real-example {
+      background: #f5f0ff; border-left: 4px solid #8e44ad;
+      padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0;
+    }
+    /* 0-4（ルール統合ページ）を A4 に収めるための圧縮 */
+    .pg-tight { font-size: 12px; line-height: 1.45; }
+    .pg-tight table { font-size: 11px; margin: 4px 0; }
+    .pg-tight table th, .pg-tight table td { padding: 2px 6px; }
+    .pg-tight .info-box, .pg-tight .caution-box { padding: 7px 11px; margin: 6px 0; font-size: 12px; }
+    .pg-tight h2 { margin: 2px 0 4px; }
+    .pg-tight h3 { margin: 6px 0 3px; font-size: 14px; }
+    .pg-tight p { margin: 4px 0; }
+    .pg-tight br { line-height: 1.3; }
+    .pg-tight .code-block { font-size: 11px; line-height: 1.4; padding: 6px 10px; margin: 5px 0; }
+    .column-compact .code-block { font-size: 11px; line-height: 1.45; padding: 6px 9px; margin: 4px 0; }
+    /* 概念ページに結合したコラム（章3・章7）はコンパクト表示で A4 に収める */
+    .column-compact .column-body { padding: 10px 14px; }
+    .column-compact .real-example { padding: 6px 11px; margin: 7px 0; }
+    .column-compact .real-example h3 { margin: 1px 0 3px; font-size: 13px; }
+    .column-compact .real-example p { font-size: 11px; margin: 3px 0; }
+    .column-compact .column-body > p { font-size: 11.5px; margin: 4px 0; }
+    .column-compact .code-block { font-size: 11px; padding: 6px 9px; margin: 4px 0; }
+    .column-compact table { font-size: 11px; }
+    .column-compact table th, .column-compact table td { padding: 3px 6px; }
+
+    /* ── 模範解答（グレー）──────────────────────────────── */
+    .answer-hdr {
+      background: #34495e; color: #fff; border-radius: 8px 8px 0 0;
+      padding: 12px 18px; page-break-after: avoid;
+    }
+    .answer-card {
+      border: 1.5px solid #bdc3c7; border-radius: 6px;
+      margin-bottom: 12px; page-break-inside: avoid;
+    }
+    .answer-card-title {
+      background: #ecf0f1; padding: 6px 12px; font-weight: 700; font-size: 13px;
+      border-bottom: 1px solid #bdc3c7;
+    }
+    .answer-card-body { padding: 10px 14px; }
+
+    /* ── ユーティリティ ──────────────────────────────── */
+    .caution-box {
+      background: #fff6f6; border-left: 4px solid #e74c3c;
+      padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 12.5px;
+    }
+    .info-box {
+      background: #f0f7ff; border-left: 4px solid #2980b9;
+      padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 12.5px;
+    }
+    .check-list { list-style: none; padding: 0; }
+    .check-list li { padding: 3px 0; font-size: 13px; }
+    .check-list li::before { content: "☐ "; font-size: 15px; }
+    .write-area {
+      border: 1.5px dashed #aaa; border-radius: 4px;
+      min-height: 40px; background: #fffde7; margin: 6px 0; padding: 4px 8px;
+      font-size: 12px; color: #999;
+    }
+    table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+    th { background: #2c3e50; color: #fff; padding: 6px 8px; font-size: 12.5px; }
+    td { border: 1px solid #ddd; padding: 5px 8px; font-size: 12.5px; }
+    code { background: #eee; border-radius: 3px; padding: 1px 5px; font-size: 12.5px; font-family: monospace; }
+    .page-label { font-size: 10px; color: #aaa; text-align: right; margin-bottom: 2px; }
+  </style>
+</head>
+<body>
+<div class="cover">
+  <div style="font-size:50px;margin-bottom:10px;">🃏</div>
+  <h1>大富豪プログラミング<br>完全攻略テキスト</h1>
+  <div class="subtitle">―― カードゲームで学ぶ DNCL プログラミング ――</div>
+  <div>
+    <span class="badge">全 8 章</span>
+    <span class="badge">基礎問題 b01〜b27</span>
+    <span class="badge">模範解答集つき</span>
+  </div>
+  <div class="edition">高校「情報Ⅰ」 アルゴリズムとプログラミング対応</div>
+</div>
+<div class="pg">
+<h2>📑 目次</h2>
+<p>この本は、<strong>「大富豪プログラミング」というアプリと一緒に使う</strong>テキストです。カードゲーム「大富豪」を題材に、プログラミングの基礎を学びます。</p>
+<table>
+  <tr><th style="width:64px;">章</th><th>タイトル</th><th style="width:150px;">学ぶこと</th><th style="width:96px;">問題</th></tr>
+  <tr><td>第0章</td><td>大富豪プログラミングを始めよう</td><td>使い方・画面・ルール・DNCL</td><td>―</td></tr>
+  <tr><td>第1章</td><td>変数と代入</td><td>配列の添字・出す()・表示・要素数・変数</td><td>b01〜b06</td></tr>
+  <tr><td>第2章</td><td>演算子</td><td>＋ ・ ÷（整数除算）・ ％（余り）</td><td>b07〜b09</td></tr>
+  <tr><td>第3章</td><td>条件分岐</td><td>もし〜ならば・比較・かつ／または／でない</td><td>b10〜b15</td></tr>
+  <tr><td>第4章</td><td>forループ</td><td>くり返し・カウンタ・フラグ変数</td><td>b16〜b17</td></tr>
+  <tr><td>第5章</td><td>前判定ループ</td><td>〜の間くり返す・探索</td><td>b19</td></tr>
+  <tr><td>第6章</td><td>後判定ループ・中断する</td><td>中断する・〜になるまで実行する</td><td>b18・b27・b20</td></tr>
+  <tr><td>第7章</td><td>配列</td><td>要素数・配列への代入・集計配列</td><td>b21〜b23</td></tr>
+  <tr><td>第8章</td><td>関数</td><td>定義と呼び出し・引数・返り値</td><td>b24〜b26</td></tr>
+  <tr><td>別冊</td><td>問題集 / ヒント集 / 解答集</td><td>問題・ヒント・解説・模範解答</td><td>b01〜b27</td></tr>
+</table>
+
+<div class="info-box">
+  <strong>この本の進め方：</strong>問題・ヒント・解答は<strong>別冊</strong>（問題集／ヒント集／解答集）に分かれています。先生の指示に従って使いましょう。アプリで実際にコードを動かしながら読み進めましょう。各章末のコラムは、学んだことが大富豪の外の世界（身近なアプリ）でどう使われているかを紹介します。
+</div>
+</div>
+<div class="pg">
+<div class="ch-header ch0">
+  <div class="ch-num">CHAPTER 0</div>
+  <div class="ch-title">大富豪プログラミングを始めよう</div>
+  <div class="ch-desc">アプリの使い方・画面の見方・大富豪のルール・DNCLとは</div>
+</div>
+
+<h2>0-1　アプリを開こう</h2>
+
+<h3>① ブラウザでアプリを開く</h3>
+<p>「大富豪プログラミング」はブラウザ上で動くアプリです。先生から案内された <strong>URL を開く</strong>（または配布された <code>index.html</code> を開く）と起動します。</p>
+
+<table>
+  <tr><th>操作</th><th>方法</th></tr>
+  <tr><td>アプリを開く</td><td>先生の案内する URL を開く（または <code>index.html</code> を開く）</td></tr>
+  <tr><td>推奨ブラウザ</td><td>Google Chrome / Microsoft Edge / Safari（どれでも可）</td></tr>
+  <tr><td>問題が出ない場合</td><td>ブラウザの更新ボタン（F5）を押す</td></tr>
+</table>
+
+<h3>② 問題を選ぶ</h3>
+<p>画面が開いたら、左側の問題リストから選択します。</p>
+<ol>
+  <li>左パネルの「<strong>基礎問題</strong>」をクリックしてリストを展開する</li>
+  <li>「<strong>b01　先頭のカードを出す</strong>」をクリックする</li>
+  <li>画面が問題モードに切り替わる</li>
+</ol>
+
+<div class="info-box">
+💡 <strong>問題の見つけ方：</strong>問題 ID（b01, b02 …）の「b」は「basic（基礎）」の略です。このテキストでは b01 から順番に進めます。
+</div>
+
+<h3>③ 始める前のチェックリスト</h3>
+<ul class="check-list">
+  <li>ブラウザで <code>index.html</code> が開いている</li>
+  <li>左パネルに「基礎問題」リストが見えている</li>
+  <li>b01 を選んで、右パネルにテストケースが表示されている</li>
+  <li>エディタ（下半分）にコードを書く場所がある</li>
+</ul>
+
+<div class="caution-box">
+⚠️ <strong>よくあるトラブル：</strong>ファイルを直接開くと「セキュリティの警告」が出ることがあります。「許可する」または「ブロックを解除」をクリックしてください。
+</div>
+</div>
+<div class="pg pg-tight">
+<h2>0-2　画面の見方</h2>
+<p>アプリの画面は大きく <strong>4つのエリア</strong>に分かれています。</p>
+
+<div class="app-diagram">
+  <!-- タイトルバー -->
+  <div class="app-titlebar">
+    <span class="tb-back">← 問題一覧に戻る</span>
+    <span class="tb-title">基礎問題モード　b01　先頭のカードを出す</span>
+    <span class="tb-btns">
+      <span class="tb-btn reset">↺ リセット</span>
+      <span class="tb-btn">✱ ライト</span>
+    </span>
+  </div>
+  <!-- 本体 -->
+  <div class="app-body">
+    <!-- ① 左パネル：変数一覧 -->
+    <div class="app-left">
+      <div class="app-left-title">変数一覧</div>
+      <div class="app-var-group">
+        <div class="app-var-header">手札[＜式＞]</div>
+        <div class="app-var-body">
+          N番目のカードのランク<br>
+          1始まり・弱い順<br>
+          手札[1]=最弱
+        </div>
+      </div>
+      <div class="app-var-group">
+        <div class="app-var-header">出す(＜式＞, ＜式＞)</div>
+        <div class="app-var-body">
+          第1引数: ランク<br>
+          第2引数: 枚数<br>
+          (1=シングル)
+        </div>
+      </div>
+      <div class="app-var-group">
+        <div class="app-var-header">場の強さ</div>
+        <div class="app-var-body">場に出た<br>カードの強さ</div>
+      </div>
+    </div>
+    <!-- ② 中央：ヒント＋エディタ＋表示画面 -->
+    <div class="app-center">
+      <div class="app-hint-bar">💡 ヒントを見る（0/2）</div>
+      <div class="app-editor">
+        <div class="sk">もし 場の枚数 ＝ 0 ならば</div>
+        <span class="active-area">← ここに書く（緑色＝編集可能）</span>
+        <div class="sk">を実行し，そうでなくもし 場の枚数 ＝ 1 ならば</div>
+        <span class="locked">　パスする</span>
+        <div class="sk">を実行し，そうでなくもし 場の枚数 ＝ 2 ならば</div>
+        <span class="locked">　パスする</span>
+        <div class="sk">を実行し，そうでなければ　パスを実行する</div>
+      </div>
+      <div class="app-gamebar">▶ 表示画面（クリックするとゲーム盤が開く）</div>
+    </div>
+    <!-- ③ 右パネル：問題文＋テストケース＋採点 -->
+    <div class="app-right">
+      <div class="app-right-title">問題文</div>
+      <div class="app-mondai">最弱カードをシングルで出してください。手札は弱い順に並んでおり手札[1]から始まります。</div>
+      <div class="app-right-title" style="margin-top:4px;">テストケース</div>
+      <div class="app-tc">
+        <div class="app-tc-label">ケース 1</div>
+        手札: 3 7 10<br>場: 空き<br>→ 3を1枚出す
+      </div>
+      <div class="app-tc">
+        <div class="app-tc-label">ケース 2</div>
+        手札: 5 J K<br>場: 空き<br>→ 5を1枚出す
+      </div>
+      <div class="app-tc">
+        <div class="app-tc-label">ケース 3</div>
+        手札: 9 Q $<br>場: 空き<br>→ 9を1枚出す
+      </div>
+      <button class="app-saiten">✓ 採点する</button>
+    </div>
+  </div>
+</div>
+
+<h3>各エリアの役割</h3>
+<table>
+  <tr><th>エリア</th><th>場所</th><th>役割</th></tr>
+  <tr><td>① 変数一覧</td><td>左</td><td>使える変数・操作の一覧。書き方の例も確認できる</td></tr>
+  <tr><td>② ヒントを見る</td><td>中央上</td><td>詰まったときに段階的なヒントを表示</td></tr>
+  <tr><td>② エディタ</td><td>中央</td><td>DNCLコードを書く場所。<span style="color:#27ae60;font-weight:700;">緑色</span>の行が編集できる</td></tr>
+  <tr><td>② 表示画面</td><td>中央下</td><td>クリックで展開するゲーム盤面（手札・場のカードを確認）</td></tr>
+  <tr><td>③ 問題文・採点</td><td>右</td><td>何をすべきか確認し、「採点する」でコードを検証</td></tr>
+</table>
+
+<h3>エディタの「セクション」について</h3>
+<p>エディタには <strong>3つのセクション（書く場所）</strong>があります。「場の枚数」（場に出ているカードの枚数）によって実行される場所が変わります。</p>
+
+<table>
+  <tr><th>セクション</th><th>実行される状況</th><th>主な用途</th></tr>
+  <tr><td><code>場の枚数 ＝ 0</code></td><td>場が空き（最初のカードを出す番）</td><td>好きなカードを出す</td></tr>
+  <tr><td><code>場の枚数 ＝ 1</code></td><td>場に1枚出ている（シングル戦）</td><td>場より強いカードを出す or パス</td></tr>
+  <tr><td><code>場の枚数 ＝ 2</code></td><td>場に2枚出ている（ペア戦）</td><td>ペアで出す or パス</td></tr>
+</table>
+
+<div class="info-box">
+📌 <strong>問題ごとに「書くセクション」が決まっています。</strong>各問題ページに「⬛ 書く場所：場の枚数 ＝ ○ のセクション」と記載します。それ以外のセクションはアプリが自動的に「パスする」にしてくれています。
+</div>
+</div>
+<div class="pg pg-tight">
+<h2>0-3　大富豪のルール（アプリ版）</h2>
+<p>大富豪プログラミングは、トランプの大富豪（大貧民）を元にした<strong>簡略版ルール</strong>でカードを出します。<strong>「どのカードを出すか」をDNCLコードで書くのがこのアプリの目的</strong>です。</p>
+
+<div class="caution-box">
+⚠️ <strong>通常の大富豪とのちがい（アプリ独自のルール）</strong><br><br>
+<table style="margin:0;">
+  <tr><th>項目</th><th>通常の大富豪</th><th>このアプリ</th></tr>
+  <tr><td>プレイ人数</td><td>3〜6人など</td><td><strong>1対1（自分 vs CPU）</strong></td></tr>
+  <tr><td>出せる枚数</td><td>1枚・2枚・3枚・4枚…</td><td><strong>シングル（1枚）またはペア（2枚）のみ</strong></td></tr>
+  <tr><td>革命・8切りなど</td><td>あり（ゲームによる）</td><td><strong>8切りあり（革命なし）</strong></td></tr>
+</table>
+<br>
+プログラミング学習に集中できるよう、ルールを絞っています。<br>
+<span style="font-size:11px;color:#666;">※8切り（8を出すと場が流れる）はフリープレイで体験できます。問題の採点には影響しません。</span>
+</div>
+
+<h3>カードの強さ（ランク）</h3>
+<table class="rank-table">
+  <tr><th>カード</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>J</th><th>Q</th><th>K</th><th>A</th><th>$</th></tr>
+  <tr><td><strong>数値</strong></td><td class="rank-weak">3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td class="rank-strong">15</td></tr>
+</table>
+<p style="font-size:12px;color:#666;">3が最も弱く、$ が最も強い。プログラムでは数値（3〜15）で扱います。</p>
+<div class="info-box" style="font-size:12px;">
+  <strong>A と $ の正体：</strong>A はトランプの「1」、<strong>$ は「2」のカード</strong>です。大富豪では 1（A）と 2 が最強格なので、A を 14、2（$）を 15 という強さの数値で表します。「A は本当は 1 なのに K（13）より強い」のと同じ考え方です。<strong>このアプリにジョーカーはありません。</strong>
+</div>
+
+<h3>手札について</h3>
+<div class="info-box">
+  <strong>手札は弱い順に並んでいます。</strong><br>
+  例：手札が「5」「10」「K」の3枚のとき<br>
+  &emsp;<code>手札[1]</code> = 5（最弱）&emsp;<code>手札[2]</code> = 10&emsp;<code>手札[3]</code> = 13（最強 = K）<br><br>
+  <strong>添字（番号）は 1 から始まります。</strong><code>手札[0]</code> は存在しません。
+</div>
+
+
+
+
+
+<h3>基本的な操作</h3>
+<table>
+  <tr><th>操作</th><th>書き方</th><th>意味</th></tr>
+  <tr><td>シングルで出す</td><td><code>出す(手札[1], 1)</code></td><td>手札[1]のカードを1枚出す</td></tr>
+  <tr><td>ペアで出す</td><td><code>出す(手札[1], 2)</code></td><td>手札[1]と同じランクのカードを2枚出す</td></tr>
+  <tr><td>パスする</td><td><code>パスする</code></td><td>このターンを諦める</td></tr>
+</table>
+
+<div class="info-box">
+  <strong><code>出す(カードの値, 枚数)</code> の書き方：</strong><br>
+  ・第1引数：出すカードのランク（数値）&emsp;例：<code>手札[1]</code>、<code>7</code><br>
+  ・第2引数：枚数（<code>1</code> = シングル、<code>2</code> = ペア）<br>
+  ・<strong>3枚以上は使いません</strong>（このアプリにはトリプルなどのルールはありません）
+</div>
+
+<h3>ターンの流れ（1対1）</h3>
+<p>自分とCPUが交互にカードを出します。</p>
+<table>
+  <tr><th>場の状態</th><th>場の枚数</th><th>できること</th></tr>
+  <tr><td>場が空き（先手）</td><td><code>0</code></td><td>シングルまたはペアで好きなカードを出せる</td></tr>
+  <tr><td>シングル戦（1枚出ている）</td><td><code>1</code></td><td>場の強さ より大きいカードを<strong>シングルで</strong>出す、またはパス</td></tr>
+  <tr><td>ペア戦（2枚出ている）</td><td><code>2</code></td><td>場の強さ より大きいカードを<strong>ペアで</strong>出す、またはパス</td></tr>
+</table>
+</div>
+<div class="pg pg-tight">
+<h2>0-4　DNCLとコードの書き方</h2>
+
+<h3>DNCLとは</h3>
+<p>DNCL（ディーエヌシーエル）は、<strong>大学入試センターが定めたプログラミング記述言語</strong>です。日本語に近い書き方でアルゴリズムを記述します。</p>
+
+<div class="info-box">
+  <strong>DNCLの特徴：</strong><br>
+  ・日本語の単語をそのまま使える（<code>もし</code>、<code>の間</code>、<code>を繰り返す</code>など）<br>
+  ・記号は<strong>全角</strong>を使う（<code>←</code>、<code>＋</code>、<code>＝</code>、<code>≧</code>など）<br>
+  ・インデント（字下げ）に <code>｜　</code>（全角パイプ＋スペース）を使う<br>
+  ・共通テスト（情報Ⅰ）で使われる擬似コード
+</div>
+
+<h3>コードを書く・実行する手順</h3>
+<ol>
+  <li>エディタの<strong>アクティブなセクション</strong>（明るく表示されている部分）をクリックして選択する</li>
+  <li>DNCLコードを入力する</li>
+  <li>「<strong>▶ 実行</strong>」ボタンを押す</li>
+  <li>右側の<strong>テストケース</strong>が全部 🟢 緑になれば正解！</li>
+  <li>エラーが出た場合はエディタ下の赤いメッセージを確認する</li>
+</ol>
+
+<div class="caution-box">
+⚠️ <strong>入力の注意点：</strong><br>
+・<code>←</code>（代入記号）は半角の <code>&lt;-</code> でも入力できます<br>
+・<code>＋ － × ÷ ＝ ≧ ≦ ≠ ＞ ＜</code> などは全角を使います<br>
+・日本語入力（IME）をオフにしてから入力するとスムーズです
+</div>
+
+<h3>左の「基礎リファレンス」をフル活用しよう</h3>
+<p>アプリ左側の「基礎リファレンス」パネルには、問題で使える<strong>変数・操作の一覧</strong>が表示されています。コードを書くときに随時確認しましょう。</p>
+<table>
+  <tr><th>項目</th><th>内容</th></tr>
+  <tr><td><code>手札[i]</code></td><td>i番目のカードのランク（数値）。1から始まる</td></tr>
+  <tr><td><code>要素数[手札]</code></td><td>手札の枚数（最強カードの添字と同じ）</td></tr>
+  <tr><td><code>場の強さ</code></td><td>場に出ているカードのランク（空き場のとき 0）</td></tr>
+  <tr><td><code>場の枚数</code></td><td>場に出ているカードの枚数（0=空き / 1=1枚 / 2=2枚）</td></tr>
+  <tr><td><code>出す(値, 枚数)</code></td><td>カードを出す操作</td></tr>
+  <tr><td><code>パスする</code></td><td>このターンをパスする操作</td></tr>
+</table>
+</div>
+<div class="pg">
+<div class="ch-header ch1">
+  <div class="ch-num">CHAPTER 1</div>
+  <div class="ch-title">変数と代入</div>
+  <div class="ch-desc">手札[i] ・ 出す() ・ を表示する ・ 要素数[] ・ 変数 ← 値</div>
+</div>
+
+<h2>📖 1-1　手札を取り出す ―― 配列の添字</h2>
+<p>大富豪では、手札のカードが<strong>配列</strong>として管理されています。配列とは、複数の値に「番号」をつけて管理する仕組みです。</p>
+
+<div class="info-box">
+<strong>手札の構造：</strong><br>
+手札は弱い順（弱いカードから強いカードへ）に並んでいます。番号（<strong>添字</strong>）は <strong>1 から始まります</strong>。<br><br>
+たとえば、<strong>手札に 5・10・13 の3枚を持っている場合</strong>：
+<table style="border-collapse:collapse;font-family:monospace;font-size:13px;text-align:center;margin:4px auto 0;">
+  <tr>
+    <td style="padding:2px 6px;color:#888;">手札 =</td>
+    <td style="padding:2px 14px;">5</td>
+    <td style="padding:2px 14px;">10</td>
+    <td style="padding:2px 14px;">13</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><span style="color:#e74c3c;">↑</span></td>
+    <td><span style="color:#e67e22;">↑</span></td>
+    <td><span style="color:#27ae60;">↑</span></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td style="padding:1px 14px;">手札[1]</td>
+    <td style="padding:1px 14px;">手札[2]</td>
+    <td style="padding:1px 14px;">手札[3]</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><span style="color:#e74c3c;font-size:11px;">最弱(5)</span></td>
+    <td></td>
+    <td><span style="color:#27ae60;font-size:11px;">最強(K)</span></td>
+  </tr>
+</table>
+</div>
+
+<h2>📖 1-2　カードを出す ―― <code>出す()</code> の使い方</h2>
+<p><code>出す(カードの値, 枚数)</code> でカードを出します。</p>
+
+<div class="code-block"><span class="cmt"># 手札[1]（最弱カード）をシングル（1枚）で出す</span>
+出す(<span class="val">手札[1]</span>, <span class="val">1</span>)</div>
+
+<table>
+  <tr><th>引数</th><th>内容</th><th>例</th></tr>
+  <tr><td>第1引数（値）</td><td>出すカードのランク（数値）</td><td><code>手札[1]</code>, <code>手札[3]</code>, <code>7</code></td></tr>
+  <tr><td>第2引数（枚数）</td><td>1=シングル / 2=ペア</td><td><code>1</code> または <code>2</code></td></tr>
+</table>
+
+<div class="caution-box">
+⚠️ <code>出す(手札, 1)</code> と書いても動きません。<strong>必ず添字（番号）を付けて</strong> <code>手札[1]</code> のように書きましょう。
+</div>
+
+<div class="try-box">📱 b01「先頭のカードを出す」 に挑戦しましょう！</div>
+</div>
+<div class="pg pg-tight">
+<h2>📖 1-3　値を画面に表示する ―― <code>を表示する</code></h2>
+<p>プログラムは、計算した結果や変数の値を<strong>画面に表示</strong>することができます。</p>
+
+<div class="info-box">
+  <strong>表示の書き方：</strong><br>
+  <code>変数や値　を表示する</code><br>
+  <code>「文字列」 と 変数 を表示する</code>
+</div>
+
+<div class="code-block"><span class="cmt"># 場の強さをそのまま表示する</span>
+場の強さ を表示する
+<br>
+<span class="cmt"># 文字列と値を組み合わせて表示する</span>
+<span class="str">「場のカードは、」</span> と 場の強さ を表示する</div>
+
+<h3>表示される場所</h3>
+<p>アプリでは、エディタ下側の「<strong>表示画面</strong>」エリアに出力されます。</p>
+
+<div class="info-box">
+  <strong>表示と「出す」の違い：</strong><br>
+  <code>を表示する</code> → 画面に文字を出力するだけ。カードは出ない。<br>
+  <code>出す()</code> → カードをゲームとして場に出す操作。
+</div>
+
+<div class="caution-box">
+⚠️ b02・b03 は<strong>「場の枚数 ＝ 1」のセクション</strong>に書きます。
+場にカードが1枚ある状況（シングル戦中）での処理を書く問題です。
+</div>
+
+<div class="try-box">📱 b02「値を表示する」 に挑戦しましょう！</div>
+
+<div style="margin-top:4px;"></div>
+
+<h2>📖 1-4　手札の枚数を調べる ―― <code>要素数[ ]</code></h2>
+<p>手札の枚数は問題によって違います（2枚のこともあれば4枚のことも）。そこで、<strong>実行時に枚数を調べる</strong>方法が必要です。</p>
+
+<div class="info-box">
+  <strong><code>要素数[手札]</code></strong> は、今の手札の枚数を表します。<br><br>
+  例：手札 = [3, 7, 10] のとき<br>
+  &emsp;<code>要素数[手札]</code> = <strong>3</strong><br><br>
+  例：手札 = [5, 11] のとき<br>
+  &emsp;<code>要素数[手札]</code> = <strong>2</strong>
+</div>
+
+<h3>最強カードとの関係</h3>
+<p>手札は弱い順に並んでいるので、<strong>最強カードの添字 ＝ 手札の枚数</strong> です。</p>
+
+<div class="code-block"><span class="cmt"># 手札が [3, 7, 10] のとき</span>
+<span class="cmt"># 要素数[手札] = 3</span>
+<span class="cmt"># 手札[3] = 10（最強カード）</span>
+
+出す(<span class="val">手札[要素数[手札]]</span>, <span class="val">1</span>)
+<span class="cmt"># → 出す(手札[3], 1) → 出す(10, 1) と同じ</span></div>
+
+<div class="try-box">📱 b04「要素数で最強カードを出す」 に挑戦しましょう！</div>
+</div>
+<div class="pg">
+<h2>📖 1-5　値を変数に入れる ―― <code>変数 ← 値</code></h2>
+<p>計算した値や長い式を<strong>変数</strong>に入れておくと、コードが読みやすくなります。</p>
+
+<div class="info-box">
+  <strong>代入の書き方：</strong><br>
+  <code>変数名 ← 値や式</code><br><br>
+  <strong>「←」は「右の値を左の変数に入れる」記号です。</strong><br>
+  数学の「＝（等号）」とは意味が違います。
+</div>
+
+<div class="code-block"><span class="cmt"># 手札の枚数を変数 n に入れる</span>
+n <span class="kw">←</span> 要素数[手札]
+
+<span class="cmt"># n を使って最強カードを取り出す</span>
+出す(<span class="val">手札[n]</span>, <span class="val">1</span>)</div>
+
+<h3>なぜ変数を使うの？</h3>
+<table>
+  <tr><th>書き方</th><th>読みやすさ</th><th>内容</th></tr>
+  <tr><td><code>出す(手札[要素数[手札]], 1)</code></td><td>△</td><td>入れ子が多くて読みにくい</td></tr>
+  <tr><td><code>n ← 要素数[手札]<br>出す(手札[n], 1)</code></td><td>◎</td><td>「nに枚数を入れて、n番目を出す」と読める</td></tr>
+</table>
+
+<div class="caution-box">
+⚠️ <strong>変数名のルール（このアプリ）：</strong><br>
+・英字の<strong>小文字始まり</strong>（<code>n</code>、<code>i</code>、<code>cnt</code> など）→ 普通の変数（数値や真偽値）<br>
+・英字の<strong>大文字始まり</strong>（<code>T</code>、<code>C</code> など）→ 配列（複数の値）<br>
+・<strong>日本語名</strong>はどちらにも使えます（<code>手札</code>・<code>捨札</code> は配列、<code>カウント</code> のような変数も OK）
+</div>
+
+<div class="try-box">📱 b05「変数で最強カードを出す」 に挑戦しましょう！</div>
+</div>
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">変数は「状態を記憶する箱」―― 大富豪の外の世界</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第1章では、大富豪の <code>手札[i]</code> や <code>n ← 要素数[手札]</code> を通じて「変数」を学びました。実は、変数は大富豪だけでなく、<strong>あらゆるプログラムの基礎</strong>です。</p>
+
+  <div class="real-example">
+    <h3>🛒 例1：ネットショッピングの在庫管理</h3>
+    <p>商品の残り個数を変数で管理します。</p>
+    <div class="code-block" style="font-size:12px;">zaiko <span class="kw">←</span> <span class="val">100</span>　　<span class="cmt"># 在庫100個からスタート</span>
+zaiko <span class="kw">←</span> zaiko <span class="kw">－</span> <span class="val">1</span>　<span class="cmt"># 1個売れた → 99個</span>
+zaiko <span class="kw">←</span> zaiko <span class="kw">－</span> <span class="val">1</span>　<span class="cmt"># また1個売れた → 98個</span>
+    </div>
+    <p style="font-size:12px;">大富豪では <code>手札[1]</code>（最弱カード）を取り出すために配列と変数を使いました。ネットショッピングでも在庫数を「箱（変数）」に入れて、減らしながら管理しています。仕組みは同じです。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🎮 例2：ゲームのスコア管理</h3>
+    <div class="code-block" style="font-size:12px;">score <span class="kw">←</span> <span class="val">0</span>　　　<span class="cmt"># ゲーム開始時のスコア</span>
+score <span class="kw">←</span> score <span class="kw">＋</span> <span class="val">100</span>　<span class="cmt"># 敵を倒した → +100点</span>
+score <span class="kw">←</span> score <span class="kw">＋</span> <span class="val">50</span>　 <span class="cmt"># アイテム取得 → +50点</span>
+    </div>
+    <p style="font-size:12px;">大富豪では <code>n ← 要素数[手札]</code> で「今の手札枚数」を記憶しました。ゲームのスコアも「今の点数」を変数に記憶して、加算・減算で更新します。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：変数は「状態のスナップショット」</h3>
+    <table style="font-size:12px;">
+      <tr><th>分野</th><th>変数が記憶するもの</th></tr>
+      <tr><td>大富豪（このアプリ）</td><td>手札枚数、場の強さ、添字 i など</td></tr>
+      <tr><td>ゲーム</td><td>スコア、残り時間、プレイヤー位置</td></tr>
+      <tr><td>通販サイト</td><td>在庫数、カート内の合計金額</td></tr>
+      <tr><td>気象観測</td><td>気温、湿度、今日の最高気温</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">どの分野でも「今の状態を名前のついた箱に入れておき、必要なときに取り出す」という使い方は同じです。</p>
+  </div>
+
+</div>
+</div>
+<div class="pg">
+<div class="ch-header ch2">
+  <div class="ch-num">CHAPTER 2</div>
+  <div class="ch-title">演算子</div>
+  <div class="ch-desc">＋ 足し算 ・ ÷ 整数の割り算 ・ ％ 余り</div>
+</div>
+
+<h2>📖 2-1　計算する ―― 算術演算子</h2>
+<p>プログラムでは、数を使った<strong>計算</strong>ができます。大富豪でも「2枚のカードの合計」や「真ん中のカードの位置」を計算で求められます。計算には<strong>算術演算子</strong>という記号を使います。</p>
+
+<div class="info-box">
+<strong>このアプリで使う算術演算子（すべて全角）：</strong><br>
+<table style="margin-top:8px;">
+  <tr><th>記号</th><th>意味</th><th>例</th><th>結果</th></tr>
+  <tr><td><code>＋</code></td><td>足し算</td><td><code>3 ＋ 4</code></td><td>7</td></tr>
+  <tr><td><code>－</code></td><td>引き算</td><td><code>10 － 3</code></td><td>7</td></tr>
+  <tr><td><code>×</code></td><td>かけ算</td><td><code>3 × 4</code></td><td>12</td></tr>
+  <tr><td><code>÷</code></td><td><strong>整数の</strong>割り算（小数切り捨て）</td><td><code>7 ÷ 2</code></td><td>3</td></tr>
+  <tr><td><code>％</code></td><td>割り算の<strong>余り</strong></td><td><code>7 ％ 2</code></td><td>1</td></tr>
+</table>
+</div>
+
+<h2>📖 2-2　÷ は「整数の割り算」</h2>
+<p>このアプリの <code>÷</code> は、ふつうの割り算とちがって<strong>小数点以下を切り捨てます</strong>。これを「整数除算」と呼びます。</p>
+
+<div class="info-box">
+<strong>整数除算の例（小数点以下は切り捨て）：</strong>
+<table style="margin-top:6px;">
+  <tr><th>式</th><th>結果</th><th>ふつうの割り算なら</th></tr>
+  <tr><td><code>7 ÷ 2</code></td><td><strong>3</strong></td><td>3.5 → 切り捨てて 3</td></tr>
+  <tr><td><code>9 ÷ 3</code></td><td><strong>3</strong></td><td>3（割り切れる）</td></tr>
+  <tr><td><code>5 ÷ 2</code></td><td><strong>2</strong></td><td>2.5 → 切り捨てて 2</td></tr>
+</table>
+</div>
+
+<p>これは「真ん中のカードの位置」を求めるときに役立ちます。たとえば手札が3枚なら、真ん中は <code>(3 ＋ 1) ÷ 2 ＝ 2</code> 番目です。</p>
+</div>
+<div class="pg pg-tight">
+<h2>📖 2-3　％ は「余り」 ―― 偶数・奇数の判定</h2>
+<p><code>％</code> は割り算の<strong>余り</strong>を求めます。特に <code>2 で割った余り</code> は、偶数・奇数を見分けるのに使えます。</p>
+
+<div class="info-box">
+<strong>偶数・奇数の見分け方：</strong><br>
+<code>枚数 ％ 2 ＝ 0</code> → 余りが0 → <strong>偶数</strong>（2, 4, 6 ...）<br>
+<code>枚数 ％ 2 ＝ 1</code> → 余りが1 → <strong>奇数</strong>（1, 3, 5 ...）
+</div>
+
+<div class="caution-box">
+⚠️ 記号はすべて<strong>全角</strong>で入力します。半角の <code>+</code> <code>/</code> <code>%</code> ではエラーになります。左パネルのボタンをクリックして入力すると確実です。
+</div>
+
+<div class="try-box">📱 b07「先頭2枚の合計を計算して表示する」 に挑戦しましょう！</div>
+
+<div style="margin-top:14px;"></div>
+<div class="column-compact">
+
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">「÷」と「％」はセットで覚える ―― 時間・お金の計算</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第2章では <code>÷</code>（整数の割り算）と <code>％</code>（余り）を学びました。この2つは、日常のプログラムでも<strong>セットで</strong>大活躍します。</p>
+
+  <div class="real-example">
+    <h3>⏰ 例1：秒を「分と秒」に変換する</h3>
+    <div class="code-block" style="font-size:12px;">byou <span class="kw">←</span> <span class="val">125</span>　　<span class="cmt"># 125秒</span>
+fun  <span class="kw">←</span> byou ÷ <span class="val">60</span>　<span class="cmt"># 125 ÷ 60 = 2（分）</span>
+amari <span class="kw">←</span> byou ％ <span class="val">60</span>　<span class="cmt"># 125 ％ 60 = 5（秒）</span>
+<span class="cmt"># → 「2分5秒」</span>
+    </div>
+    <p style="font-size:12px;"><code>÷</code> で「何分か」、<code>％</code> で「あまり何秒か」が同時に求められます。大富豪で真ん中の位置を <code>(n＋1)÷2</code> で出したのと同じ仕組みです。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>💴 例2：おつりの硬貨を計算する</h3>
+    <div class="code-block" style="font-size:12px;">otsuri <span class="kw">←</span> <span class="val">370</span>
+hyaku <span class="kw">←</span> otsuri ÷ <span class="val">100</span>　<span class="cmt"># 100円玉 3枚</span>
+nokori <span class="kw">←</span> otsuri ％ <span class="val">100</span>　<span class="cmt"># 残り 70円</span>
+    </div>
+    <p style="font-size:12px;">レジや自販機のおつり計算も、<code>÷</code> と <code>％</code> の組み合わせでできています。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ</h3>
+    <table style="font-size:12px;">
+      <tr><th>やりたいこと</th><th>使う演算子</th></tr>
+      <tr><td>偶数・奇数の判定</td><td><code>％ 2</code></td></tr>
+      <tr><td>「何個ぶんか」を求める</td><td><code>÷</code></td></tr>
+      <tr><td>「あまり」を求める</td><td><code>％</code></td></tr>
+      <tr><td>○の倍数か判定</td><td><code>％ ○ ＝ 0</code></td></tr>
+    </table>
+  </div>
+
+</div>
+</div>
+</div><!-- end pg -->
+<div class="pg">
+<div class="ch-header ch3">
+  <div class="ch-num">CHAPTER 3</div>
+  <div class="ch-title">条件分岐</div>
+  <div class="ch-desc">もし〜ならば ・ 比較演算子 ・ かつ／または／でない</div>
+</div>
+
+<h2>📖 3-1　もし〜ならば ―― 条件で処理を分ける</h2>
+<p>「場より強ければ出す、弱ければパスする」のように、状況に応じて処理を変えたいことがあります。これを<strong>条件分岐</strong>といいます。</p>
+
+<div class="info-box">
+<strong>基本の形（条件を満たすときだけ実行）：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+もし <span style="color:#6a1b9a;">条件</span> ならば<br>
+｜　<span style="color:#1565c0;">処理</span><br>
+を実行する
+</span><br><br>
+条件が<strong>成り立つ（真）</strong>ときだけ、字下げした処理が実行されます。
+</div>
+
+<p>この流れは<strong>フローチャート（流れ図）</strong>で表すと分かりやすくなります。条件のところで道が分かれ、「はい（真）」のときだけ処理を行い、その後は合流して次の行へ進みます。</p>
+<div class="info-box">
+<strong>フローチャートで見ると：</strong>
+<div style="font-family:monospace;font-size:13px;line-height:1.9;margin-top:6px;">
+　　↓<br>
+　&lt; 条件は真？ &gt;<br>
+　├ はい &nbsp;→ ［処理を行う］<br>
+　└ いいえ →（何もしない）<br>
+　　↓<br>
+　次の行へ進む
+</div>
+</div>
+
+<h2>📖 3-2　そうでなければ ―― 2通りに分ける</h2>
+<p><code>もし〜ならば</code> だけでは「条件が真のときに何かする」だけでした。<code>そうでなければ</code> を加えると、<strong>真のとき</strong>と<strong>偽のとき</strong>で<strong>必ずどちらか一方</strong>の処理を行えます。</p>
+<div class="info-box">
+<strong>2通りに分ける形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+もし <span style="color:#6a1b9a;">条件</span> ならば<br>
+｜　<span style="color:#1565c0;">処理A</span>（条件が真のとき）<br>
+を実行し，そうでなければ<br>
+｜　<span style="color:#1565c0;">処理B</span>（条件が偽のとき）<br>
+を実行する
+</span>
+</div>
+</div>
+<div class="pg">
+<h2>📖 3-3　比較演算子</h2>
+<p>条件は、2つの値を<strong>比べて</strong>作ります。比較には次の記号（全角）を使います。</p>
+<table>
+  <tr><th>記号</th><th>意味</th><th>例</th></tr>
+  <tr><td><code>＞</code></td><td>より大きい</td><td><code>手札[1] ＞ 場の強さ</code></td></tr>
+  <tr><td><code>＜</code></td><td>より小さい</td><td><code>手札[1] ＜ 5</code></td></tr>
+  <tr><td><code>≧</code></td><td>以上（大きいか等しい）</td><td><code>要素数[手札] ≧ 3</code></td></tr>
+  <tr><td><code>≦</code></td><td>以下（小さいか等しい）</td><td><code>手札[1] ≦ 場の強さ</code></td></tr>
+  <tr><td><code>＝</code></td><td>等しい</td><td><code>手札[1] ＝ 手札[2]</code></td></tr>
+  <tr><td><code>≠</code></td><td>等しくない</td><td><code>手札[1] ≠ 手札[2]</code></td></tr>
+</table>
+<div class="caution-box">
+⚠️ <code>≧</code> は <code>&gt;=</code>、<code>≦</code> は <code>&lt;=</code> と入力すると変換されます。比較演算子は左パネルのボタンからの入力が確実です。
+</div>
+
+<h2>📖 3-4　かつ・または・でない ―― 論理演算子</h2>
+<p>複数の条件を組み合わせるには<strong>論理演算子</strong>を使います。</p>
+<table>
+  <tr><th>記号</th><th>意味</th><th>真になるとき</th></tr>
+  <tr><td><code>かつ</code></td><td>AND（両方）</td><td>条件Aも条件Bも成り立つとき</td></tr>
+  <tr><td><code>または</code></td><td>OR（どちらか）</td><td>条件Aか条件Bの少なくとも一方が成り立つとき</td></tr>
+  <tr><td><code>でない</code></td><td>NOT（否定）</td><td>条件が成り立た<strong>ない</strong>とき</td></tr>
+</table>
+<div class="caution-box">
+⚠️ <code>でない</code> を使うときは、否定したい条件を <code>( )</code> でくくると範囲がはっきりします。例：<code>(手札[1] ≦ 場の強さ) でない</code>
+</div>
+
+<div class="try-box">📱 b10「場より強ければ出す」 に挑戦しましょう！</div>
+</div>
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">条件分岐は「if文」―― 世界中のアプリの心臓部</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第3章で学んだ <code>もし〜ならば</code> は、英語では <strong>if（イフ）文</strong>と呼ばれ、あらゆるプログラミング言語にある最重要機能です。アプリの「判断」はすべてこれでできています。</p>
+
+  <div class="real-example">
+    <h3>🚦 例1：自動ドア・信号機</h3>
+    <div class="code-block" style="font-size:12px;">もし 人が近づいた ならば
+｜　ドアを開ける
+を実行し，そうでなければ
+｜　ドアを閉める
+を実行する
+    </div>
+    <p style="font-size:12px;">「センサーが反応したか？」という条件で動作を変えています。大富豪で「場より強いか？」で出すか決めたのと同じ構造です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🔐 例2：ログイン画面</h3>
+    <div class="code-block" style="font-size:12px;">もし パスワード ＝ 正解 ならば
+｜　ログイン成功
+を実行し，そうでなければ
+｜　エラーを表示
+を実行する
+    </div>
+    <p style="font-size:12px;">「入力 ＝ 正解」という条件分岐です。<code>＝</code> による比較は b12（ペア判定）でも使いました。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：論理演算子は「条件の組み立て」</h3>
+    <table style="font-size:12px;">
+      <tr><th>場面</th><th>条件の例</th></tr>
+      <tr><td>会員 かつ 18歳以上</td><td><code>かつ</code>（両方必要）</td></tr>
+      <tr><td>現金 または クレジット</td><td><code>または</code>（どちらかでOK）</td></tr>
+      <tr><td>営業時間外 でない</td><td><code>でない</code>（否定）</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">大富豪の戦略づくりも、アプリの判断も、すべて「条件をどう組み立てるか」で決まります。</p>
+  </div>
+
+</div>
+</div>
+<div class="pg">
+<div class="ch-header ch4">
+  <div class="ch-num">CHAPTER 4</div>
+  <div class="ch-title">forループ</div>
+  <div class="ch-desc">同じ処理のくり返し ・ カウンタ変数 ・ フラグ変数</div>
+</div>
+
+<h2>📖 4-1　くり返し ―― forループ</h2>
+<p>手札を1枚ずつ全部調べたいとき、<code>手札[1]</code>、<code>手札[2]</code>、<code>手札[3]</code> …と1つずつ書くのは大変です。<strong>forループ</strong>を使うと、同じ処理を「番号を変えながら」くり返せます。</p>
+
+<div class="info-box">
+<strong>forループの形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+<span style="color:#ad1457;">i</span> を <span style="color:#1565c0;">1</span> から <span style="color:#1565c0;">要素数[手札]</span> まで <span style="color:#1565c0;">1</span> ずつ増やしながら，<br>
+｜　<span style="color:#6a1b9a;">処理（ここで 手札[i] を使う）</span><br>
+を繰り返す
+</span>
+</div>
+
+<p>変数 <code>i</code> が <code>1, 2, 3 …</code> と自動で変わり、そのたびに字下げした処理が実行されます。<code>i</code> を<strong>カウンタ変数</strong>と呼びます。</p>
+
+<div class="info-box">
+<strong>手札=[3,7,10] のときの動き：</strong><br>
+<span style="font-family:monospace;font-size:12.5px;">
+i=1 → 手札[1]=3 を処理<br>
+i=2 → 手札[2]=7 を処理<br>
+i=3 → 手札[3]=10 を処理<br>
+（i が 要素数[手札]=3 を超えたら終了）
+</span>
+</div>
+
+<h2>📖 4-2　数えるパターン ―― カウンタ変数</h2>
+<p>「条件を満たすものが何個あるか」を数えるには、<strong>数える用の変数</strong>を用意し、ループの前で <code>0</code> にしておきます（初期化）。条件を満たすたびに <code>＋1</code> します。</p>
+
+<div class="code-block"><span class="cmt"># 数える変数を0で初期化</span>
+cnt <span class="kw">←</span> <span class="val">0</span>
+<span class="cmt"># ループの中で条件を満たすたびに1増やす</span>
+cnt <span class="kw">←</span> cnt ＋ <span class="val">1</span></div>
+</div>
+<div class="pg">
+<h2>📖 4-3　見つけるパターン ―― フラグ変数</h2>
+<p>「条件を満たすものを見つけたか？」を覚えておく変数を<strong>フラグ変数</strong>といいます。最初は <code>0</code>（まだ無い）にしておき、見つかったら値を入れます。</p>
+
+<div class="caution-box">
+⚠️ <strong>初期化を忘れない：</strong>数える変数・フラグ変数は、ループに入る<strong>前</strong>に必ず <code>0</code> を入れておきます。これを忘れると正しく数えられません。
+</div>
+
+<div class="try-box">📱 b16「forで出せる枚数を数える」 に挑戦しましょう！</div>
+
+<div style="margin-top:14px;"></div>
+<div class="column-compact">
+
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">ループは「くり返しの自動化」―― コンピュータが得意なこと</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第4章で学んだ<strong>ループ（くり返し）</strong>は、コンピュータが人間より圧倒的に得意なことです。何千件、何万件でも、文句を言わず同じ処理をくり返せます。</p>
+
+  <div class="real-example">
+    <h3>📧 例1：メールの一斉送信</h3>
+    <div class="code-block" style="font-size:12px;">i を 1 から 会員数 まで 1 ずつ増やしながら，
+｜　会員[i] にメールを送る
+を繰り返す
+    </div>
+    <p style="font-size:12px;">「全員に1通ずつ送る」を自動化しています。大富豪で「手札を1枚ずつ全部調べた」のと同じ構造です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🛒 例2：買い物カゴの合計金額</h3>
+    <div class="code-block" style="font-size:12px;">goukei <span class="kw">←</span> <span class="val">0</span>
+i を 1 から 品数 まで 1 ずつ増やしながら，
+｜　goukei <span class="kw">←</span> goukei ＋ 値段[i]
+を繰り返す
+    </div>
+    <p style="font-size:12px;"><code>goukei ← 0</code> で初期化してから足していくのは、b16 で <code>cnt ← 0</code> から数えたのと全く同じパターンです。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：ループの2大パターン</h3>
+    <table style="font-size:12px;">
+      <tr><th>パターン</th><th>使う変数</th><th>大富豪での例</th></tr>
+      <tr><td>数える（集計）</td><td>カウンタ（0から＋1）</td><td>b16 出せる枚数</td></tr>
+      <tr><td>探す（検索）</td><td>フラグ（0→値）</td><td>b17 出せる最弱札</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">「数える」と「探す」――この2つを押さえれば、ループの応用範囲が一気に広がります。</p>
+  </div>
+
+</div>
+</div>
+</div><!-- end pg -->
+<div class="pg">
+<div class="ch-header ch5">
+  <div class="ch-num">CHAPTER 5</div>
+  <div class="ch-title">前判定ループ</div>
+  <div class="ch-desc">〜の間，くり返す ・ 条件で回数が変わるループ</div>
+</div>
+
+<h2>📖 5-1　前判定ループ ―― 条件が真の間くり返す</h2>
+<p>forループは「1から要素数まで」と<strong>回数が決まった</strong>くり返しでした。一方、<strong>前判定ループ</strong>は「ある条件が成り立っている間ずっとくり返す」という、回数が状況で変わるループです。</p>
+
+<div class="info-box">
+<strong>前判定ループの形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+<span style="color:#00838f;">条件</span> の間，<br>
+｜　<span style="color:#6a1b9a;">処理</span><br>
+を繰り返す
+</span>
+</div>
+
+<p>「前判定」とは、<strong>くり返しの前に</strong>条件をチェックするという意味です。条件が最初から偽なら、処理は<strong>1回も実行されません</strong>。</p>
+
+<h2>📖 5-2　カウンタを自分で動かす</h2>
+<p>forループは <code>i</code> を自動で増やしてくれましたが、前判定ループでは<strong>自分で</strong>カウンタを増やす必要があります。</p>
+
+<div class="code-block"><span class="cmt"># ① ループの前でカウンタを初期化</span>
+i <span class="kw">←</span> <span class="val">1</span>
+<span class="cmt"># ② 条件が真の間くり返す</span>
+i ≦ 要素数[手札] の間，
+｜　<span class="cmt"># ③ ループの中で必ず i を進める（無限ループ防止）</span>
+｜　i <span class="kw">←</span> i ＋ <span class="val">1</span>
+を繰り返す</div>
+
+<div class="caution-box">
+⚠️ <strong>無限ループに注意：</strong>前判定ループでは、ループの中で<strong>条件がいつか偽になる</strong>ようにしないと、永遠に止まりません。カウンタ <code>i</code> を必ず進めましょう。
+</div>
+
+<h2>📖 5-3　「探す」ループに向く</h2>
+<p>前判定ループは「条件を満たすものが見つかるまで進める」という<strong>探索</strong>にぴったりです。見つかったらループを抜け、抜けた後の <code>i</code> の値で結果を判断します。</p>
+
+<div class="try-box">📱 b19「前判定ループで出せる札を探す」 に挑戦しましょう！</div>
+</div>
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">「回数が決まらないくり返し」―― forとwhileの使い分け</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>くり返しには2種類あります。<strong>回数が分かっている</strong>ときはforループ、<strong>「○○になるまで」</strong>のように回数が読めないときは前判定ループ（while）が向いています。</p>
+
+  <div class="real-example">
+    <h3>🎮 例1：ゲームの「ライフがある間」</h3>
+    <div class="code-block" style="font-size:12px;">life ≧ <span class="val">1</span> の間，
+｜　ゲームを続ける
+を繰り返す
+<span class="cmt"># ライフが0になったら自動で終了</span>
+    </div>
+    <p style="font-size:12px;">何ターン続くかは事前に分かりません。「条件が成り立つ間」だけ回す前判定ループの出番です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🔍 例2：データを「見つかるまで」探す</h3>
+    <div class="code-block" style="font-size:12px;">i <span class="kw">←</span> <span class="val">1</span>
+データ[i] ≠ 探す値 の間，
+｜　i <span class="kw">←</span> i ＋ <span class="val">1</span>
+を繰り返す
+    </div>
+    <p style="font-size:12px;">大富豪で「場より強い札を見つけるまで」進めた b19 と同じ、<strong>探索（リニアサーチ）</strong>です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：使い分けの目安</h3>
+    <table style="font-size:12px;">
+      <tr><th>状況</th><th>向いているループ</th></tr>
+      <tr><td>「全部の手札を調べる」</td><td>forループ（回数＝枚数）</td></tr>
+      <tr><td>「見つかるまで探す」</td><td>前判定ループ（while）</td></tr>
+      <tr><td>「条件が成り立つ間ずっと」</td><td>前判定ループ（while）</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">どちらも「くり返し」ですが、回数の決まり方がちがいます。場面に合わせて選びましょう。</p>
+  </div>
+
+</div>
+</div>
+<div class="pg">
+<div class="ch-header ch6">
+  <div class="ch-num">CHAPTER 6</div>
+  <div class="ch-title">後判定ループ・中断する</div>
+  <div class="ch-desc">中断する ・ 繰り返し〜になるまで実行する</div>
+</div>
+
+<h2>📖 6-1　中断する ―― ループを途中で抜ける</h2>
+<p>第4章のforループでは、目的のカードが見つかっても最後まで回り続けていました。<code>中断する</code> を使うと、<strong>その場でループをすぐ抜けられます</strong>。</p>
+
+<div class="info-box">
+<strong>中断するの使い方：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
+｜　もし 見つかった ならば<br>
+｜　｜　found <span style="color:#1565c0;">←</span> 手札[i]<br>
+｜　｜　<span style="color:#d84315;">中断する</span>　<span style="color:#999;"># ここでループを抜ける</span><br>
+｜　を実行する<br>
+を繰り返す
+</span>
+</div>
+
+<p>b17 では <code>found ＝ 0</code> という条件で「最初の1枚だけ記録」しましたが、<code>中断する</code> なら<strong>見つけた瞬間に止まる</strong>ので、その条件すらいりません。よりシンプルになります。</p>
+
+<h2>📖 6-2　後判定ループ ―― 必ず1回は実行する</h2>
+<p>前判定ループ（第5章）は「先に条件をチェック」しました。<strong>後判定ループ</strong>はその逆で、<strong>処理を1回実行してから</strong>条件をチェックします。だから条件に関係なく<strong>最低1回は必ず実行されます</strong>。</p>
+
+<div class="info-box">
+<strong>後判定ループの形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+繰り返し，<br>
+｜　<span style="color:#6a1b9a;">処理</span><br>
+を，<span style="color:#00838f;">条件</span> になるまで実行する
+</span>
+</div>
+
+<p>「<strong>○○になるまで</strong>くり返す」という書き方です。条件が<strong>真になったら</strong>ループを抜けます（前判定とは真偽が逆なので注意）。</p>
+
+<div class="caution-box">
+⚠️ <strong>前判定との違い：</strong>前判定は「条件が真の<strong>間</strong>続ける」、後判定は「条件が真に<strong>なるまで</strong>続ける（＝偽の間続ける）」。判定のタイミングと真偽が逆です。
+</div>
+
+<div class="try-box">📱 b18「見つけたらループを中断する」 に挑戦しましょう！</div>
+</div>
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">3つのループを整理する ―― for・while・do-while</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>ここまでで<strong>3種類のくり返し</strong>を学びました。プログラミング言語では順に for / while / do-while と呼ばれます。それぞれの「止まり方」を整理しましょう。</p>
+
+  <div class="real-example">
+    <h3>🔁 3つのループの比較</h3>
+    <table style="font-size:12px;">
+      <tr><th>種類</th><th>本書での呼び方</th><th>判定のタイミング</th><th>最低実行回数</th></tr>
+      <tr><td>for</td><td>forループ（4章）</td><td>回数で決まる</td><td>0回</td></tr>
+      <tr><td>while</td><td>前判定ループ（5章）</td><td>実行する前</td><td>0回</td></tr>
+      <tr><td>do-while</td><td>後判定ループ（6章）</td><td>実行した後</td><td>1回</td></tr>
+    </table>
+  </div>
+
+  <div class="real-example">
+    <h3>🏧 例：ATMの暗証番号入力</h3>
+    <div class="code-block" style="font-size:12px;">繰り返し，
+｜　暗証番号を入力させる
+を，番号 ＝ 正解 になるまで実行する
+    </div>
+    <p style="font-size:12px;">「まず1回は必ず入力させたい」ので後判定（do-while）が自然です。b20 で最後まで走らせたのと同じ構造です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>⚡ 中断する（break）はどのループでも使える</h3>
+    <p style="font-size:12px;">b18 で使った <code>中断する</code> は、ループを途中で抜ける万能の道具です。「見つかったらもう用はない」探索では、最後まで回さず途中で抜けることで処理が速くなります。多くの言語で <code>break</code> と呼ばれます。</p>
+  </div>
+
+</div>
+</div>
+<div class="pg">
+<div class="ch-header ch7">
+  <div class="ch-num">CHAPTER 7</div>
+  <div class="ch-title">配列</div>
+  <div class="ch-desc">要素数[配列] ・ 配列への代入 ・ 集計用の配列</div>
+</div>
+
+<h2>📖 7-1　配列とは ―― 番号つきの箱の列</h2>
+<p>これまで使ってきた <code>手札</code> は<strong>配列</strong>でした。配列とは、たくさんの値を「番号（添字）」で管理する、箱がならんだ仕組みです。このアプリには <code>手札</code> のほかにも <code>捨札</code>（場に出されたカードの記録）という配列があります。</p>
+
+<div class="info-box">
+<strong>このアプリの配列：</strong><br>
+<table style="margin-top:8px;">
+  <tr><th>配列</th><th>意味</th></tr>
+  <tr><td><code>手札[i]</code></td><td>自分の手札（弱い順）</td></tr>
+  <tr><td><code>捨札[i]</code></td><td>これまでに場に出されたカードの記録</td></tr>
+</table>
+</div>
+
+<div class="caution-box">
+⚠️ DNCLの配列の添字は <strong>1から</strong>始まります（多くの言語は0からですが、共通テストのDNCLは1始まりです）。
+</div>
+
+<h2>📖 7-2　要素数[配列] ―― 配列の長さ</h2>
+<p><code>要素数[配列名]</code> で、その配列に入っている個数が分かります。<code>手札</code> 以外にも使えます。</p>
+<div class="code-block">要素数[手札]　<span class="cmt"># 手札の枚数</span>
+要素数[捨札]　<span class="cmt"># 捨て札の枚数</span></div>
+
+<h2>📖 7-3　配列に値を入れる ―― 配列への代入</h2>
+<p>自分で新しい配列を作って、値を入れることもできます。DNCLでは<strong>大文字で始まる名前</strong>（例 <code>T</code>、<code>C</code>）を配列として使えます。</p>
+<div class="code-block"><span class="cmt"># 配列Tの1番目に手札[1]をコピー</span>
+T[<span class="val">1</span>] <span class="kw">←</span> 手札[1]
+T[<span class="val">2</span>] <span class="kw">←</span> 手札[2]</div>
+</div>
+<div class="pg">
+<h2>📖 7-4　集計用の配列 ―― 「ランクごとに数える」</h2>
+<p>配列は「ランクを添字にして数を数える」のにも使えます。たとえば <code>C[5]</code> に「ランク5が何枚出たか」を入れる、という使い方です。</p>
+<div class="code-block"><span class="cmt"># ランク r のカウントを1増やす</span>
+C[r] <span class="kw">←</span> C[r] ＋ <span class="val">1</span></div>
+<p>これは「番号で仕分けして数える」強力なテクニックで、<strong>集計（ヒストグラム）</strong>と呼ばれます。</p>
+
+<div class="caution-box">
+⚠️ <strong>使う前に初期化：</strong>集計用の配列は、数え始める前にすべての要素を <code>0</code> にしておきます（例: <code>j を 3 から 15 まで 1 ずつ増やしながら，｜　C[j] ← 0 を繰り返す</code>）。<br>
+<span style="font-size:11px;">※このアプリでは、まだ値を入れていない変数・配列要素は 0 として読めますが、<strong>共通テストの DNCL では初期化を書くのが正式</strong>です。b16 で「数える変数は最初に 0」と学んだのと同じルールです。</span>
+</div>
+
+<div class="try-box">📱 b21「要素数で配列サイズを調べる」 に挑戦しましょう！</div>
+
+<div style="margin-top:14px;"></div>
+<div class="column-compact">
+
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">配列は「データをまとめて扱う」―― 表計算からAIまで</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>配列は、たくさんのデータを<strong>ひとまとめ</strong>にして、番号で取り出したり、ループで一気に処理したりするための仕組みです。現代のソフトウェアは配列なしには成り立ちません。</p>
+
+  <div class="real-example">
+    <h3>📋 例1：名簿・表計算</h3>
+    <p style="font-size:12px;">エクセルの1列は、まさに配列です。<code>点数[1]</code>〜<code>点数[40]</code> に40人ぶんの点数を入れ、ループで合計や平均を計算します。b16 で合計を出したのと同じ要領です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 例2：集計（ヒストグラム）</h3>
+    <div class="code-block" style="font-size:12px;"><span class="cmt"># アンケート「1〜5」の回答を集計</span>
+C[回答] <span class="kw">←</span> C[回答] ＋ <span class="val">1</span>
+<span class="cmt"># C[1]=人数, C[2]=人数 …</span>
+    </div>
+    <p style="font-size:12px;">b23 で捨て札をランクごとに数えた <code>C[r] ← C[r] ＋ 1</code> は、そのままアンケート集計に使えます。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🤖 例3：画像やAIの中身</h3>
+    <p style="font-size:12px;">写真は「画素の明るさ」を並べた巨大な配列です。AIが扱う数値の列（ベクトル）も配列です。すべては <code>配列[番号]</code> という、あなたが大富豪で使ったのと同じ仕組みでできています。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ</h3>
+    <table style="font-size:12px;">
+      <tr><th>配列の使い方</th><th>大富豪での例</th></tr>
+      <tr><td>番号で取り出す</td><td>手札[i]、捨札[i]</td></tr>
+      <tr><td>長さを調べる</td><td>要素数[捨札]</td></tr>
+      <tr><td>作って値を入れる</td><td>T[1] ← 手札[1]</td></tr>
+      <tr><td>仕分けて数える</td><td>C[r] ← C[r] ＋ 1</td></tr>
+    </table>
+  </div>
+
+</div>
+</div>
+</div><!-- end pg -->
+<div class="pg pg-tight">
+<div class="ch-header ch8">
+  <div class="ch-num">CHAPTER 8</div>
+  <div class="ch-title">関数</div>
+  <div class="ch-desc">関数の定義と呼び出し ・ 引数 ・ 返り値</div>
+</div>
+
+<h2>📖 8-1　関数とは ―― 処理に名前をつける</h2>
+<p>同じ処理を何度も使うとき、毎回書くのは大変です。<strong>関数</strong>を使うと、ひとまとまりの処理に<strong>名前をつけて</strong>おき、必要なときに名前を呼ぶだけで実行できます。</p>
+
+<div class="info-box">
+<strong>関数の定義：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+関数 <span style="color:#2e7d32;">名前()</span> を<br>
+｜　<span style="color:#6a1b9a;">処理</span><br>
+と定義する
+</span>
+<br><br>
+<strong>関数の呼び出し：</strong><br>
+<span style="font-family:monospace;font-size:13px;"><span style="color:#2e7d32;">名前()</span></span>
+</div>
+
+<div class="caution-box">
+⚠️ 関数は<strong>定義しただけでは動きません</strong>。定義したあとに「名前()」と書いて<strong>呼び出して</strong>はじめて実行されます。
+</div>
+
+<h2>📖 8-2　引数 ―― 関数に値を渡す</h2>
+<p>関数に値を<strong>渡して</strong>、その値を使って処理させることができます。渡す値を<strong>引数（ひきすう）</strong>といいます。</p>
+<div class="code-block">関数 出せるか(<span class="val">c</span>) を　<span class="cmt"># c が引数（受け取る箱）</span>
+｜　…
+と定義する
+出せるか(<span class="val">手札[1]</span>)　<span class="cmt"># 手札[1]の値を c に渡して呼ぶ</span></div>
+
+<h2>📖 8-3　返り値 ―― 関数から結果を受け取る</h2>
+<p>関数は計算した<strong>結果を返す</strong>ことができます。これを<strong>返り値（戻り値）</strong>といい、<code>返す(値)</code> で返します。呼び出し側は変数で受け取ります。</p>
+<div class="code-block">関数 出せるか(c) を
+｜　もし c ＞ 場の強さ ならば
+｜　｜　<span class="hl">返す(1)</span>　<span class="cmt"># 1を返す</span>
+｜　を実行し，そうでなければ
+｜　｜　<span class="hl">返す(0)</span>
+｜　を実行する
+と定義する
+r <span class="kw">←</span> 出せるか(手札[1])　<span class="cmt"># 返り値を r で受け取る</span></div>
+
+<div class="try-box">📱 b24「返り値なし関数を定義する」 に挑戦しましょう！</div>
+</div>
+<div class="pg pg-tight">
+<div class="info-box" style="font-size:15px;line-height:2;">
+<strong style="font-size:17px;">📌 関数の3要素</strong><br>
+・<strong>名前</strong>：処理を呼び出すための名札<br>
+・<strong>引数</strong>：関数に渡す入力（なくてもよい）<br>
+・<strong>返り値</strong>：関数が返す結果（なくてもよい）
+</div>
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">関数は「部品化」―― 大きなプログラムを組み立てる鍵</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第8章の<strong>関数</strong>は、プログラムを「部品」に分けて整理するための、最も重要な考え方です。大きなアプリも、小さな関数をたくさん組み合わせてできています。</p>
+
+  <div class="real-example">
+    <h3>🧩 例1：身近なアプリの中身</h3>
+    <p style="font-size:12px;">SNSアプリは「ログインする()」「投稿を取得する()」「いいねを送る()」のような関数の集まりです。あなたが b25 で「出せるか(c)」という判定部品を作ったのと同じように、機能ごとに部品化されています。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🔁 例2：同じ計算を何度も使う</h3>
+    <div class="code-block" style="font-size:12px;">関数 税込(値段) を
+｜　返す(値段 × 110 ÷ 100)
+と定義する
+a <span class="kw">←</span> 税込(<span class="val">100</span>)　<span class="cmt"># 110</span>
+b <span class="kw">←</span> 税込(<span class="val">250</span>)　<span class="cmt"># 275</span>
+    </div>
+    <p style="font-size:12px;">一度「税込」を定義すれば、何度でも呼び出せます。b24 で学んだ「定義は1回、呼び出しは何度でも」の威力です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：関数のうれしさ</h3>
+    <table style="font-size:12px;">
+      <tr><th>うれしさ</th><th>説明</th></tr>
+      <tr><td>くり返しを減らせる</td><td>同じ処理を1回書けばよい</td></tr>
+      <tr><td>読みやすくなる</td><td>名前で「何をするか」が分かる</td></tr>
+      <tr><td>直しやすい</td><td>関数の中だけ直せば全体に反映</td></tr>
+      <tr><td>分担できる</td><td>部品ごとに別の人が作れる</td></tr>
+    </table>
+  </div>
+
+</div>
+<div style="text-align:center;margin:32px 0 6px;">
+  <div style="font-size:25px;font-weight:800;color:#8e44ad;line-height:1.35;">🎉 全8章 完走おめでとうございます！</div>
+  <div style="font-size:13px;color:#555;margin-top:12px;">大富豪プログラミング 完全攻略テキスト</div>
+</div>
+</div>
+</body>
+</html>

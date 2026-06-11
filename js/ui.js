@@ -5,40 +5,42 @@
 const SHORTCUTS = {
   'f': '場の強さ',
   'n': '場の枚数',
-  'h': '手札[＜式＞]',
-  'e': '要素数[＜変数＞]',
-  's': '捨札[＜式＞]',
-  'i': 'もし ＜条件＞ ならば\n｜　＜処理＞\nを実行する',
-  'I': 'もし ＜条件＞ ならば\n｜　＜処理＞\nを実行し，そうでなければ\n｜　＜処理＞\nを実行する',
-  'w': '＜条件＞ の間，\n｜　＜処理＞\nを繰り返す',
-  'r': '繰り返し，\n｜　＜処理＞\nを，＜条件＞ になるまで実行する',
-  'l': '＜変数＞ を ＜初期値＞ から ＜終了値＞ まで ＜差分＞ ずつ増やしながら，\n｜　＜処理＞\nを繰り返す',
-  'F': '関数 ＜関数名＞(＜引数＞) を\n｜　＜処理＞\nと定義する',
-  'd': '出す(＜式＞, ＜式＞)',
+  'h': '手札[]',
+  'e': '要素数[]',
+  's': '捨札[]',
+  'o': '相手の手札',
+  'i': 'もし 手札[1] ＞ 場の強さ ならば\n｜　\nを実行する',
+  'I': 'もし 手札[1] ＞ 場の強さ ならば\n｜　\nを実行し，そうでなければ\n｜　\nを実行する',
+  'w': '手札[1] ＞ 場の強さ の間，\n｜　\nを繰り返す',
+  'r': '繰り返し，\n｜　\nを，手札[1] ＞ 場の強さ になるまで実行する',
+  'l': 'i を 1 から 要素数[手札] まで 1 ずつ増やしながら，\n｜　\nを繰り返す',
+  'F': '関数 名前() を\n｜　\nと定義する',
+  'd': '出す(, )',
   'p': 'パスする',
   'b': '中断する',
-  'R': '返す(＜式＞)',
-  't': '＜式＞ を表示する',
+  'R': '返す()',
+  't': 'を表示する',
 };
 
 // ─── Basic mode ref data (label + always-visible description) ─────────────────
 const BASIC_REF_DATA = {
   'f': { label: '場の強さ',             tip: '場に出ているカードの値。空き場は 0\n3〜10はそのまま\nJ=11、Q=12、K=13、A=14、$=15' },
   'n': { label: '場の枚数',             tip: '場に出ているカードの枚数\n0=空き場  1=1枚出し  2=2枚出し' },
-  'h': { label: '手札[＜式＞]',         tip: '手札のN番目のカード値（1始まり）\n弱い順にソート済み\n手札[1]=最弱　手札[要素数[手札]]=最強' },
-  'e': { label: '要素数[＜変数＞]',     tip: '配列の要素数を取得\n例: 要素数[手札] → 手札の枚数\n例: 要素数[捨札] → 捨て札の枚数' },
-  's': { label: '捨札[＜式＞]',         tip: '出された順に並ぶ捨て札のN番目\n（自分・相手の合計）\n捨札[1]=最初に出されたカード' },
+  'h': { label: '手札[番号]',         tip: '手札のN番目のカード値（1始まり）\n弱い順にソート済み\n手札[1]=最弱　手札[要素数[手札]]=最強' },
+  'e': { label: '要素数[配列]',     tip: '配列の要素数を取得\n例: 要素数[手札] → 手札の枚数\n例: 要素数[捨札] → 捨て札の枚数' },
+  's': { label: '捨札[番号]',         tip: '出された順に並ぶ捨て札のN番目\n（自分・相手の合計）\n捨札[1]=最初に出されたカード' },
+  'o': { label: '相手の手札',           tip: '相手の手札（配列）。\n要素数[相手の手札] で相手の残り枚数がわかる' },
   'i': { label: 'もし〜ならば',         tip: '条件が成立するとき処理を実行する\n（if文）\nTabキーで次の枠へ移動できる' },
   'I': { label: 'もし〜ならば\nそうでなければ', tip: '条件に応じて2つの処理を切り替える\n（if-else文）\nTabキーで次の枠へ移動できる' },
   'w': { label: '前判定ループ',         tip: '条件が成立する間、処理を繰り返す\n（while文）\n条件が最初から偽なら実行されない' },
   'r': { label: '後判定ループ',         tip: '処理を行った後に条件を判定して繰り返す\n（do-while文）\n最低1回は必ず実行される' },
   'l': { label: 'forループ',            tip: '変数を初期値から終了値まで\n差分ずつ増やしながら繰り返す\n（for文）' },
   'F': { label: '関数定義',             tip: '関数を名前と引数で定義する\n例: 関数 最強(h) を\n　　　…\nと定義する' },
-  'd': { label: '出す(＜式＞, ＜式＞)', tip: 'カードを出す\n第1引数: カードの値（例: 手札[1]）\n第2引数: 枚数（1=シングル, 2=ペア）' },
+  'd': { label: '出す(カード, 枚数)', tip: 'カードを出す\n第1引数: カードの値（例: 手札[1]）\n第2引数: 枚数（1=シングル, 2=ペア）' },
   'p': { label: 'パスする',             tip: 'このターンをパスする\n（何も出さない → 場が流れる）' },
   'b': { label: '中断する',             tip: 'ループを途中で抜ける（break）\nループ内でのみ有効' },
-  'R': { label: '返す(＜式＞)',         tip: '関数から値を返す\n返す(値) で関数を終了し\n呼び出し元に値を渡す' },
-  't': { label: '＜式＞ を表示する',    tip: '値や文字列を表示画面に表示する\n「文字列」 と 変数 を表示する\n例: 「i=」 と i を表示する' },
+  'R': { label: '返す(値)',         tip: '関数から値を返す\n返す(値) で関数を終了し\n呼び出し元に値を渡す' },
+  't': { label: '値 を表示する',    tip: '値や文字列を表示画面に表示する\n「文字列」 と 変数 を表示する\n例: 「i=」 と i を表示する' },
 };
 
 // Regex to find placeholder tokens ＜...＞
@@ -55,31 +57,32 @@ function checkHalfWidthOps(code) {
 // ─── Clear-message tips (#6) ─────────────────────────────────────────────────
 const CLEAR_TIPS = {
   'b01': '手札[1] で最弱カードにアクセスする基本をマスター！',
-  'b02': '手札[要素数[手札]] で最強カードにアクセスする方法をマスター！',
-  'b03': 'ペア（2枚出し）の枚数指定をマスター！',
-  'b04': '手札[3] のように添字で位置を指定する方法をマスター！',
-  'b05': '変数に値を代入して、添字として使う基本をマスター！',
-  'b06': '要素数[手札] で枚数を取得し、最強カードを動的に求める方法をマスター！',
+  'b02': '値 を表示する で表示画面に値を出す基本をマスター！',
+  'b03': '「文字列」 と 値 を表示する のつなぎ方をマスター！',
+  'b04': '手札[要素数[手札]] で最強カードにアクセスする方法をマスター！',
+  'b05': '変数に枚数を代入（n ← 要素数[手札]）して添字に使う方法をマスター！',
+  'b06': '変数に値を代入して、添字として使う基本をマスター！',
   'b07': '「文字列」 と 式 を表示する で計算結果を出力する方法をマスター！',
   'b08': '÷ による整数の割り算（小数点以下切り捨て）をマスター！',
   'b09': '％ で余りを取り、偶数・奇数を判定する方法をマスター！',
   'b10': 'もし〜ならば で条件分岐する基本をマスター！',
-  'b11': '空き場（場の強さ ＝ 0）の判定方法をマスター！',
+  'b11': 'もし〜そうでなければ で2通りに処理を切り替える方法をマスター！',
   'b12': '手札の2枚が同じ強さかどうかを判定してペアで出す方法をマスター！',
-  'b13': 'もし〜そうでなければもし〜 で3分岐する方法をマスター！',
-  'b14': 'forループで手札を先頭から末尾まで順番に処理する基本をマスター！',
-  'b15': 'ループの中に条件分岐を組み合わせてフィルタリングする方法をマスター！',
+  'b13': 'かつ で2つの条件を組み合わせる方法をマスター！',
+  'b14': 'または でどちらか一方の条件でも実行する方法をマスター！',
+  'b15': '（条件）でない で条件を否定する方法をマスター！',
   'b16': 'カウンタ変数を初期化してループ内で加算するパターンをマスター！',
   'b17': 'ループで最初に見つかる要素を記録するパターンをマスター！',
   'b18': 'ループ内で中断する を使って早期終了するパターンをマスター！',
   'b19': '前判定ループで かつ を使った複合条件での探索をマスター！',
   'b20': '後判定ループで必ず1回実行してから条件判定する仕組みをマスター！',
-  'b21': '複数の条件を かつ／または で組み合わせた複合判定をマスター！',
-  'b22': '隣り合う要素 手札[i] と 手札[i+1] を比較するパターンをマスター！',
-  'b23': 'forループを逆順（大から小へ）に回す書き方をマスター！',
-  'b24': '位置（添字）を変数に記録して後から使うパターンをマスター！',
+  'b21': '要素数[捨札] で手札以外の配列の大きさを調べる方法をマスター！',
+  'b22': 'T[添字] ← 値 で自分の配列に値を代入する方法をマスター！',
+  'b23': 'C[j] ← 0 で初期化してから C[r] ＋ 1 で集計（ヒストグラム）する方法をマスター！',
+  'b24': '関数を定義して呼び出す基本をマスター！',
   'b25': '関数を定義して、返す で値を返す仕組みをマスター！',
-  'b26': '定義した関数をループ内の条件として活用する組み合わせをマスター！',
+  'b26': '関数の中でループを回し、結果を 返す で渡す組み合わせをマスター！',
+  'b27': 'ループで特定の値（8）を探して出すパターンをマスター！8切りで場が流れる！',
 };
 
 // ─── State ────────────────────────────────────────────────────────────────────
@@ -245,6 +248,14 @@ function drawPHBoxes(n) {
       ctx.moveTo(Math.floor(x) + 0.5, yTop);
       ctx.lineTo(Math.floor(x) + 0.5, yBot);
       ctx.stroke();
+    }
+
+    // 空の本文行（インデントのみ）に、背景のゴースト「← ここに書く」を描画。
+    // 実テキストではないので、何か書き込まれた瞬間に自然と消える。
+    if (!editor.readOnly && line.length === pos) {
+      ctx.fillStyle = isLight ? 'rgba(40,140,80,0.5)' : 'rgba(130,200,150,0.5)';
+      ctx.fillText('← ここに書く', PAD_LEFT + levels * INDENT_W - scrollLeft + 2,
+                   lineTop + LINE_H * 0.72);
     }
   }
 
@@ -454,12 +465,12 @@ function insertSmartOp(op, isPostfix) {
   // ── 式部分で組み立て（キーワードは前後に保持）─────────────────────────
   let exprPart;
   if (isPostfix) {
-    exprPart = (lexpr || '＜式＞') + '　' + op;
+    exprPart = (lexpr || '手札[1]') + '　' + op;
   } else {
     if (lexpr && rexpr)       exprPart = lexpr + '　' + op + '　' + rexpr;
-    else if (lexpr)           exprPart = lexpr + '　' + op + '　＜式＞';
-    else if (rexpr)           exprPart = '＜式＞　' + op + '　' + rexpr;
-    else                      exprPart = '＜式＞　' + op + '　＜式＞';
+    else if (lexpr)           exprPart = lexpr + '　' + op + '　手札[1]';
+    else if (rexpr)           exprPart = '手札[1]　' + op + '　' + rexpr;
+    else                      exprPart = '手札[1]　' + op + '　手札[1]';
   }
 
   const newLine = indent + lkw + exprPart + rkw;
@@ -497,6 +508,12 @@ function insertAtCursor(text) {
   editor.focus();
   const val = editor.value;
 
+  // 緑コメントのプレースホルダーだけの行なら、本文部分（｜　の後ろ〜行末）を選択範囲にして置換する
+  if (val === '｜　') {
+    start = 2;
+    end   = val.length;
+  }
+
   // カーソルがプレースホルダー内に位置していて選択がない場合、そのプレースホルダーを選択範囲とみなす
   if (start === end) {
     const re = PH_RE();
@@ -529,8 +546,9 @@ function insertAtCursor(text) {
   const lineText   = val.slice(lsIdx, leIdx >= 0 ? leIdx : val.length);
   const isLonelyPH = phFullHit && start !== end && lineText.trim() === selectedText;
 
-  if (isMultiLine && isLonelyPH) {
-    // プレースホルダーをその場で複数行に展開（インデントを引き継ぐ）
+  if (isMultiLine && (isLonelyPH || val === '｜　')) {
+    // 空の本文行（または孤立プレースホルダー）を、その場で複数行に展開する
+    // （行頭インデントを引き継ぎ、余計な改行＝空白行を作らない）
     insertStart = start;
     sliceFrom   = end;
     const linePrefix = (lineText.match(/^((?:｜　)*)/) || ['', ''])[1];
@@ -571,11 +589,21 @@ function insertAtCursor(text) {
     editor.selectionStart = phMatch.index;
     editor.selectionEnd   = phMatch.index + phMatch[0].length;
   } else {
-    // Step past ']' if cursor lands immediately before a closing bracket (#2/#7)
-    // e.g. after filling ＜式＞ in 手札[＜式＞], cursor would sit inside ']'
-    let curPos = insertStart + text.length;
-    if (newVal[curPos] === ']') curPos++;
-    editor.selectionStart = editor.selectionEnd = curPos;
+    // 空の括弧/角括弧があれば、その中（最初の引数位置）にカーソルを置く
+    //   例: 出す(, ) → "(" の直後、手札[] → "[" の直後
+    const region  = newVal.slice(insertStart, insertStart + text.length);
+    const mEmpty  = region.match(/[([](?=[\s,)\]）])/);
+    if (mEmpty) {
+      editor.selectionStart = editor.selectionEnd = insertStart + mEmpty.index + 1;
+    } else if (/^を/.test(region)) {
+      // 「を表示する」など、値が前に来る命令はカーソルを先頭に置く
+      editor.selectionStart = editor.selectionEnd = insertStart;
+    } else {
+      // Step past ']' if cursor lands immediately before a closing bracket (#2/#7)
+      let curPos = insertStart + text.length;
+      if (newVal[curPos] === ']') curPos++;
+      editor.selectionStart = editor.selectionEnd = curPos;
+    }
   }
 
   drawAllPHBoxes();
@@ -667,15 +695,20 @@ function handleEditorKeydown(e, n) {
   // これにより "1" などを押すだけでプレースホルダーが置き換わる
   if (!e.metaKey && !e.ctrlKey && !e.altKey &&
       !e.isComposing && e.key.length === 1) {
-    const pos = editor.selectionStart;
-    if (pos === editor.selectionEnd) {        // 選択なし（カーソルのみ）
-      const val = editor.value;
-      const re  = PH_RE();
-      let m;
-      while ((m = re.exec(val)) !== null) {
-        if (pos >= m.index && pos <= m.index + m[0].length) {
-          editor.setSelectionRange(m.index, m.index + m[0].length);
-          break;
+    // 緑コメントの初期プレースホルダーなら、印字キー（スペース含む）で本文を選択 → 置換
+    if (editor.value === '｜　') {
+      editor.setSelectionRange(2, editor.value.length);
+    } else {
+      const pos = editor.selectionStart;
+      if (pos === editor.selectionEnd) {        // 選択なし（カーソルのみ）
+        const val = editor.value;
+        const re  = PH_RE();
+        let m;
+        while ((m = re.exec(val)) !== null) {
+          if (pos >= m.index && pos <= m.index + m[0].length) {
+            editor.setSelectionRange(m.index, m.index + m[0].length);
+            break;
+          }
         }
       }
     }
@@ -829,7 +862,7 @@ function startGame() {
   const editable = [0, 1, 2].filter(n => !$('ce-' + n).readOnly);
   const allEmpty = editable.every(n => {
     const v = $('ce-' + n).value.trim();
-    return v === '' || v === '｜　＜処理＞';
+    return v === '' || v === '｜';
   });
   if (allEmpty) {
     if (!confirm('⚠️ 戦略コードがまだ書かれていません（プレースホルダーのまま）。\nこのまま開始すると毎ターンパスになりますが、続行しますか？')) {
@@ -890,7 +923,7 @@ function updateTurnIndicator() {
 // セクション n のコードを単体で実行してエラーを検出（null = エラーなし）
 function checkSectionError(n) {
   const code = $('ce-' + n).value.trim();
-  if (!code || code === '｜　パスする' || code === '｜　＜処理＞') return null;
+  if (!code || code === '｜　パスする' || code === '｜') return null;
   if (PH_RE().test(code)) return null; // PH は別途チェック
   try {
     new DNCLInterpreter(gs.getDNCLState()).run(code);
@@ -1296,7 +1329,7 @@ function init() {
   });
 
   // ── Wire up the three case-editor textareas ───────────────────────────────
-  const INITIAL_BODY = '｜　＜処理＞';
+  const INITIAL_BODY = '｜　';
 
   [0, 1, 2].forEach(n => {
     const editor = $('ce-' + n);
@@ -1305,7 +1338,16 @@ function init() {
     autoResize(editor);
     updateGutter(n);
 
-    editor.addEventListener('focus', () => { activeEditorN = n; });
+    editor.addEventListener('focus', () => {
+      activeEditorN = n;
+      // 初期プレースホルダー（緑コメント）にフォーカスしたら本文部分を選択。
+      // → 1文字でも入力（タイプ/貼り付け/チップ挿入）すると即置換され、コメントは消える。
+      if (!editor.readOnly && editor.value === INITIAL_BODY) {
+        setTimeout(() => {
+          if (editor.value === INITIAL_BODY) editor.setSelectionRange(2, editor.value.length);
+        }, 0);
+      }
+    });
     editor.addEventListener('click', () => {
       activeEditorN = n;
       // クリック位置がプレースホルダー内なら自動選択（クリック確定後に評価）
@@ -1337,14 +1379,23 @@ function init() {
     [0, 1, 2].forEach(n => { autoResize($('ce-' + n)); drawPHBoxes(n); });
   });
 
-  // ── Theme toggle ─────────────────────────────────────────────────────────
-  $('theme-btn').addEventListener('click', () => {
-    const html    = document.documentElement;
-    const goLight = html.getAttribute('data-theme') !== 'light';
-    html.setAttribute('data-theme', goLight ? 'light' : 'dark');
-    $('theme-btn').textContent = goLight ? '🌙 ダーク' : '☀ ライト';
-    drawAllPHBoxes();
-  });
+  // ── Theme toggle（入口・問題モード両方のボタンを同期）──────────────────────
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const label = theme === 'dark' ? '☀ ライト' : '🌙 ダーク';  // クリックで切り替わる先
+    ['theme-btn', 'land-theme-btn'].forEach(id => {
+      const b = document.getElementById(id);
+      if (b) b.textContent = label;
+    });
+    if (typeof drawAllPHBoxes === 'function') drawAllPHBoxes();
+  }
+  function toggleTheme() {
+    const cur = document.documentElement.getAttribute('data-theme');
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+  }
+  applyTheme(document.documentElement.getAttribute('data-theme') || 'light'); // 初期ラベル統一
+  $('theme-btn').addEventListener('click', toggleTheme);
+  { const lb = $('land-theme-btn'); if (lb) lb.addEventListener('click', toggleTheme); }
 
   // ── Custom tooltip for ref-panel ─────────────────────────────────────────
   const tipEl = document.createElement('div');
@@ -1414,7 +1465,7 @@ function init() {
     const n = currentProblem.activeSection;
     const ed = $('ce-' + n);
     pushHistory();
-    ed.value = '｜　＜処理＞';
+    ed.value = '｜　';
     autoResize(ed);
     updateGutter(n);
     drawAllPHBoxes();
@@ -1465,9 +1516,13 @@ function init() {
   $('land-free-btn').addEventListener('click', () => {
     hideLanding();
     currentMode = 'free';
+    currentProblem = null;
+    unlockAllSections();          // 問題モードから来た場合のロックを解除
     $('free-toolbar').style.display = 'flex';
     $('prob-back-btn').classList.add('hidden');
     $('top-mode-title').textContent = 'フリーモード';
+    $('hint-area-left')?.classList.add('hidden');
+    $('problem-info')?.classList.add('hidden');
     updateMainBackBtn();
     showView('setup');
   });
@@ -1631,14 +1686,15 @@ const BASIC_GROUPS = [
   { label: '算術演算',         ids: ['b07', 'b08', 'b09'] },
   { label: '条件分岐',         ids: ['b10', 'b11', 'b12'] },
   { label: '論理演算',         ids: ['b13', 'b14', 'b15'] },
-  { label: '繰り返し',         ids: ['b16', 'b17', 'b18', 'b19', 'b20'] },
+  { label: '繰り返し',         ids: ['b16', 'b17', 'b18', 'b27', 'b19', 'b20'] },
   { label: '配列',             ids: ['b21', 'b22', 'b23'] },
   { label: '関数',             ids: ['b24', 'b25', 'b26'] },
 ];
 const STRATEGY_GROUPS = [
-  { label: '読み・判断',  ids: ['p01', 'p02'] },
-  { label: 'ペア戦略',    ids: ['p03', 'p04'] },
-  { label: '捨札分析',    ids: ['p05', 'p06', 'p07', 'p08'] },
+  { label: '基本の判断',    ids: ['p01', 'p02', 'p03'] },
+  { label: '場に出す',      ids: ['p04', 'p05', 'p06'] },
+  { label: '捨て札を読む',  ids: ['p07', 'p08', 'p09', 'p10'] },
+  { label: '数える・推定',  ids: ['p11', 'p12', 'p13'] },
 ];
 
 function showLanding() {
@@ -1742,6 +1798,7 @@ function openProblemFromList(problem) {
 function goBackToProblemList() {
   gs.reset();
   $('gameover-overlay').classList.add('hidden');
+  unlockAllSections();   // 問題モード離脱時にロックを解除しておく
   restoreRefPanel();
   filterRefPanel(null);
   showProblemList(currentListCategory);
@@ -1950,11 +2007,11 @@ function onProblemSelect(idx) {
   pushHistory();
   [0, 1, 2].forEach(n => {
     const ed = $('ce-' + n);
-    ed.value = '｜　＜処理＞';
+    ed.value = '｜　';
     autoResize(ed);
     updateGutter(n);
   });
-  drawAllPHBoxes();
+  // drawAllPHBoxes は lockSections の後で呼ぶ（先に呼ぶとロック前のゴーストが残る）
   $('error-msg').textContent = '';
 
   // ── Show info panel ───────────────────────────────────────────────────────
@@ -1992,6 +2049,7 @@ function onProblemSelect(idx) {
 
   // ── Lock non-active sections ──────────────────────────────────────────────
   lockSections(currentProblem.activeSection);
+  drawAllPHBoxes();   // lockSections 後に描画 → ロック済みセクションにゴーストが出ない
 
   // ── Filter / rebuild reference panel for this problem ────────────────────
   if (currentMode === 'basic') {
@@ -2009,7 +2067,8 @@ function lockSections(activeN) {
     const skLine  = block ? block.previousElementSibling : null;
     if (n !== activeN) {
       // Replace placeholder with a valid no-op so PH_RE() doesn't force-pass
-      if (PH_RE().test(editor.value)) {
+      // （＜＞ プレースホルダー、または緑コメントの初期プレースホルダーのとき）
+      if (PH_RE().test(editor.value) || editor.value === '｜　') {
         editor.value = '｜　パスする';
         autoResize(editor);
         updateGutter(n);
@@ -2035,7 +2094,7 @@ function unlockAllSections() {
     editor.readOnly = false;
     // ロック時に自動挿入された ｜　パスする を初期プレースホルダーに戻す
     if (editor.value === '｜　パスする') {
-      editor.value = '｜　＜処理＞';
+      editor.value = '｜　';
       autoResize(editor);
       updateGutter(n);
     }
@@ -2063,9 +2122,9 @@ function updateHintBtn() {
     count = hintCount;
   }
 
-  if (count >= total) {
-    btn.textContent = `💡 ヒントをすべて表示済み (${total}/${total})`;
-    btn.disabled = true;
+  if (count >= total && total > 0) {
+    btn.textContent = `💡 ヒントを閉じる (${total}/${total})`;
+    btn.disabled = false;
   } else {
     btn.textContent = `💡 ヒントを見る (${count}/${total})`;
     btn.disabled = false;
@@ -2078,7 +2137,12 @@ function showHint() {
   if (currentProblem.loopHints) {
     const type  = selectedLoopType;
     const hints = currentProblem.loopHints[type] || [];
-    if (loopHintCounts[type] >= hints.length) return;
+    if (loopHintCounts[type] >= hints.length) {   // 全表示後にもう一度押したら閉じる
+      loopHintCounts[type] = 0;
+      $('hint-list').innerHTML = '';
+      updateHintBtn();
+      return;
+    }
     const hint = hints[loopHintCounts[type]];
     loopHintCounts[type]++;
     markLoopSeen(currentProblem.id, type);
@@ -2089,7 +2153,12 @@ function showHint() {
     $('hint-list').appendChild(el);
     updateHintBtn();
   } else {
-    if (hintCount >= currentProblem.hints.length) return;
+    if (hintCount >= currentProblem.hints.length) {   // 全表示後にもう一度押したら閉じる
+      hintCount = 0;
+      $('hint-list').innerHTML = '';
+      updateHintBtn();
+      return;
+    }
     const hint = currentProblem.hints[hintCount];
     hintCount++;
     const el = document.createElement('div');
@@ -2247,6 +2316,19 @@ function buildProbCases() {
     handDiv.appendChild(handLabel);
     st.playerHand.forEach(rank => handDiv.appendChild(makeCard(rank, ['mini'])));
 
+    // ─ 捨て札（あるときだけ表示）─
+    const discCards = st.allDiscard || [];
+    let discDiv = null;
+    if (discCards.length > 0) {
+      discDiv = document.createElement('div');
+      discDiv.className = 'prob-case-col';
+      const discLabel = document.createElement('span');
+      discLabel.className = 'prob-case-label';
+      discLabel.textContent = '捨札';
+      discDiv.appendChild(discLabel);
+      discCards.forEach(rank => discDiv.appendChild(makeCard(rank, ['mini', 'discard'])));
+    }
+
     // ─ 正解 ─
     const expDiv = document.createElement('div');
     expDiv.className = 'prob-case-expected';
@@ -2257,6 +2339,7 @@ function buildProbCases() {
 
     row.appendChild(fieldDiv);
     row.appendChild(handDiv);
+    if (discDiv) row.appendChild(discDiv);
     row.appendChild(expDiv);
     el.appendChild(row);
   });

@@ -7,7 +7,7 @@
       "subtitle": "つかうもの: 手札 / 出す",
       "difficulty": 1,
       "activeSection": 0,
-      "description": "最弱カードをシングルで出してください。※手札は弱い順に並んでおり、手札[1]から始まります。",
+      "description": "b01　最弱カードをシングルで出してください。※手札は弱い順に並んでおり、手札[1]から始まります。",
       "hints": [
         "手札の添字（番号）は 1 から始まります。手札[1] が最も弱いカードです。",
         "出す(カード値, 枚数) でカードを出せます。シングルは枚数 1 です"
@@ -76,7 +76,7 @@
         "d"
       ],
       "daifugoTitle": "手札の最弱カードを出す",
-      "descriptionHtml": "最弱カードをシングルで出してください。<small class=\"desc-note\">※手札は弱い順に並んでおり、手札[1]から始まります。</small>",
+      "descriptionHtml": "<strong>b01</strong>　最弱カードをシングルで出してください。<small class=\"desc-note\">※手札は弱い順に並んでおり、手札[1]から始まります。</small>",
       "activeOps": []
     },
     {
@@ -86,8 +86,8 @@
       "subtitle": "場の強さをそのまま表示する",
       "difficulty": 1,
       "activeSection": 1,
-      "description": "場の強さを表示画面に表示してください。",
-      "descriptionHtml": "場の強さを表示画面に表示してください。",
+      "description": "b02　場の強さを表示画面に表示してください。",
+      "descriptionHtml": "<strong>b02</strong>　場の強さを表示画面に表示してください。",
       "hints": [
         "場の強さ を表示する の形で値を表示画面に表示できます。",
         "「を表示する」は変数や式の後ろに書きます"
@@ -163,7 +163,7 @@
       "difficulty": 1,
       "activeSection": 1,
       "daifugoTitle": "場の強さをデバッグ表示する",
-      "description": "場のカードの強さを「場のカードは、」という文字列とつなげて表示画面に表示してください。",
+      "description": "b03　場のカードの強さを「場のカードは、」という文字列とつなげて表示画面に表示してください。",
       "hints": [
         "場の強さ は場に出ているカードの強さを表す値です（空き場のときは 0）。",
         "「場のカードは、」 と 場の強さ を表示する のように、文字列と値を と でつなぎます"
@@ -234,14 +234,14 @@
         ],
         "message": "表示する を使って値を確認してみよう（例: 手札[1] を表示する）"
       },
-      "descriptionHtml": "場のカードの強さを「場のカードは、」という文字列とつなげて表示画面に表示してください。",
+      "descriptionHtml": "<strong>b03</strong>　場のカードの強さを「場のカードは、」という文字列とつなげて表示画面に表示してください。",
       "activeOps": []
     },
     {
       "id": "b04",
       "title": "要素数で最強カードを出す",
       "difficulty": 2,
-      "descriptionHtml": "要素数[手札] を使って最強カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b04</strong>　要素数[手札] を使って最強カードをシングルで出してください。",
       "hints": [
         "要素数[手札] は手札の枚数を返します。手札の最後の添字と一致します。",
         "手札[5] は、手札の弱い順に 5 番目のカードを指定しています"
@@ -314,13 +314,13 @@
         "d"
       ],
       "activeOps": [],
-      "description": "要素数[手札] を使って最強カードをシングルで出してください。"
+      "description": "b04　要素数[手札] を使って最強カードをシングルで出してください。"
     },
     {
       "id": "b05",
       "title": "変数で最強カードを出す",
       "difficulty": 2,
-      "descriptionHtml": "変数 n に手札の枚数を代入し、n 番目のカードをシングルで出してください。",
+      "descriptionHtml": "<strong>b05</strong>　変数 n に手札の枚数を代入し、n 番目のカードをシングルで出してください。",
       "hints": [
         "n ← 要素数[手札] で手札の枚数を変数 n に代入できます。",
         "手札[n] は n 番目のカードです。n に枚数が入っているので最強カードになります"
@@ -395,13 +395,19 @@
       "activeOps": [
         "<-"
       ],
-      "description": "変数 n に手札の枚数を代入し、n 番目のカードをシングルで出してください。"
+      "description": "b05　変数 n に手札の枚数を代入し、n 番目のカードをシングルで出してください。",
+      "prerequisite": {
+        "require": [
+          "←"
+        ],
+        "message": "変数 n に手札の枚数を代入（←）してから 手札[n] を出そう"
+      }
     },
     {
       "id": "b06",
       "title": "変数に代入して出す",
       "difficulty": 2,
-      "descriptionHtml": "変数 i に 2 を代入し、手札の 2 番目のカードをシングルで出してください。",
+      "descriptionHtml": "<strong>b06</strong>　変数 i に 2 を代入し、手札の 2 番目のカードをシングルで出してください。",
       "hints": [
         "i ← 2 で変数 i に値 2 を代入できます。",
         "手札[i] は手札の i 番目のカードです。i に 2 が入っているので手札[2] と同じです"
@@ -475,13 +481,19 @@
       "activeOps": [
         "<-"
       ],
-      "description": "変数 i に 2 を代入し、手札の 2 番目のカードをシングルで出してください。"
+      "description": "b06　変数 i に 2 を代入し、手札の 2 番目のカードをシングルで出してください。",
+      "prerequisite": {
+        "require": [
+          "←"
+        ],
+        "message": "変数 i に 2 を代入（←）してから 手札[i] を出そう"
+      }
     },
     {
       "id": "b07",
       "title": "先頭2枚の合計を計算して表示する",
       "difficulty": 2,
-      "descriptionHtml": "手札の先頭 2 枚のランクを足して、「先頭2枚の合計は、」と表示画面に表示してください。",
+      "descriptionHtml": "<strong>b07</strong>　手札の先頭 2 枚のランクを足して、「先頭2枚の合計は、」と表示画面に表示してください。",
       "hints": [
         "＋ などの算術演算子で計算ができます。「＋」は全角で入力します。",
         "「と」でつなぐとき、計算式をそのまま書けます（例: 「合計は、」 と 3 ＋ 4 を表示する）"
@@ -551,7 +563,7 @@
       "activeOps": [
         "＋"
       ],
-      "description": "手札の先頭 2 枚のランクを足して、「先頭2枚の合計は、」と表示画面に表示してください。"
+      "description": "b07　手札の先頭 2 枚のランクを足して、「先頭2枚の合計は、」と表示画面に表示してください。"
     },
     {
       "id": "b08",
@@ -560,7 +572,7 @@
       "subtitle": "つかうもの: 要素数 / 手札 / 算術 / 出す",
       "difficulty": 2,
       "activeSection": 0,
-      "description": "手札の真ん中のカードをシングルで出してください。",
+      "description": "b08　手札の真ん中のカードをシングルで出してください。",
       "hints": [
         "÷ は小数点以下を切り捨てる整数の割り算です（例: 7 ÷ 2 ＝ 3）。",
         "手札が 3 枚なら (3 ＋ 1) ÷ 2 ＝ 2 → 手札[2] が真ん中です"
@@ -638,7 +650,7 @@
         ],
         "message": "変数（例: i）に計算結果を代入（←）してから 出す() の中で使おう"
       },
-      "descriptionHtml": "手札の真ん中のカードをシングルで出してください。",
+      "descriptionHtml": "<strong>b08</strong>　手札の真ん中のカードをシングルで出してください。",
       "activeOps": [
         "<-",
         "＋",
@@ -652,7 +664,7 @@
       "subtitle": "つかうもの: 要素数 / 手札 / もし〜そうでなければ / ％ / 出す",
       "difficulty": 2,
       "activeSection": 0,
-      "description": "手札の枚数が偶数なら最弱カードをシングルで出し、奇数なら最強カードをシングルで出してください。",
+      "description": "b09　手札の枚数が偶数なら最弱カードをシングルで出し、奇数なら最強カードをシングルで出してください。",
       "hints": [
         "％ は割り算の余りを求める記号です（例: 5 ％ 2 ＝ 1、4 ％ 2 ＝ 0）。",
         "変数に枚数を取得してから、変数 ％ 2 で余りを計算します。余りが何のとき偶数になるか考えてみましょう。"
@@ -731,7 +743,7 @@
         ],
         "message": "変数に枚数を代入（←）し、％ で余りを計算して偶数・奇数を判定しよう"
       },
-      "descriptionHtml": "手札の枚数が偶数なら最弱カードをシングルで出し、奇数なら最強カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b09</strong>　手札の枚数が偶数なら最弱カードをシングルで出し、奇数なら最強カードをシングルで出してください。",
       "activeOps": [
         "＝",
         "％"
@@ -744,7 +756,7 @@
       "subtitle": "つかうもの: 場の強さ / 手札 / もし〜ならば / 出す",
       "difficulty": 2,
       "activeSection": 1,
-      "description": "場より強いカードがあれば、最弱カードをシングルで出してください。",
+      "description": "b10　場より強いカードがあれば、最弱カードをシングルで出してください。",
       "hints": [
         "場の強さ は場に出ているカードの値です（空き場は 0）。出せない場合は何も書かなくても自動でパスになります。比較演算子（＞ ＜ ＝ など）は必ず左パネルのボタンをクリックして入力してください。",
         "「もし 条件 ならば\n｜　処理\nを実行する」の形で条件分岐できます",
@@ -820,7 +832,7 @@
         ],
         "message": "もし〜ならば を使って条件分岐を書いてみよう"
       },
-      "descriptionHtml": "場より強いカードがあれば、最弱カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b10</strong>　場より強いカードがあれば、最弱カードをシングルで出してください。",
       "activeOps": [
         "＞"
       ]
@@ -832,7 +844,7 @@
       "subtitle": "つかうもの: 要素数 / 手札 / もし〜そうでなければ / 出す",
       "difficulty": 2,
       "activeSection": 0,
-      "description": "手札が 3 枚以上あれば 2 番目のカードを、2 枚以下なら最弱カードをシングルで出してください。",
+      "description": "b11　手札が 3 枚以上あれば 2 番目のカードを、2 枚以下なら最弱カードをシングルで出してください。",
       "hints": [
         "もし〜ならば〜そうでなければ〜 を使って 2 通りを切り替えます。",
         "「もし 条件 ならば\n｜　処理A\nを実行し，そうでなければ\n｜　処理B\nを実行する」の形です",
@@ -912,7 +924,7 @@
         ],
         "message": "もし〜ならば / そうでなければ の2分岐を使ってみよう"
       },
-      "descriptionHtml": "手札が 3 枚以上あれば 2 番目のカードを、2 枚以下なら最弱カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b11</strong>　手札が 3 枚以上あれば 2 番目のカードを、2 枚以下なら最弱カードをシングルで出してください。",
       "activeOps": [
         "＝"
       ]
@@ -921,7 +933,7 @@
       "id": "b12",
       "title": "ペアで出す",
       "difficulty": 3,
-      "descriptionHtml": "先頭 2 枚が同じランクならペア（2 枚）で出し、違うなら先頭カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b12</strong>　先頭 2 枚が同じランクならペア（2 枚）で出し、違うなら先頭カードをシングルで出してください。",
       "hints": [
         "出す(ランク, 枚数) の 2 つ目の引数を変えると複数枚まとめて出せます。",
         "もし 手札[1] ＝ 手札[2] ならば で先頭 2 枚が同じか確認します"
@@ -995,7 +1007,7 @@
       "activeOps": [
         "＝"
       ],
-      "description": "先頭 2 枚が同じランクならペア（2 枚）で出し、違うなら先頭カードをシングルで出してください。"
+      "description": "b12　先頭 2 枚が同じランクならペア（2 枚）で出し、違うなら先頭カードをシングルで出してください。"
     },
     {
       "id": "b13",
@@ -1004,7 +1016,7 @@
       "subtitle": "つかうもの: 要素数 / 手札 / もし〜そうでなければ / かつ / 出す",
       "difficulty": 2,
       "activeSection": 0,
-      "description": "手札が 2 枚以上あり、かつ先頭 2 枚が同じランクならペアで出してください。そうでなければ最弱カードをシングルで出してください。",
+      "description": "b13　手札が 2 枚以上あり、かつ先頭 2 枚が同じランクならペアで出してください。そうでなければ最弱カードをシングルで出してください。",
       "hints": [
         "条件A かつ 条件B は、両方が成り立つときに真になります。",
         "条件A は「要素数[手札] ≧ 2」、条件B は「手札[1] ＝ 手札[2]」です"
@@ -1081,7 +1093,7 @@
         ],
         "message": "かつ を使って2つの条件を組み合わせてみよう"
       },
-      "descriptionHtml": "手札が 2 枚以上あり、かつ先頭 2 枚が同じランクならペアで出してください。そうでなければ最弱カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b13</strong>　手札が 2 枚以上あり、かつ先頭 2 枚が同じランクならペアで出してください。そうでなければ最弱カードをシングルで出してください。",
       "activeOps": [
         "＝",
         "＞",
@@ -1095,7 +1107,7 @@
       "subtitle": "つかうもの: 要素数 / 手札 / もし〜そうでなければ / または / 出す",
       "difficulty": 2,
       "activeSection": 0,
-      "description": "手札が 1 枚、または最強カードが A（14）以上ならば最強カードをシングルで出してください。そうでなければ最弱カードをシングルで出してください。",
+      "description": "b14　手札が 1 枚、または最強カードが A（14）以上ならば最強カードをシングルで出してください。そうでなければ最弱カードをシングルで出してください。",
       "hints": [
         "条件A または 条件B は、どちらか一方が成り立てば真になります。",
         "cnt ← 要素数[手札] で枚数を取得します。手札[cnt] が最強カードです"
@@ -1171,7 +1183,7 @@
         ],
         "message": "または を使って条件を広げてみよう"
       },
-      "descriptionHtml": "手札が 1 枚、または最強カードが A（14）以上ならば最強カードをシングルで出してください。そうでなければ最弱カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b14</strong>　手札が 1 枚、または最強カードが A（14）以上ならば最強カードをシングルで出してください。そうでなければ最弱カードをシングルで出してください。",
       "activeOps": [
         "＝",
         "≦",
@@ -1185,7 +1197,7 @@
       "subtitle": "つかうもの: 場の強さ / 手札 / もし〜ならば / でない / 出す",
       "difficulty": 2,
       "activeSection": 1,
-      "description": "「最弱カードが場以下 でない」ならば、最弱カードをシングルで出してください。（でない を使って書いてください）",
+      "description": "b15　「最弱カードが場以下 でない」ならば、最弱カードをシングルで出してください。（でない を使って書いてください）",
       "hints": [
         "（条件） でない は、条件を逆にします。「でない」の前の条件は () で囲んで範囲を明確にします。",
         "「手札[1] ≦ 場の強さ」でないとき ＝ 手札[1] が場の強さより大きいとき"
@@ -1257,7 +1269,7 @@
         ],
         "message": "でない を使って条件を否定してみよう"
       },
-      "descriptionHtml": "「最弱カードが場以下 でない」ならば、最弱カードをシングルで出してください。（でない を使って書いてください）",
+      "descriptionHtml": "<strong>b15</strong>　「最弱カードが場以下 でない」ならば、最弱カードをシングルで出してください。（でない を使って書いてください）",
       "activeOps": [
         "≦",
         "でない"
@@ -1267,7 +1279,7 @@
       "id": "b16",
       "title": "forで出せる枚数を数える",
       "difficulty": 3,
-      "descriptionHtml": "forループで、場より強いカードが手札に何枚あるかを数えて、「出せるカードは、」と表示画面に表示してください。",
+      "descriptionHtml": "<strong>b16</strong>　forループで、場より強いカードが手札に何枚あるかを数えて、「出せるカードは、」と表示画面に表示してください。",
       "hints": [
         "forループで配列を順に調べながら、条件を満たした要素をカウントするパターンです。\n（例）手札=[3,7,10]、場=5 のとき：\ni=1: 手札[1]=3、3＞5? → いいえ、cnt=0\ni=2: 手札[2]=7、7＞5? → はい、cnt=1\ni=3: 手札[3]=10、10＞5? → はい、cnt=2",
         "cnt ← 0 でカウント変数を初期化し、ループの中で条件を満たすたびに cnt ← cnt ＋ 1 します",
@@ -1345,7 +1357,13 @@
         "＋",
         "＞"
       ],
-      "description": "forループで、場より強いカードが手札に何枚あるかを数えて、「出せるカードは、」と表示画面に表示してください。"
+      "description": "b16　forループで、場より強いカードが手札に何枚あるかを数えて、「出せるカードは、」と表示画面に表示してください。",
+      "prerequisite": {
+        "require": [
+          "ずつ増やしながら"
+        ],
+        "message": "forループ（〜ずつ増やしながら）で手札を順に調べて数えよう"
+      }
     },
     {
       "id": "b17",
@@ -1354,7 +1372,7 @@
       "subtitle": "つかうもの: 場の強さ / 手札 / 要素数 / forループ / もし / 出す / パス",
       "difficulty": 3,
       "activeSection": 1,
-      "description": "forループで場より強い最初のカードをフラグ変数 found で記録してください。found を 0 で初期化し、見つかったらカードの値を代入します。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
+      "description": "b17　forループで場より強い最初のカードをフラグ変数 found で記録してください。found を 0 で初期化し、見つかったらカードの値を代入します。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
       "hints": [
         "フラグ変数 found ← 0 で「まだ見つかっていない」を表します。",
         "i を 1 から 要素数[手札] まで 1 ずつ増やしながら調べます",
@@ -1433,7 +1451,7 @@
         ],
         "message": "forループ（〜ずつ増やしながら）を使ってみよう"
       },
-      "descriptionHtml": "forループで場より強い最初のカードをフラグ変数 found で記録してください。found を 0 で初期化し、見つかったらカードの値を代入します。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
+      "descriptionHtml": "<strong>b17</strong>　forループで場より強い最初のカードをフラグ変数 found で記録してください。found を 0 で初期化し、見つかったらカードの値を代入します。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
       "activeOps": [
         "＞"
       ]
@@ -1445,7 +1463,7 @@
       "subtitle": "つかうもの: 場の強さ / 手札 / 要素数 / forループ / もし / 中断する / 出す",
       "difficulty": 3,
       "activeSection": 1,
-      "description": "forループで場より強いカードを見つけたら found に値を入れてループを中断してください。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
+      "description": "b18　forループで場より強いカードを見つけたら found に値を入れてループを中断してください。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
       "hints": [
         "中断する でループをすぐに抜けることができます。",
         "found ← 0 で初期化し、見つかったら found ← 手札[i] を入れて 中断する します",
@@ -1527,7 +1545,7 @@
         ],
         "message": "forループ と 中断する を組み合わせてみよう"
       },
-      "descriptionHtml": "forループで場より強いカードを見つけたら found に値を入れてループを中断してください。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
+      "descriptionHtml": "<strong>b18</strong>　forループで場より強いカードを見つけたら found に値を入れてループを中断してください。ループ後に found ＞ 0 ならそのカードをシングルで出してください。",
       "activeOps": [
         "＞"
       ]
@@ -1623,7 +1641,7 @@
         "p"
       ],
       "daifugoTitle": "場より強い最弱カードをループで探して出す",
-      "description": "前判定ループで場より強い最初のカードを探し、シングルで出してください。見つからなければパスします。",
+      "description": "b19　前判定ループで場より強い最初のカードを探し、シングルで出してください。見つからなければパスします。",
       "loopPrerequisite": {
         "for": {
           "require": [
@@ -1644,12 +1662,7 @@
           "message": "後判定ループ（繰り返し，〜になるまで実行する）を使ってみよう"
         }
       },
-      "descriptionHtml": "前判定ループで場より強い最初のカードを探し、シングルで出してください。見つからなければパスします。",
-      "hints": [
-        "前判定ループは「条件の間，｜　処理 を繰り返す」の形です。条件が最初から偽なら 0 回実行されます。まず i ← 1 でカウンタを初期化してから、ループを書き始めましょう。",
-        "i ← 1 で初期化し、「範囲内かつ場より強くない間、i を増やし続ける」の形で探します。条件には 2 つの制約を かつ で組み合わせます",
-        "ループを抜けた後、i ≦ 要素数[手札] なら出せるカードが見つかった（手札[i] ＞ 場の強さ）ことを意味します"
-      ],
+      "descriptionHtml": "<strong>b19</strong>　前判定ループで場より強い最初のカードを探し、シングルで出してください。見つからなければパスします。",
       "activeOps": [
         "<-",
         "＋",
@@ -1664,7 +1677,7 @@
       "subtitle": "つかうもの: 手札 / 要素数 / 後判定ループ / 出す",
       "difficulty": 3,
       "activeSection": 0,
-      "description": "後判定ループで手札の最強カードを探し、シングルで出してください。",
+      "description": "b20　後判定ループで手札の最強カードを探し、シングルで出してください。",
       "hints": [
         "後判定ループは、条件に関係なく必ず 1 回は処理を実行してから条件を判定します（前判定とは逆）。まず i ← 0 でカウンタを初期化してから、ループを書き始めましょう。",
         "i ← 0 で初期化し、i が最後の添字になるまで i を増やし続ける形です"
@@ -1741,7 +1754,7 @@
         ],
         "message": "後判定ループ（繰り返し，〜になるまで実行する）を使ってみよう"
       },
-      "descriptionHtml": "後判定ループで手札の最強カードを探し、シングルで出してください。",
+      "descriptionHtml": "<strong>b20</strong>　後判定ループで手札の最強カードを探し、シングルで出してください。",
       "activeOps": [
         "<-",
         "＋",
@@ -1755,7 +1768,7 @@
       "subtitle": "つかうもの: 手札 / 要素数 / 捨札 / もし〜そうでなければ / 出す",
       "difficulty": 2,
       "activeSection": 0,
-      "description": "捨て札が 0 枚なら最弱カードを、1 枚以上なら最強カードをシングルで出してください。",
+      "description": "b21　捨て札が 0 枚なら最弱カードを、1 枚以上なら最強カードをシングルで出してください。",
       "hints": [
         "要素数[捨札] で捨て札の枚数が分かります（要素数は手札以外の配列にも使えます）",
         "「もし 要素数[捨札] ＝ 0 ならば」で場合分けします"
@@ -1837,7 +1850,7 @@
         ],
         "message": "捨札 を使って捨て札の情報を参照しよう"
       },
-      "descriptionHtml": "捨て札が 0 枚なら最弱カードを、1 枚以上なら最強カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b21</strong>　捨て札が 0 枚なら最弱カードを、1 枚以上なら最強カードをシングルで出してください。",
       "activeOps": [
         "＝"
       ]
@@ -1849,7 +1862,7 @@
       "subtitle": "つかうもの: 手札 / 配列[i] ← 値 / 出す",
       "difficulty": 3,
       "activeSection": 0,
-      "description": "手札の先頭 2 枚を配列 T にコピーし、T[2] をシングルで出してください。",
+      "description": "b22　手札の先頭 2 枚を配列 T にコピーし、T[2] をシングルで出してください。",
       "hints": [
         "DNCL では大文字で始まる変数（例: T）は配列を表します。",
         "T[添字] ← 式 の形で配列の要素に代入できます。T[1] ← 手札[1] のように使います"
@@ -1920,11 +1933,12 @@
       "daifugoTitle": "手札のデータをコピーして別の場所で使う",
       "prerequisite": {
         "require": [
-          "←"
+          "←",
+          "T["
         ],
-        "message": "配列変数 T を作り、T[1] ← 手札[1] のように代入してみよう"
+        "message": "配列 T を作り、T[1] ← 手札[1] のように代入してみよう"
       },
-      "descriptionHtml": "手札の先頭 2 枚を配列 T にコピーし、T[2] をシングルで出してください。",
+      "descriptionHtml": "<strong>b22</strong>　手札の先頭 2 枚を配列 T にコピーし、T[2] をシングルで出してください。",
       "activeOps": [
         "<-"
       ]
@@ -1936,8 +1950,9 @@
       "subtitle": "捨て札のランクを配列Cで集計して出し方を変える",
       "difficulty": 4,
       "activeSection": 0,
-      "description": "捨て札の各ランクを配列 C でカウントし、手札[1]が既に捨て札に出ていれば最強カードを、出ていなければ手札[1]をシングルで出してください。",
+      "description": "b23　捨て札の各ランクを配列 C でカウントし、手札[1]が既に捨て札に出ていれば最強カードを、出ていなければ手札[1]をシングルで出してください。",
       "hints": [
+        "最初に j を 3 から 15 まで 1 ずつ増やしながら，C[j] ← 0 を繰り返す で配列 C を初期化します（共通テストの DNCL では使う前の初期化が必須です）。",
         "配列 C は C[ランク] の形で使います。C[r] ← C[r] ＋ 1 でそのランクの出現数を増やします。",
         "i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，r ← 捨札[i] でランクを取得します",
         "ループ後に C[手札[1]] ＞ 0 なら手札[1]は捨て札に出ている（既知）→ 最強カードを出します"
@@ -2023,7 +2038,7 @@
         ],
         "message": "forループ で捨て札を順に処理してみよう"
       },
-      "descriptionHtml": "捨て札の各ランクを配列 C でカウントし、手札[1]が既に捨て札に出ていれば最強カードを、出ていなければ手札[1]をシングルで出してください。",
+      "descriptionHtml": "<strong>b23</strong>　捨て札の各ランクを配列 C でカウントし、手札[1]が既に捨て札に出ていれば最強カードを、出ていなければ手札[1]をシングルで出してください。",
       "activeOps": [
         "<-",
         "＋"
@@ -2033,7 +2048,7 @@
       "id": "b24",
       "title": "返り値なし関数を定義する",
       "difficulty": 4,
-      "descriptionHtml": "引数も返り値もない関数「先頭を出す()」を定義し、呼び出してください。関数の中で最弱カードをシングルで出してください。",
+      "descriptionHtml": "<strong>b24</strong>　引数も返り値もない関数「先頭を出す()」を定義し、呼び出してください。関数の中で最弱カードをシングルで出してください。",
       "hints": [
         "関数 名前() を … と定義する で引数も返り値もない関数を定義できます。",
         "関数を定義した後、先頭を出す() と書いて呼び出します（定義しただけでは動きません）"
@@ -2098,15 +2113,20 @@
       ],
       "activeSection": 0,
       "category": "basic",
-      "subtitle": "つかうもの: 関数定義 / 表示する",
+      "subtitle": "つかうもの: 手札 / 関数定義 / 出す",
       "activeRefs": [
         "h",
-        "e",
         "F",
-        "t"
+        "d"
       ],
       "activeOps": [],
-      "description": "引数も返り値もない関数「先頭を出す()」を定義し、呼び出してください。関数の中で最弱カードをシングルで出してください。"
+      "description": "b24　引数も返り値もない関数「先頭を出す()」を定義し、呼び出してください。関数の中で最弱カードをシングルで出してください。",
+      "prerequisite": {
+        "require": [
+          "と定義する"
+        ],
+        "message": "関数を「〜と定義する」で定義してから 先頭を出す() で呼び出そう"
+      }
     },
     {
       "id": "b25",
@@ -2115,7 +2135,7 @@
       "subtitle": "つかうもの: 場の強さ / 手札 / 関数定義 / 返す / もし / 出す",
       "difficulty": 3,
       "activeSection": 1,
-      "description": "「出せるか(c)」という関数を定義し、c が場の強さより強ければ 1 を、そうでなければ 0 を返してください。手札の最弱カードを渡して出せるなら出してください。",
+      "description": "b25　「出せるか(c)」という関数を定義し、c が場の強さより強ければ 1 を、そうでなければ 0 を返してください。手札の最弱カードを渡して出せるなら出してください。",
       "hints": [
         "関数 名前(引数) を … と定義する で関数を定義できます。返す(値) で値を返します。",
         "c は渡されたカードの値です。c ＞ 場の強さ なら 返す(1)、そうでなければ 返す(0) を実行します",
@@ -2193,7 +2213,7 @@
         ],
         "message": "関数を「〜と定義する」で作ってから呼び出してみよう"
       },
-      "descriptionHtml": "「出せるか(c)」という関数を定義し、c が場の強さより強ければ 1 を、そうでなければ 0 を返してください。手札の最弱カードを渡して出せるなら出してください。",
+      "descriptionHtml": "<strong>b25</strong>　「出せるか(c)」という関数を定義し、c が場の強さより強ければ 1 を、そうでなければ 0 を返してください。手札の最弱カードを渡して出せるなら出してください。",
       "activeOps": [
         "＞"
       ]
@@ -2205,7 +2225,7 @@
       "subtitle": "つかうもの: 場の強さ / 手札 / 要素数 / forループ / 関数定義 / 返す / 出す",
       "difficulty": 4,
       "activeSection": 1,
-      "description": "「最強出せる()」という関数を定義し、forループで手札を調べて場より強いカードの中の最大値を返してください。戻り値が 0 より大きければそのカードをシングルで出してください。",
+      "description": "b26　「最強出せる()」という関数を定義し、forループで手札を調べて場より強いカードの中の最大値を返してください。戻り値が 0 より大きければそのカードをシングルで出してください。",
       "hints": [
         "返す(値) で関数から値を返します。best ← 0 で初期化し、より強いカードが見つかるたびに best を更新します。",
         "ループ後に 返す(best) で最大値を返します。呼び出し元で戻り値が 0 より大きければそのカードをシングルで出します"
@@ -2285,7 +2305,7 @@
         ],
         "message": "関数定義（と定義する）と 返す() を組み合わせてみよう"
       },
-      "descriptionHtml": "「最強出せる()」という関数を定義し、forループで手札を調べて場より強いカードの中の最大値を返してください。戻り値が 0 より大きければそのカードをシングルで出してください。",
+      "descriptionHtml": "<strong>b26</strong>　「最強出せる()」という関数を定義し、forループで手札を調べて場より強いカードの中の最大値を返してください。戻り値が 0 より大きければそのカードをシングルで出してください。",
       "activeOps": [
         "<-",
         "＞"
@@ -2297,7 +2317,7 @@
       "subtitle": "空き場（n=0）",
       "difficulty": 3,
       "activeSection": 0,
-      "description": "相手の手札が1枚なら最強カードで勝ちにいく。そうでなければ最弱カードを出す。",
+      "description": "p01　場にカードがない時、相手の手札が1枚なら最強カードで勝ちにいく。そうでなければ最弱カードを出す。",
       "defaultHand": {
         "player": [
           3,
@@ -2393,26 +2413,220 @@
             "rank": 5,
             "count": 1
           }
+        },
+        {
+          "label": "手札1枚・相手1枚→最強14",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              14
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 1
+          },
+          "expected": {
+            "action": "play",
+            "rank": 14,
+            "count": 1
+          }
+        },
+        {
+          "label": "手札1枚・相手2枚→最弱7",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              7
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 2
+          },
+          "expected": {
+            "action": "play",
+            "rank": 7,
+            "count": 1
+          }
         }
       ],
       "category": "strategy",
       "activeRefs": [
         "h",
         "e",
+        "o",
         "i",
         "I",
         "d"
       ],
       "daifugoTitle": "相手が残り1枚なら最強カードで勝負に出る",
-      "descriptionHtml": "<strong class=\"desc-code\">要素数[相手の手札]</strong> で相手の手札の枚数がわかります。<br>相手の手札が <strong class=\"desc-code\">1 枚</strong>なら最強カードで勝ちにいきましょう。<br>そうでなければ最弱カード（<strong class=\"desc-code\">手札[1]</strong>）をシングルで出してください。<br><span class=\"desc-expected\"><strong>相手が 1 枚 → 手札[要素数[手札]] を出す　　それ以外 → 手札[1] を出す</strong></span><span class=\"desc-hint\">💡 手札は弱い順にソートされています。手札[要素数[手札]] が最強カードです。</span>"
+      "descriptionHtml": "<strong>p01</strong>　<span class=\"desc-premise\">場にカードがない時、</span>相手の手札が <strong class=\"desc-code\">1 枚</strong>なら最強カードで勝ちにいきましょう。<br>そうでなければ最弱カード（<strong class=\"desc-code\">手札[1]</strong>）をシングルで出してください。"
     },
     {
       "id": "p02",
+      "title": "ペアがあれば出す",
+      "subtitle": "空き場（n=0）",
+      "difficulty": 2,
+      "activeSection": 0,
+      "description": "p02　場にカードがない時、手札にペアがあればその最弱ペアを、なければ手札[1]をシングルで出す。",
+      "defaultHand": {
+        "player": [
+          3,
+          3,
+          7
+        ],
+        "opponent": [
+          5,
+          8,
+          12
+        ]
+      },
+      "initialState": {
+        "fieldStrength": 0,
+        "fieldCount": 0,
+        "currentTurn": "player",
+        "allDiscard": []
+      },
+      "hints": [
+        "手札は昇順ソート済みなので、手札[i] ＝ 手札[i＋1] で隣り合う同じランク（ペア）が見つかります。",
+        "最初に見つけたペアを変数に記録し（pr ← 手札[i]）、pr ＞ 0 ならペアを、そうでなければ手札[1]を出します。"
+      ],
+      "testCases": [
+        {
+          "label": "ペアあり→3のペア",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              3,
+              5
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 2
+          }
+        },
+        {
+          "label": "ペアなし→最弱3",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              5,
+              7
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 1
+          }
+        },
+        {
+          "label": "7のペア",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              7,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 7,
+            "count": 2
+          }
+        },
+        {
+          "label": "ペアなし→最弱4",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              4,
+              6,
+              8
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 4,
+            "count": 1
+          }
+        },
+        {
+          "label": "ペアが2組→最弱ペア3",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              3,
+              7,
+              7
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 2
+          }
+        },
+        {
+          "label": "ペアなし→最弱4",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              4,
+              5,
+              6
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 4,
+            "count": 1
+          }
+        }
+      ],
+      "category": "strategy",
+      "activeRefs": [
+        "h",
+        "e",
+        "l",
+        "i",
+        "I",
+        "d"
+      ],
+      "daifugoTitle": "ペアを見つけてペアで出す",
+      "descriptionHtml": "<strong>p02</strong>　<span class=\"desc-premise\">場にカードがない時、</span>手札に同じランクが2枚（ペア）あれば、その<strong class=\"desc-code\">最も弱いペア</strong>を出してください。ペアがなければ最弱カード（<strong class=\"desc-code\">手札[1]</strong>）をシングルで出してください。"
+    },
+    {
+      "id": "p03",
       "title": "手札枚数で戦略切替",
       "subtitle": "空き場（n=0）",
       "difficulty": 3,
       "activeSection": 0,
-      "description": "手札5枚以上なら最弱シングル。4枚以下でペアがあればペア、なければ最弱シングルを出す。",
+      "description": "p03　場にカードがない時、手札5枚以上なら最弱シングル。4枚以下でペアがあればペア、なければ最弱シングルを出す。",
       "defaultHand": {
         "player": [
           3,
@@ -2438,7 +2652,7 @@
       "hints": [
         "要素数[手札] で手札の枚数がわかります。",
         "まず 手札枚数≧5 かどうかで条件分岐します。",
-        "4枚以下のときは、問題2と同様に 手札[1]＝手札[2] でペアを確認します。"
+        "4枚以下のときは、p02 と同じように forループ（i を 1 から 要素数[手札]－1 まで）で 手札[i]＝手札[i＋1] のペアを探します。"
       ],
       "testCases": [
         {
@@ -2521,6 +2735,86 @@
             "rank": 3,
             "count": 1
           }
+        },
+        {
+          "label": "ちょうど5枚→シングル3",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              5,
+              7,
+              9,
+              11
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 1
+          }
+        },
+        {
+          "label": "4枚・ペアなし→シングル5",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              7,
+              9,
+              11
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 5,
+            "count": 1
+          }
+        },
+        {
+          "label": "3枚・ペアが後ろ[3,5,5] → ペア5",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              5,
+              5
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 5,
+            "count": 2
+          }
+        },
+        {
+          "label": "4枚・ペアが中[4,7,7,9] → ペア7",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              4,
+              7,
+              7,
+              9
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 7,
+            "count": 2
+          }
         }
       ],
       "category": "strategy",
@@ -2532,15 +2826,210 @@
         "d"
       ],
       "daifugoTitle": "手札の残り枚数で攻め方を切り替える",
-      "descriptionHtml": "手札の枚数によって戦略を切り替えます。<br>手札が <strong class=\"desc-code\">5 枚以上</strong>なら最弱カードをシングルで出してください。<br><strong class=\"desc-code\">4 枚以下</strong>でペアがあればペアを、なければ最弱カードをシングルで出してください。<br><span class=\"desc-expected\"><strong>5 枚以上 → 手札[1] シングル　　4 枚以下でペア → ペア　　4 枚以下でペアなし → 手札[1] シングル</strong></span><span class=\"desc-hint\">💡 手札[1] ＝ 手札[2] でペアがあるか確認できます（手札は昇順ソート済み）。</span>"
+      "descriptionHtml": "<strong>p03</strong>　<span class=\"desc-premise\">場にカードがない時、</span>手札の枚数によって戦略を切り替えます。<br>手札が <strong class=\"desc-code\">5 枚以上</strong>なら最弱カードをシングルで出してください。<br><strong class=\"desc-code\">4 枚以下</strong>でペアがあればペアを、なければ最弱カードをシングルで出してください。"
     },
     {
-      "id": "p03",
+      "id": "p04",
+      "title": "場より強い最弱を出す",
+      "subtitle": "シングル場（n=1）",
+      "difficulty": 2,
+      "activeSection": 1,
+      "description": "p04　相手がシングルカードを出している時、場より強い最弱カードをシングルで出す。なければパス。",
+      "defaultHand": {
+        "player": [
+          3,
+          7,
+          10
+        ],
+        "opponent": [
+          5,
+          8,
+          12
+        ]
+      },
+      "initialState": {
+        "fieldStrength": 5,
+        "fieldCount": 1,
+        "currentTurn": "player",
+        "allDiscard": [
+          5
+        ]
+      },
+      "hints": [
+        "forループで手札を1枚ずつ調べ、手札[i] ＞ 場の強さ となる最初のカードを記録します（手札は昇順なので最初＝最弱）。",
+        "最後まで見つからなければ（記録が0のまま）パスします。"
+      ],
+      "testCases": [
+        {
+          "label": "場5→7",
+          "state": {
+            "fieldStrength": 5,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 7,
+            "count": 1
+          }
+        },
+        {
+          "label": "場2→3",
+          "state": {
+            "fieldStrength": 2,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              9
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 1
+          }
+        },
+        {
+          "label": "場6→8",
+          "state": {
+            "fieldStrength": 6,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              8,
+              11
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 8,
+            "count": 1
+          }
+        },
+        {
+          "label": "出せない→パス",
+          "state": {
+            "fieldStrength": 10,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              7
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "場5・出せる4枚→最弱7",
+          "state": {
+            "fieldStrength": 5,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              7,
+              9,
+              11
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 7,
+            "count": 1
+          }
+        },
+        {
+          "label": "場8・全部負け→パス",
+          "state": {
+            "fieldStrength": 8,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              7
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "場と同ランク最大(8)→パス",
+          "state": {
+            "fieldStrength": 8,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              8
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "場5・4枚手札→最弱6",
+          "state": {
+            "fieldStrength": 5,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              6,
+              8,
+              11
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 6,
+            "count": 1
+          }
+        }
+      ],
+      "category": "strategy",
+      "activeRefs": [
+        "f",
+        "h",
+        "e",
+        "l",
+        "i",
+        "I",
+        "d",
+        "p"
+      ],
+      "daifugoTitle": "出せる最弱カードをループで探す",
+      "descriptionHtml": "<strong>p04</strong>　<span class=\"desc-premise\">相手がシングルカードを出している時、</span><strong class=\"desc-code\">場より強いカードの中で最も弱いもの</strong>をシングルで出してください。出せるカードがなければパスしてください。"
+    },
+    {
+      "id": "p05",
       "title": "ペアをくずさずシングルで出す",
       "subtitle": "シングル場（n=1）",
       "difficulty": 3,
       "activeSection": 1,
-      "description": "シングル場のとき、ペアのカードを温存して、シングルのカードの中で出せる最弱を出す。全部ペアならパス。",
+      "description": "p05　相手がシングルカードを出している時、ペアのカードを温存して、シングルのカードの中で出せる最弱を出す。全部ペアならパス。",
       "defaultHand": {
         "player": [
           3,
@@ -2562,22 +3051,21 @@
           4
         ]
       },
-      "hints": [],
       "loopHints": {
         "for": [
-          "フラグ 出した←0 を宣言し、i を 1 から 要素数[手札] まで 1 ずつ増やしながらループします。ループ内でまず ペア←0 にリセット。",
+          "i を 1 から 要素数[手札] まで 1 ずつ増やしながらループします。ループ内でまず ペア←0 にリセット。",
           "ペア判定: もし i＜要素数[手札] かつ 手札[i]＝手札[i＋1] ならば ペア←1。もし i＞1 かつ 手札[i]＝手札[i－1] ならば ペア←1。",
-          "ペア＝0 かつ 手札[i]＞場の強さ かつ 出した＝0 ならば: 出す(手札[i],1) / 出した←1 / 中断する"
+          "ペア＝0 かつ 手札[i]＞場の強さ ならば: 出す(手札[i],1) して 中断する（最初に見つかった＝最弱）。見つからなければ自動でパス。"
         ],
         "while": [
-          "フラグ 出した←0 と i←1 を初期化し、i ≦ 要素数[手札] の間…を繰り返す でループします。",
+          "i←1 を初期化し、i ≦ 要素数[手札] の間，…を繰り返す でループします。",
           "ループ内で ペア←0 にリセット後、ペア判定（隣り合う要素と比較）をします。末尾に i←i＋1 を忘れずに。",
-          "ペア＝0 かつ 手札[i]＞場の強さ かつ 出した＝0 ならば: 出す(手札[i],1) / 出した←1 / 中断する"
+          "ペア＝0 かつ 手札[i]＞場の強さ ならば: 出す(手札[i],1) して 中断する。"
         ],
         "doWhile": [
-          "フラグ 出した←0 と i←1 を初期化し、繰り返し，…を，i＞要素数[手札] になるまで実行する でループします。",
+          "i←1 を初期化し、繰り返し，…を，i＞要素数[手札] になるまで実行する でループします。",
           "ループ内で ペア←0 にリセット後、ペア判定をします。末尾に i←i＋1。",
-          "ペア＝0 かつ 手札[i]＞場の強さ かつ 出した＝0 ならば: 出す(手札[i],1) / 出した←1 / 中断する"
+          "ペア＝0 かつ 手札[i]＞場の強さ ならば: 出す(手札[i],1) して 中断する。"
         ]
       },
       "testCases": [
@@ -2657,6 +3145,88 @@
           "expected": {
             "action": "pass"
           }
+        },
+        {
+          "label": "ペアなし・場5→最弱7",
+          "state": {
+            "fieldStrength": 5,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              7,
+              9,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 7,
+            "count": 1
+          }
+        },
+        {
+          "label": "ペア多い・場6→シングル10",
+          "state": {
+            "fieldStrength": 6,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              3,
+              7,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "2ペア+シングル5・場6→パス",
+          "state": {
+            "fieldStrength": 6,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              3,
+              5,
+              7,
+              7
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "2ペア+2シングル・場4→シングル5",
+          "state": {
+            "fieldStrength": 4,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              3,
+              5,
+              7,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 5,
+            "count": 1
+          }
         }
       ],
       "category": "strategy",
@@ -2675,15 +3245,15 @@
         "b"
       ],
       "daifugoTitle": "ペアは温存して、シングルのカードだけで出る",
-      "descriptionHtml": "シングル場のとき、<strong class=\"desc-code\">ペアのカードは温存</strong>し、シングルのカードの中で<br>場より強い最弱カードを出してください。シングルで出せるカードがなければパスしてください。<br><span class=\"desc-expected\"><strong>手札 [3,3,7,10]、場=2 → 3 はペアなので温存 → 7 を出す</strong></span><span class=\"desc-hint\">💡 手札[i] ＝ 手札[i-1] または 手札[i] ＝ 手札[i+1] ならペアカードです。</span><span class=\"desc-hint\">💡 ループで各カードがペアかどうか調べ、ペアでなく場より強いカードを最初に出しましょう。</span>"
+      "descriptionHtml": "<strong>p05</strong>　<span class=\"desc-premise\">相手がシングルカードを出している時、</span><strong class=\"desc-code\">ペアのカードは温存</strong>し、シングルのカードの中で<br>場より強い最弱カードを出してください。シングルで出せるカードがなければパスしてください。"
     },
     {
-      "id": "p04",
+      "id": "p06",
       "title": "出せる最弱ペアを探す",
       "subtitle": "ペア場（n=2）",
       "difficulty": 3,
       "activeSection": 2,
-      "description": "ペア場のとき、手札の中で場より強い最弱のペアを探して出す。なければパス。",
+      "description": "p06　相手がペアカードを出している時、手札の中で場より強い最弱のペアを探して出す。なければパス。",
       "defaultHand": {
         "player": [
           3,
@@ -2706,7 +3276,6 @@
           5
         ]
       },
-      "hints": [],
       "loopHints": {
         "for": [
           "i を 1 から 要素数[手札]－1 まで 1 ずつ増やしながらループ。上限を「－1」にするのは隣り合う i と i＋1 を比較するためです。",
@@ -2802,6 +3371,84 @@
             "rank": 10,
             "count": 2
           }
+        },
+        {
+          "label": "ペアが3組・場4→最弱ペア5",
+          "state": {
+            "fieldStrength": 4,
+            "fieldCount": 2,
+            "playerHand": [
+              3,
+              3,
+              5,
+              5,
+              10,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 5,
+            "count": 2
+          }
+        },
+        {
+          "label": "ペアなし→パス",
+          "state": {
+            "fieldStrength": 6,
+            "fieldCount": 2,
+            "playerHand": [
+              5,
+              7,
+              9,
+              11
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "最大ペア=場(5)→パス",
+          "state": {
+            "fieldStrength": 5,
+            "fieldCount": 2,
+            "playerHand": [
+              3,
+              3,
+              5,
+              5
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "3ペア全部場以下→パス",
+          "state": {
+            "fieldStrength": 8,
+            "fieldCount": 2,
+            "playerHand": [
+              3,
+              3,
+              5,
+              5,
+              7,
+              7
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
         }
       ],
       "category": "strategy",
@@ -2819,15 +3466,188 @@
         "b"
       ],
       "daifugoTitle": "場より強い最弱ペアを探して出る",
-      "descriptionHtml": "ペア場のとき、手札の中で<strong class=\"desc-code\">場より強い最弱のペア</strong>を探して出してください。<br>ペアが見つからなければパスしてください。<br><span class=\"desc-expected\"><strong>手札 [3,3,7,7]、場=5（ペア場）→ 3のペアは場以下 → 7 のペアを出す</strong></span><span class=\"desc-hint\">💡 手札[i] ＝ 手札[i+1] で隣り合う同値カードがあればペアです。</span><span class=\"desc-hint\">💡 手札は昇順なので、最初に見つかった（場より強い）ペアが最弱のペアです。</span>"
+      "descriptionHtml": "<strong>p06</strong>　<span class=\"desc-premise\">相手がペアカードを出している時、</span>手札の中で<strong class=\"desc-code\">場より強い最弱のペア</strong>を探して出してください。<br>ペアが見つからなければパスしてください。"
     },
     {
-      "id": "p05",
+      "id": "p07",
+      "title": "$が出ていれば最強で攻め",
+      "subtitle": "空き場（n=0）",
+      "difficulty": 2,
+      "activeSection": 0,
+      "description": "p07　場にカードがない時、捨て札に$があれば最強カードを、なければ手札[1]をシングルで出す。",
+      "defaultHand": {
+        "player": [
+          3,
+          7,
+          10
+        ],
+        "opponent": [
+          5,
+          8,
+          12
+        ]
+      },
+      "initialState": {
+        "fieldStrength": 0,
+        "fieldCount": 0,
+        "currentTurn": "player",
+        "allDiscard": [
+          15
+        ]
+      },
+      "hints": [
+        "forループで捨て札を調べ、捨札[i] ＝ 15 があればフラグ変数を1にします。",
+        "最強カードは 手札[要素数[手札]] です。"
+      ],
+      "testCases": [
+        {
+          "label": "$あり→最強10",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              7,
+              10
+            ],
+            "allDiscard": [
+              15
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "$なし→最弱3",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 1
+          }
+        },
+        {
+          "label": "$あり→最強14",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              9,
+              14
+            ],
+            "allDiscard": [
+              3,
+              15
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 14,
+            "count": 1
+          }
+        },
+        {
+          "label": "$なし→最弱5",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              9,
+              14
+            ],
+            "allDiscard": [
+              8,
+              12
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 5,
+            "count": 1
+          }
+        },
+        {
+          "label": "手に$あり・捨札に$→最強15",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              7,
+              12,
+              15
+            ],
+            "allDiscard": [
+              15
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 15,
+            "count": 1
+          }
+        },
+        {
+          "label": "捨札に14と$→最強11",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              8,
+              11
+            ],
+            "allDiscard": [
+              14,
+              15
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 11,
+            "count": 1
+          }
+        }
+      ],
+      "category": "strategy",
+      "activeRefs": [
+        "h",
+        "s",
+        "e",
+        "l",
+        "i",
+        "I",
+        "d"
+      ],
+      "daifugoTitle": "捨て札に$があるか調べて攻める",
+      "descriptionHtml": "<strong>p07</strong>　<span class=\"desc-premise\">場にカードがない時、</span>捨て札に <strong class=\"desc-code\">$（15）</strong>が出ていれば、もう $ で返されないので最強カード（<strong class=\"desc-code\">手札[要素数[手札]]</strong>）で攻めましょう。出ていなければ最弱カードをシングルで出してください。"
+    },
+    {
+      "id": "p08",
       "title": "$チェック（捨札参照A）",
       "subtitle": "空き場（n=0）",
-      "difficulty": 4,
+      "difficulty": 3,
       "activeSection": 0,
-      "description": "捨て札に$（最強・15）があり手札にA(14)があれば積極的にAを出す。そうでなければ最弱カードを出す。",
+      "description": "p08　場にカードがない時、捨て札に$（最強・15）があり手札にA(14)があれば積極的にAを出す。そうでなければ最弱カードを出す。",
       "defaultHand": {
         "player": [
           3,
@@ -2848,16 +3668,15 @@
           15
         ]
       },
-      "hints": [],
       "loopHints": {
         "for": [
           "ドルあり←0 と初期化し、i を 1 から 要素数[捨札] まで 1 ずつ増やしながらループ。捨札[i]＝15（$の値）なら ドルあり←1 / 中断する。",
-          "ループ後: もし ドルあり＝1 かつ 手札[要素数[手札]]＝14（A）ならば 出す(14,1) — そうでなければ 出す(手札[1],1)。",
-          "正答例: ドルあり←0 / i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，｜もし 捨札[i]=15→ドルあり←1・中断 / もし ドルあり=1 かつ 手札[要素数[手札]]=14→出す(14,1)"
+          "Aも同様に探します: えーあり←0 として、手札のループで 手札[i]＝14 なら えーあり←1。ループ後: もし ドルあり＝1 かつ えーあり＝1 ならば 出す(14,1)、そうでなければ 出す(手札[1],1)。",
+          "正答例: ドルあり←0 / 捨札ループ: 捨札[i]=15→ドルあり←1・中断 / えーあり←0 / 手札ループ: 手札[i]=14→えーあり←1・中断 / もし ドルあり=1 かつ えーあり=1→出す(14,1)、そうでなければ→出す(手札[1],1)"
         ],
         "while": [
           "ドルあり←0 と i←1 を初期化し、i ≦ 要素数[捨札] の間，…を繰り返す でループ。末尾に i←i＋1 を忘れずに。",
-          "捨札[i]＝15 なら ドルあり←1・中断。ループ後に ドルあり の値で条件分岐します。",
+          "捨札[i]＝15 なら ドルあり←1・中断。A(14) も同じ形のループで えーあり に記録します（最強カード＝14 のチェックでは手札に $ があるとき失敗します）。",
           "正答例: ドルあり←0 / i←1 / i≦要素数[捨札] の間，｜もし 捨札[i]=15→ドルあり←1・中断 / ｜i←i＋1 / を繰り返す"
         ],
         "doWhile": [
@@ -2949,6 +3768,47 @@
             "rank": 3,
             "count": 1
           }
+        },
+        {
+          "label": "A・$手と捨両方→A出す",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              14,
+              15
+            ],
+            "allDiscard": [
+              15
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 14,
+            "count": 1
+          }
+        },
+        {
+          "label": "手に3・14、捨に$→14出す",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              14
+            ],
+            "allDiscard": [
+              15
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 14,
+            "count": 1
+          }
         }
       ],
       "category": "strategy",
@@ -2966,15 +3826,186 @@
         "b"
       ],
       "daifugoTitle": "最強の$が消えていたらエースで攻める",
-      "descriptionHtml": "<strong class=\"desc-code\">捨て札</strong> を参照して戦略を変えます。<br>捨て札に <strong class=\"desc-code\">$（15）</strong>があり、かつ手札に <strong class=\"desc-code\">A（14）</strong>があれば積極的に A を出してください。<br>そうでなければ最弱カード（手札[1]）をシングルで出してください。<br><span class=\"desc-expected\"><strong>捨札に $ あり かつ 手札に A あり → A を出す　　それ以外 → 手札[1] を出す</strong></span><span class=\"desc-hint\">💡 forループで捨て札を調べ $ があるか確認しましょう。手札に A(14) があるかも同様にループで確認できます。</span>"
+      "descriptionHtml": "<strong>p08</strong>　<span class=\"desc-premise\">場にカードがない時、</span><strong class=\"desc-code\">捨て札</strong> を参照して戦略を変えます。<br>捨て札に <strong class=\"desc-code\">$（15）</strong>があり、かつ手札に <strong class=\"desc-code\">A（14）</strong>があれば積極的に A を出してください。<br>そうでなければ最弱カード（手札[1]）をシングルで出してください。"
     },
     {
-      "id": "p06",
+      "id": "p09",
+      "title": "捨て札の最大ランクで判断",
+      "subtitle": "空き場（n=0）",
+      "difficulty": 3,
+      "activeSection": 0,
+      "description": "p09　場にカードがない時、捨て札の最大ランクがK以上なら最強カードを、そうでなければ手札[1]を出す。",
+      "defaultHand": {
+        "player": [
+          5,
+          9,
+          13
+        ],
+        "opponent": [
+          3,
+          8,
+          14
+        ]
+      },
+      "initialState": {
+        "fieldStrength": 0,
+        "fieldCount": 0,
+        "currentTurn": "player",
+        "allDiscard": []
+      },
+      "hints": [
+        "forループで捨て札を調べ、最大値を変数に記録します（捨札[i] ＞ 最大 なら 最大 ← 捨札[i]）。",
+        "最大 ≧ 13 かどうかで、最強カード（手札[要素数[手札]]）と最弱カード（手札[1]）を出し分けます。"
+      ],
+      "testCases": [
+        {
+          "label": "最大14≥K→最強13",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              9,
+              13
+            ],
+            "allDiscard": [
+              3,
+              14
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 13,
+            "count": 1
+          }
+        },
+        {
+          "label": "最大5<K→最弱5",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              9,
+              13
+            ],
+            "allDiscard": [
+              3,
+              5
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 5,
+            "count": 1
+          }
+        },
+        {
+          "label": "最大13≥K→最強10",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              7,
+              10
+            ],
+            "allDiscard": [
+              13
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "捨札なし→最弱3",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 1
+          }
+        },
+        {
+          "label": "捨札最大14→最強15",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              5,
+              9,
+              15
+            ],
+            "allDiscard": [
+              13,
+              14
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 15,
+            "count": 1
+          }
+        },
+        {
+          "label": "捨札最大12→最弱3",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              7,
+              11
+            ],
+            "allDiscard": [
+              12
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 1
+          }
+        }
+      ],
+      "category": "strategy",
+      "activeRefs": [
+        "h",
+        "s",
+        "e",
+        "l",
+        "i",
+        "I",
+        "d"
+      ],
+      "daifugoTitle": "捨て札の最大値を求めて出し分ける",
+      "descriptionHtml": "<strong>p09</strong>　<span class=\"desc-premise\">場にカードがない時、</span>捨て札の<strong class=\"desc-code\">最大ランク</strong>を調べ、<strong class=\"desc-code\">K（13）以上</strong>なら強いカードが減った合図 → 最強カードを出してください。そうでなければ最弱カードをシングルで出してください。"
+    },
+    {
+      "id": "p10",
       "title": "捨札の最大値を調べる",
       "subtitle": "シングル場（n=1）",
       "difficulty": 4,
       "activeSection": 1,
-      "description": "捨て札の最大ランクがK(13)以上なら強いカードが消えた合図→出せる最強を出す。そうでなければ最弱を出す。",
+      "description": "p10　相手がシングルカードを出している時、捨て札の最大ランクがK(13)以上なら強いカードが消えた合図→出せる最強を出す。そうでなければ最弱を出す。",
       "defaultHand": {
         "player": [
           5,
@@ -2996,7 +4027,6 @@
           14
         ]
       },
-      "hints": [],
       "loopHints": {
         "for": [
           "さいだい←0 と初期化。1つ目のループ: i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，｜もし 捨札[i]＞さいだい ならば さいだい←捨札[i] で最大値を求めます。",
@@ -3099,6 +4129,50 @@
             "rank": 5,
             "count": 1
           }
+        },
+        {
+          "label": "捨最大14・場12→最強13",
+          "state": {
+            "fieldStrength": 12,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              9,
+              13
+            ],
+            "allDiscard": [
+              13,
+              14
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 13,
+            "count": 1
+          }
+        },
+        {
+          "label": "捨最大7・場6→最弱9",
+          "state": {
+            "fieldStrength": 6,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              9
+            ],
+            "allDiscard": [
+              3,
+              7
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 9,
+            "count": 1
+          }
         }
       ],
       "category": "strategy",
@@ -3118,15 +4192,15 @@
         "b"
       ],
       "daifugoTitle": "強いカードが消えたかを捨て札の最大値で判断する",
-      "descriptionHtml": "<strong class=\"desc-code\">捨て札の最大ランク</strong> を調べ、戦略を切り替えます。<br>捨て札の最大ランクが <strong class=\"desc-code\">K（13）以上</strong>なら強いカードが消えた合図 → 出せる最強カードを出してください。<br>そうでなければ出せる最弱カードをシングルで出してください。<br><span class=\"desc-expected\"><strong>捨札最大 ≧ 13 → 出せる最強を出す　　捨札最大 &lt; 13 → 出せる最弱を出す</strong></span><span class=\"desc-hint\">💡 forループで捨て札を順に調べ、最大値を変数に記録しましょう。</span>"
+      "descriptionHtml": "<strong>p10</strong>　<span class=\"desc-premise\">相手がシングルカードを出している時、</span><strong class=\"desc-code\">捨て札の最大ランク</strong> を調べ、戦略を切り替えます。<br>捨て札の最大ランクが <strong class=\"desc-code\">K（13）以上</strong>なら強いカードが消えた合図 → 出せる最強カードを出してください。<br>そうでなければ出せる最弱カードをシングルで出してください。"
     },
     {
-      "id": "p07",
-      "title": "ランク残り枚数カウント",
+      "id": "p11",
+      "title": "出尽くしなら出せる最弱",
       "subtitle": "シングル場（n=1）",
-      "difficulty": 5,
+      "difficulty": 3,
       "activeSection": 1,
-      "description": "捨て札に場と同ランクが2枚あれば（出尽くし）最弱で出せるカードを。1枚以下なら場+2以上のカードを出す。",
+      "description": "p11　相手がシングルカードを出している時、場と同ランクが捨て札に2枚なら出せる最弱を出す、そうでなければパス。",
       "defaultHand": {
         "player": [
           5,
@@ -3144,31 +4218,16 @@
         "fieldCount": 1,
         "currentTurn": "player",
         "allDiscard": [
-          4,
           4
         ]
       },
-      "hints": [],
-      "loopHints": {
-        "for": [
-          "カウント←0 と初期化。1つ目のループ: i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，｜もし 捨札[i]＝場の強さ ならば カウント←カウント＋1",
-          "カウント＝2 のとき【出尽くし】: 2つ目のループで 手札[i]＞場の強さ の最弱カードを探して出す・中断。",
-          "カウント≠2 のとき【余裕を持つ】: 2つ目のループで 手札[i]≧場の強さ＋2 の最弱カードを探して出す・中断。見つからなければ自動でパス。"
-        ],
-        "while": [
-          "カウント←0, i←1 と初期化。i≦要素数[捨札] の間，｜捨札[i]=場の強さ→カウント＋1 / ｜i←i＋1 / を繰り返す でカウントします。",
-          "カウント＝2 のとき: j←1。j≦要素数[手札] の間，｜手札[j]＞場の強さ→出す・中断 / ｜j←j＋1 / を繰り返す。",
-          "カウント≠2 のとき: j←1。j≦要素数[手札] の間，｜手札[j]≧場の強さ＋2→出す・中断 / ｜j←j＋1 / を繰り返す。"
-        ],
-        "doWhile": [
-          "カウント←0, i←1 と初期化。繰り返し，｜捨札[i]=場の強さ→カウント＋1 / ｜i←i＋1 / を，i＞要素数[捨札] になるまで実行する。",
-          "注意：捨札が0枚のとき後判定ループで捨札[1]に誤アクセスします。for/while の方が安全ですが、使う場合は要素数[捨札]＞0 のときのみループするよう工夫します。",
-          "カウントが求まったら、カウント＝2か否かで分岐し、2つ目のループで出すカードを探します。"
-        ]
-      },
+      "hints": [
+        "forループで捨て札を調べ、捨札[i] ＝ 場の強さ の枚数を数えます（sm ← sm ＋ 1）。",
+        "数えた枚数が2以上なら出尽くし → 場より強い最弱を出し、そうでなければパスします。"
+      ],
       "testCases": [
         {
-          "label": "捨札に場と同ランク2枚 → 最弱で出せる5を出す",
+          "label": "同4が2枚→最弱5",
           "state": {
             "fieldStrength": 4,
             "fieldCount": 1,
@@ -3190,7 +4249,7 @@
           }
         },
         {
-          "label": "捨札に場と同ランク1枚 → +2以上の7を出す",
+          "label": "同4が1枚→パス",
           "state": {
             "fieldStrength": 4,
             "fieldCount": 1,
@@ -3206,13 +4265,220 @@
             "opponentHandSize": 1
           },
           "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "捨札なし→パス",
+          "state": {
+            "fieldStrength": 4,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "同4が2枚→最弱5",
+          "state": {
+            "fieldStrength": 4,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              9,
+              11
+            ],
+            "allDiscard": [
+              4,
+              4
+            ],
+            "opponentHandSize": 1
+          },
+          "expected": {
             "action": "play",
-            "rank": 7,
+            "rank": 5,
             "count": 1
           }
         },
         {
-          "label": "捨札なし → +2以上の7を出す",
+          "label": "出尽くし・場7→最弱10",
+          "state": {
+            "fieldStrength": 7,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              7,
+              10
+            ],
+            "allDiscard": [
+              7,
+              7
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "出尽くし・場8→最弱10",
+          "state": {
+            "fieldStrength": 8,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              7,
+              10
+            ],
+            "allDiscard": [
+              8,
+              8
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "出尽くし・出せない→パス",
+          "state": {
+            "fieldStrength": 9,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              7
+            ],
+            "allDiscard": [
+              9,
+              9
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        }
+      ],
+      "category": "strategy",
+      "activeRefs": [
+        "f",
+        "h",
+        "s",
+        "e",
+        "l",
+        "i",
+        "I",
+        "d",
+        "p"
+      ],
+      "daifugoTitle": "場と同じランクの残りを数える",
+      "descriptionHtml": "<strong>p11</strong>　<span class=\"desc-premise\">相手がシングルカードを出している時、</span>場と同じランクが捨て札に <strong class=\"desc-code\">2枚（出尽くし）</strong>出ていれば、場より強い最弱カードを出してください。<strong class=\"desc-code\">1枚以下</strong>ならパスしてください。"
+    },
+    {
+      "id": "p12",
+      "title": "ランク残り枚数カウント",
+      "subtitle": "シングル場（n=1）",
+      "difficulty": 5,
+      "activeSection": 1,
+      "description": "p12　相手がシングルカードを出している時、同ランクが出尽くし(2枚)なら最強カードで攻め、1枚以下なら最弱カードで守る。出せなければパス。",
+      "defaultHand": {
+        "player": [
+          5,
+          7,
+          10
+        ],
+        "opponent": [
+          3,
+          8,
+          12
+        ]
+      },
+      "initialState": {
+        "fieldStrength": 4,
+        "fieldCount": 1,
+        "currentTurn": "player",
+        "allDiscard": [
+          4,
+          4
+        ]
+      },
+      "loopHints": {
+        "for": [
+          "カウント←0 と初期化。1つ目のループ: i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，｜もし 捨札[i]＝場の強さ ならば カウント←カウント＋1",
+          "カウント＝2 のとき【出尽くし・最強】: 選択←0 と初期化。2つ目のループで 手札[i]＞場の強さ ならば 選択←手札[i]（中断しない）。ループ後に 選択＞0 なら出す。",
+          "カウント≠2 のとき【守る】: 2つ目のループで 手札[i]＞場の強さ の最弱カードを探して出す・中断。見つからなければ自動でパス。"
+        ],
+        "while": [
+          "カウント←0, i←1 と初期化。i≦要素数[捨札] の間，｜捨札[i]=場の強さ→カウント＋1 / ｜i←i＋1 / を繰り返す でカウントします。",
+          "カウント＝2 のとき: j←1, 選択←0。j≦要素数[手札] の間，｜手札[j]＞場の強さ→選択←手札[j]（中断しない）/ ｜j←j＋1 / を繰り返す。選択＞0 なら出す。",
+          "カウント≠2 のとき: j←1。j≦要素数[手札] の間，｜手札[j]＞場の強さ→出す・中断 / ｜j←j＋1 / を繰り返す。"
+        ],
+        "doWhile": [
+          "カウント←0, i←1 と初期化。繰り返し，｜捨札[i]=場の強さ→カウント＋1 / ｜i←i＋1 / を，i＞要素数[捨札] になるまで実行する。",
+          "注意：捨札が0枚のとき後判定ループで捨札[1]に誤アクセスします。for/while の方が安全ですが、使う場合は要素数[捨札]＞0 のときのみループするよう工夫します。",
+          "カウントが求まったら、カウント＝2（出尽くし）か否かで分岐します。出尽くしのとき: 選択←0 で記録しながら全手札をスキャンし最強カードを探す。そうでないとき: 最弱カードを探して出す（forかwhileの方が安全）。"
+        ]
+      },
+      "testCases": [
+        {
+          "label": "出尽くし→最強10",
+          "state": {
+            "fieldStrength": 4,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              7,
+              10
+            ],
+            "allDiscard": [
+              4,
+              4
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "1枚残→最弱5",
+          "state": {
+            "fieldStrength": 4,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              7,
+              10
+            ],
+            "allDiscard": [
+              4,
+              10
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 5,
+            "count": 1
+          }
+        },
+        {
+          "label": "捨札なし→最弱5",
           "state": {
             "fieldStrength": 4,
             "fieldCount": 1,
@@ -3226,12 +4492,12 @@
           },
           "expected": {
             "action": "play",
-            "rank": 7,
+            "rank": 5,
             "count": 1
           }
         },
         {
-          "label": "捨札に場と同ランク1枚・+2以上なし → パス",
+          "label": "出尽くし場9→最強10",
           "state": {
             "fieldStrength": 9,
             "fieldCount": 1,
@@ -3242,9 +4508,72 @@
             ],
             "allDiscard": [
               9,
-              12
+              9
             ],
-            "opponentHandSize": 1
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "1枚残場9→最弱10",
+          "state": {
+            "fieldStrength": 9,
+            "fieldCount": 1,
+            "playerHand": [
+              5,
+              7,
+              10
+            ],
+            "allDiscard": [
+              9,
+              5
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 10,
+            "count": 1
+          }
+        },
+        {
+          "label": "出尽くし・出せない→パス",
+          "state": {
+            "fieldStrength": 9,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              7
+            ],
+            "allDiscard": [
+              9,
+              9
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "pass"
+          }
+        },
+        {
+          "label": "守る・出せない→パス",
+          "state": {
+            "fieldStrength": 8,
+            "fieldCount": 1,
+            "playerHand": [
+              3,
+              5,
+              7
+            ],
+            "allDiscard": [
+              8
+            ],
+            "opponentHandSize": 3
           },
           "expected": {
             "action": "pass"
@@ -3268,15 +4597,15 @@
         "b"
       ],
       "daifugoTitle": "場と同じランクの残り枚数を数えて判断する",
-      "descriptionHtml": "<strong class=\"desc-code\">捨て札</strong> で場と同じランクが何枚出たか数えます。<br>場と同ランクが <strong class=\"desc-code\">2 枚（出尽くし）</strong>なら出せる最弱カードを出してください。<br><strong class=\"desc-code\">1 枚以下</strong>なら場のランク ＋ 2 以上のカードを出してください。<br>出せるカードがなければパスしてください。<br><span class=\"desc-expected\"><strong>場=4 で捨札に 4 が 2 枚 → 出尽くし → 出せる最弱を出す</strong></span><span class=\"desc-hint\">💡 forループで捨て札を調べ、場の強さと同じランクのカードを数えましょう。</span>"
+      "descriptionHtml": "<strong>p12</strong>　<span class=\"desc-premise\">相手がシングルカードを出している時、</span>捨て札で場と同じランクが何枚出たか数えます。<strong class=\"desc-code\">2 枚（出尽くし）</strong>なら場より強い<strong class=\"desc-code\">最強</strong>カードを出してください。<strong class=\"desc-code\">1 枚以下</strong>なら場より強い<strong class=\"desc-code\">最弱</strong>カードを出してください。出せるカードがなければパスしてください。"
     },
     {
-      "id": "p08",
+      "id": "p13",
       "title": "残り枚数を推定して出す",
       "subtitle": "空き場（n=0）",
       "difficulty": 4,
       "activeSection": 0,
-      "description": "各ランクは全部で2枚。手札と捨て札で使った分を引いて相手の持ち枚数を推定し、最強カードが出尽くしなら最強を出す。",
+      "description": "p13　場にカードがない時、自分の手札の中で最も強いカード（手札[要素数[手札]]）の残り枚数を、手札と捨て札を使って調べます。残り 0 枚なら積極的に出し、そうでなければ最弱カードをシングルで出す。",
       "defaultHand": {
         "player": [
           3,
@@ -3300,7 +4629,7 @@
       "hints": [
         "各ランク j（3〜15）について 残り[j] ← 2 と初期化するループから始めましょう。",
         "次に手札と捨て札をそれぞれスキャンして 残り[手札[i]] ← 残り[手札[i]] － 1 のように減算します。",
-        "答え: j を 3 から 15 まで 1 ずつ増やしながら ｜残り[j]←2 / i を 1 から 要素数[手札] まで ｜残り[手札[i]]←残り[手札[i]]－1 / i を 1 から 要素数[捨札] まで ｜残り[捨札[i]]←残り[捨札[i]]－1 / もし 残り[手札[要素数[手札]]]＝0 ならば 出す(手札[要素数[手札]], 1) そうでなければ 出す(手札[1], 1)"
+        "骨組み: ① j を 3 から 15 までのループで 残り[j] ← 2 と初期化 → ② 手札のループで 残り[手札[i]] を 1 減らす → ③ 捨札のループで 残り[捨札[i]] を 1 減らす → ④ 残り[最強] ＝ 0 かどうかで最強／最弱を出し分ける。"
       ],
       "testCases": [
         {
@@ -3388,6 +4717,49 @@
             "rank": 5,
             "count": 1
           }
+        },
+        {
+          "label": "最強14・残り0→14出す",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              7,
+              11,
+              14
+            ],
+            "allDiscard": [
+              14
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 14,
+            "count": 1
+          }
+        },
+        {
+          "label": "最強14・残り1→最弱7出す",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              7,
+              11,
+              14
+            ],
+            "allDiscard": [
+              3,
+              9
+            ],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 7,
+            "count": 1
+          }
         }
       ],
       "category": "strategy",
@@ -3400,7 +4772,131 @@
         "d"
       ],
       "daifugoTitle": "各ランクの残り枚数を推計して出し方を決める",
-      "descriptionHtml": "各ランクは全部で <strong class=\"desc-code\">2 枚</strong>ずつあります。<br>配列 <strong class=\"desc-code\">残り[j]</strong> を使って手札と捨て札の枚数を引き、<strong class=\"desc-code\">最強カードの残り枚数</strong>を推定してください。<br>残り 0 枚（出尽くし）なら最強カードで攻め、そうでなければ最弱カードを出してください。<br><span class=\"desc-expected\"><strong>残り[手札[最強]] ＝ 0 → 最強を出す　　残り ≧ 1 → 手札[1] を出す</strong></span><span class=\"desc-hint\">💡 残り[j] ← 2 で各ランクを初期化してから、手札と捨て札でそれぞれ 残り[j] ← 残り[j] ー 1 を引きましょう。</span>"
+      "descriptionHtml": "<strong>p13</strong>　<span class=\"desc-premise\">場にカードがない時、</span>自分の手札の中で最も強いカード（<strong class=\"desc-code\">手札[要素数[手札]]</strong>）の残り枚数を、手札と捨て札を使って調べます。残り 0 枚なら相手に同じランクがないので積極的に出し、そうでなければ最弱カードをシングルで出してください。"
+    },
+    {
+      "id": "b27",
+      "category": "basic",
+      "title": "8を探して場を流す",
+      "subtitle": "つかうもの: 手札 / 要素数 / forループ / もし / 中断する / 出す",
+      "difficulty": 3,
+      "activeSection": 0,
+      "description": "b27　手札に 8 があれば、その 8 をシングルで出してください（8切り：8を出すと場が流れます）。8 がなければ最弱カードをシングルで出してください。",
+      "hints": [
+        "フラグ変数 found ← 0 を用意し、forループで手札を順に調べます。",
+        "もし 手札[i] ＝ 8 ならば、found ← 1 にして 出す(手札[i], 1)、中断する でループを抜けます。",
+        "ループの後で もし found ＝ 0 ならば 出す(手札[1], 1) で最弱カードを出します。"
+      ],
+      "prerequisite": {
+        "require": [
+          "ずつ増やしながら"
+        ],
+        "message": "forループ（〜ずつ増やしながら）で手札から 8 を探してみよう"
+      },
+      "testCases": [
+        {
+          "label": "手札 3,8,10 → 8を出す（8切り）",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              8,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 8,
+            "count": 1
+          }
+        },
+        {
+          "label": "手札 3,7,10（8なし）→ 最弱3",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              3,
+              7,
+              10
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 3,
+            "count": 1
+          }
+        },
+        {
+          "label": "手札 8,9 → 8を出す",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              8,
+              9
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 8,
+            "count": 1
+          }
+        },
+        {
+          "label": "手札 4,8,8,12 → 8をシングルで",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              4,
+              8,
+              8,
+              12
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 8,
+            "count": 1
+          }
+        },
+        {
+          "label": "手札 9,11（8なし）→ 最弱9",
+          "state": {
+            "fieldStrength": 0,
+            "fieldCount": 0,
+            "playerHand": [
+              9,
+              11
+            ],
+            "allDiscard": [],
+            "opponentHandSize": 3
+          },
+          "expected": {
+            "action": "play",
+            "rank": 9,
+            "count": 1
+          }
+        }
+      ],
+      "activeRefs": [
+        "h",
+        "e",
+        "l",
+        "i",
+        "b",
+        "d"
+      ]
     }
   ]
 }

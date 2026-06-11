@@ -1,0 +1,285 @@
+/* ================================================================
+   print.css — 大富豪プログラミング 完全攻略テキスト
+   A4 縦向きレイアウト（スクリーン＋印刷兼用）
+
+   ページ寸法（A4 210mm × 297mm）:
+     天（ヘッダー帯）:  0 〜 22mm
+     本文エリア      : 26 〜 277mm  （高さ 251mm）
+     地（フッター帯）: 277 〜 297mm
+
+   左右マージン:
+     小口（外側）: 18mm
+     喉（綴じ代）: 26mm
+   ================================================================ */
+
+/* ══════════════════════════════════════════════════════════════
+   スクリーン表示: A4 カードレイアウト（デフォルト）
+   ページが灰色の背景に白いカードとして表示される
+══════════════════════════════════════════════════════════════ */
+
+html {
+  background: #b0b0b0;
+  padding: 16px;
+  box-sizing: border-box;
+  color-scheme: light;
+}
+
+body {
+  background: transparent;
+  margin: 0 auto;
+  padding: 0;
+  max-width: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+/* ── 表紙 (.cover) ─────────────────────────────────────────────── */
+.cover {
+  width: 210mm;
+  min-height: 297mm;
+  box-sizing: border-box;
+  padding: 50mm 22mm 30mm;
+  display: block;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.30);
+  page-break-before: avoid;
+  break-before: avoid;
+  page-break-after: always;
+  break-after: page;
+}
+
+/* ── 各ページ (.pg) 基本設定 ────────────────────────────────────── */
+.pg {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 0;
+  border-top: none !important;
+  margin: 0 auto 16px !important;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.30);
+  page-break-before: always;
+  break-before: page;
+}
+
+/* 本文ページは縦フレックス（最下部にメモ欄を伸ばすため）*/
+.pg.print-page-odd,
+.pg.print-page-even {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 前付けページ（目次など ── ノンブルなし）───────────────────── */
+.pg.print-page-front {
+  padding: 24mm 22mm 19mm 22mm;
+}
+
+/* ── 奇数ページ（右 ── 綴じ代＝左）─────────────────────────────── */
+.pg.print-page-odd {
+  padding: 24mm 18mm 19mm 26mm;
+}
+
+/* ── 偶数ページ（左 ── 綴じ代＝右）─────────────────────────────── */
+.pg.print-page-even {
+  padding: 24mm 26mm 19mm 18mm;
+}
+
+/* ── 組版密度（行間・余白を詰めて1ページに収める）──────── */
+.pg h2 { margin: 11px 0 6px; font-size: 16px; }
+.pg h3 { margin: 9px 0 5px; }
+.pg p  { margin: 6px 0; }
+.pg ul, .pg ol { margin: 6px 0; }
+.pg li { margin: 2px 0; }
+.pg table { margin: 6px 0; }
+.pg th, .pg td { padding: 4px 7px; font-size: 11.5px; }
+.pg .info-box, .pg .caution-box, .pg .try-box, .pg .real-example { margin: 7px 0; padding: 8px 12px; }
+.pg .code-block { margin: 7px 0; padding: 8px 12px; line-height: 1.5; }
+.pg .ch-header { padding: 13px 18px; margin-bottom: 11px; }
+.pg .ch-title { font-size: 20px; }
+.pg .step-list li { margin: 6px 0; }
+.pg .answer-card { margin: 7px 0; }
+.pg .answer-card-body { padding: 8px 12px; }
+
+/* ── セクション終了時のポイントボックス ────────────────────────────── */
+.print-section-point {
+  margin-top: 4mm;
+  border: 0.6pt solid #ffd699;
+  border-radius: 4px;
+  background: #fffbf0;
+  padding: 7px 12px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.print-section-point-ttl {
+  font-size: inherit;
+  font-weight: 700;
+  color: #d68a2e;
+  margin-bottom: 4px;
+}
+.print-section-point ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.print-section-point li {
+  margin: 2px 0;
+  font-size: inherit;
+  color: #333;
+}
+
+/* ── 解説ページの「セルフチェック」ボックス ─────────────────────── */
+.print-selfcheck {
+  margin-top: 4mm;
+  border: 0.6pt solid #cfe0ff;
+  border-radius: 4px;
+  background: #f5f9ff;
+  padding: 7px 12px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.print-selfcheck-ttl {
+  font-size: inherit;
+  font-weight: 700;
+  color: #1a4f9c;
+  margin-bottom: 4px;
+}
+.print-selfcheck ul { margin: 0; padding-left: 0; list-style: none; }
+.print-selfcheck li { margin: 2px 0; font-size: inherit; color: #333; }
+
+/* ── ヘッダー（柱）──────────────────────────────────────────────── */
+.print-header {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22mm;
+  pointer-events: none;
+}
+
+.print-header-text {
+  position: absolute;
+  top: 9mm;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "ヒラギノ明朝 ProN",
+               "MS Mincho", "ＭＳ 明朝", "Noto Serif CJK JP", serif;
+  font-size: 7.5pt;
+  color: #444;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 155mm;
+}
+
+/* 右ページ（奇数）: 節タイトルを右寄せ（小口側） */
+.pg.print-page-odd .print-header-text {
+  right: 18mm;
+  text-align: right;
+}
+
+/* 左ページ（偶数）: 章タイトルを左寄せ（小口側） */
+.pg.print-page-even .print-header-text {
+  left: 18mm;
+  text-align: left;
+}
+
+/* ヘアライン */
+.print-header-rule {
+  position: absolute;
+  bottom: 2mm;
+  left: 18mm;
+  right: 18mm;
+  height: 0;
+  border-bottom: 0.3pt solid #ccc;
+}
+
+/* ── フッター（ノンブル）───────────────────────────────────────── */
+.print-footer {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 18mm;
+  pointer-events: none;
+  z-index: 10;  /* コンテンツが流れ込んでも常に最前面 */
+  background: white;  /* コンテンツを隠して番号を見やすく */
+}
+
+.print-footer-number {
+  position: absolute;
+  bottom: 8mm;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 8.5pt;
+  color: #333;
+  letter-spacing: 0.05em;
+}
+
+/* 右ページ（奇数）: ページ番号を右寄せ */
+.pg.print-page-odd .print-footer-number {
+  right: 18mm;
+}
+
+/* 左ページ（偶数）: ページ番号を左寄せ */
+.pg.print-page-even .print-footer-number {
+  left: 18mm;
+}
+
+/* 前付けページはノンブル非表示 */
+.pg.print-page-front .print-footer {
+  display: none !important;
+}
+
+/* ════════════════════════════════════════════════════════
+   印刷時のみ: 画面表示を無効化・用紙ぴったり配置
+════════════════════════════════════════════════════════ */
+@media print {
+
+  /* Chrome の既定余白を 0 に */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html {
+    background: white !important;
+    padding: 0 !important;
+  }
+
+  body {
+    background: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .pg {
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .cover {
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* 背景色・装飾の保持（印刷ダイアログで「背景のグラフィック」を ON にする）*/
+  .code-block,
+  .ch-header,
+  .problem-page-hdr, .hint-page-hdr, .explain-page-hdr,
+  .column-hdr, .answer-hdr, .answer-card-title, .answer-card,
+  .app-diagram, .app-titlebar, .app-left, .app-center, .app-right,
+  .active-area, .app-saiten, .app-gamebar, .app-hint-bar,
+  .app-mondai, .app-tc,
+  .info-box, .caution-box, .try-box, .think-box, .real-example,
+  .step-list .step-num, .hint-warning, .explain-note,
+  .flow-diagram .flow-box, .flow-diagram .flow-result,
+  .section-indicator, .badge, .write-area, th {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+}

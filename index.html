@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja" data-theme="dark">
+<html lang="ja" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>大富豪プログラミング</title>
-  <link rel="stylesheet" href="style.css?v=40">
+  <link rel="stylesheet" href="style.css?v=44">
 </head>
 <body>
 
@@ -13,6 +13,7 @@
   <div class="landing-topbar">
     <div></div>
     <div class="landing-topbar-btns">
+      <button id="land-theme-btn" class="landing-top-btn" title="ダーク/ライト表示を切り替える">🌙 ダーク</button>
       <button id="clear-marks-btn" class="landing-top-btn" title="クリア記録をリセットする">消去</button>
       <button id="land-save-btn"   class="landing-top-btn" title="コードを保存（ブラウザ）">保存</button>
       <button id="land-load-btn"   class="landing-top-btn" title="保存したコードを読み込む">読込</button>
@@ -31,7 +32,7 @@
       <button id="land-strategy-btn" class="landing-mode-btn">
         <span class="landing-mode-icon">♟</span>
         <span class="landing-mode-label">戦略問題</span>
-        <span class="landing-mode-sub">ゲーム戦略を組み立てる<br>全 8 問</span>
+        <span class="landing-mode-sub">ゲーム戦略を組み立てる<br>全 13 問</span>
       </button>
       <button id="land-free-btn" class="landing-mode-btn landing-mode-free">
         <span class="landing-mode-icon">✏</span>
@@ -86,9 +87,10 @@
         <tr><th>@</th><th>展開</th></tr>
         <tr data-shortcut="f" data-tip="場に出ているカードの値。\n空き場は 0。3〜10はそのまま\nJ=11、Q=12、K=13、A=14、$=15"><td data-tip="場に出ているカードの値。\n空き場は 0。3〜10はそのまま\nJ=11、Q=12、K=13、A=14、$=15">f</td><td>場の強さ</td></tr>
         <tr data-shortcut="n" data-tip="場に出ているカードの枚数\n0=空き場  1=1枚出し  2=2枚出し"><td data-tip="場に出ているカードの枚数\n0=空き場  1=1枚出し  2=2枚出し">n</td><td>場の枚数</td></tr>
-        <tr data-shortcut="h" data-tip="手札のN番目のカード値（1始まり）\n弱い順にソート済み（同値の場合あり）\n手札[1]=最弱\n例: 3,3,4 → 手札[1]=3, 手札[2]=3, 手札[3]=4"><td data-tip="手札のN番目のカード値（1始まり）\n弱い順にソート済み（同値の場合あり）\n手札[1]=最弱\n例: 3,3,4 → 手札[1]=3, 手札[2]=3, 手札[3]=4">h</td><td>手札[＜式＞]</td></tr>
-        <tr data-shortcut="e" data-tip="配列の要素数を取得\n例: 要素数[手札]、要素数[捨札]、要素数[相手の手札]\n配列名: 手札 / 捨札 / 相手の手札"><td data-tip="配列の要素数を取得\n例: 要素数[手札]、要素数[相手の手札]">e</td><td>要素数[＜変数＞]</td></tr>
-        <tr data-shortcut="s" data-tip="これまでに出されたカード（自分・相手の合計）のN番目\n出された順に並んでいる\n例: 捨札[1]=最初に出されたカード"><td data-tip="出された順に並ぶ捨て札（両者合計）のN番目">s</td><td>捨札[＜式＞]</td></tr>
+        <tr data-shortcut="h" data-tip="手札のN番目のカード値（1始まり）\n弱い順にソート済み（同値の場合あり）\n手札[1]=最弱\n例: 3,3,4 → 手札[1]=3, 手札[2]=3, 手札[3]=4"><td data-tip="手札のN番目のカード値（1始まり）\n弱い順にソート済み（同値の場合あり）\n手札[1]=最弱\n例: 3,3,4 → 手札[1]=3, 手札[2]=3, 手札[3]=4">h</td><td>手札[番号]</td></tr>
+        <tr data-shortcut="e" data-tip="配列の要素数を取得\n例: 要素数[手札]、要素数[捨札]、要素数[相手の手札]\n配列名: 手札 / 捨札 / 相手の手札"><td data-tip="配列の要素数を取得\n例: 要素数[手札]、要素数[相手の手札]">e</td><td>要素数[配列]</td></tr>
+        <tr data-shortcut="s" data-tip="これまでに出されたカード（自分・相手の合計）のN番目\n出された順に並んでいる\n例: 捨札[1]=最初に出されたカード"><td data-tip="出された順に並ぶ捨て札（両者合計）のN番目">s</td><td>捨札[番号]</td></tr>
+        <tr data-shortcut="o" data-tip="相手の手札（配列）。\n要素数[相手の手札] で相手の残り枚数がわかる"><td data-tip="相手の手札（配列）。要素数[相手の手札] で相手の残り枚数がわかる">o</td><td>相手の手札</td></tr>
       </table>
     </div>
 
@@ -109,11 +111,11 @@
       <button class="ref-section-btn"><span class="ref-tri">▼</span> 行動</button>
       <table class="ref-table">
         <tr><th>@</th><th>展開</th></tr>
-        <tr data-shortcut="d" data-tip="カードを出す\n第1引数: カードの値（例: 手札[1]）\n第2引数: 枚数（1=シングル, 2=ペア）\n例: 出す(手札[1], 1)"><td data-tip="カードを出す\n第1引数: カード値, 第2引数: 枚数">d</td><td>出す(＜式＞, ＜式＞)</td></tr>
+        <tr data-shortcut="d" data-tip="カードを出す\n第1引数: カードの値（例: 手札[1]）\n第2引数: 枚数（1=シングル, 2=ペア）\n例: 出す(手札[1], 1)"><td data-tip="カードを出す\n第1引数: カード値, 第2引数: 枚数">d</td><td>出す(カード, 枚数)</td></tr>
         <tr data-shortcut="p" data-tip="このターンをパスする\n（何も出さない → 場が流れる）"><td data-tip="このターンをパスする（何も出さない）">p</td><td>パスする</td></tr>
         <tr data-shortcut="b" data-tip="ループを途中で抜ける（break）\nループ内でのみ有効"><td data-tip="ループを途中で抜ける（break）">b</td><td>中断する</td></tr>
-        <tr data-shortcut="R" data-tip="関数から値を返す\n返す(値) で関数を終了し、呼び出し元に値を渡す\n例: 返す(1) / 返す(手札[i])"><td data-tip="関数から値を返す（関数定義内で使用）">R</td><td>返す(＜式＞)</td></tr>
-        <tr data-shortcut="t" data-tip="値や文字列を表示画面に表示する\n「式 と 式 を表示する」の形式\n例: 「合計は、」 と 手札[1] ＋ 手札[2] を表示する"><td data-tip="値や文字列を表示画面に表示する">t</td><td>＜式＞ を表示する</td></tr>
+        <tr data-shortcut="R" data-tip="関数から値を返す\n返す(値) で関数を終了し、呼び出し元に値を渡す\n例: 返す(1) / 返す(手札[i])"><td data-tip="関数から値を返す（関数定義内で使用）">R</td><td>返す(値)</td></tr>
+        <tr data-shortcut="t" data-tip="値や文字列を表示画面に表示する\n「式 と 式 を表示する」の形式\n例: 「合計は、」 と 手札[1] ＋ 手札[2] を表示する"><td data-tip="値や文字列を表示画面に表示する">t</td><td>値 を表示する</td></tr>
       </table>
     </div>
 
@@ -306,8 +308,9 @@
   </div>
 </div>
 
-<script src="js/dncl.js?v=40"></script>
+<script src="js/dncl.js?v=41"></script>
 <script src="js/game.js?v=40"></script>
-<script src="js/ui.js?v=40"></script>
+<script src="js/ui.js?v=54"></script>
+<script src="dncl-highlight.js?v=3"></script>
 </body>
 </html>

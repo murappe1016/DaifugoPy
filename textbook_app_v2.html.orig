@@ -1,0 +1,5228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大富豪プログラミング 完全攻略テキスト</title>
+  <link rel="stylesheet" href="material.css">
+  <link rel="stylesheet" href="print.css">
+  <script src="print.js?v=2" defer></script>
+  <style>
+    /* ── ページ設定（print.css に委譲 ── ここでは最低限のみ）── */
+    body { color: #1a1a2e; }
+
+    /* ── ページ区切り ──────────────────────────────── */
+    .pg { page-break-before: always; break-before: page; }
+
+    /* ── 表紙 ──────────────────────────────────────── */
+    .cover {
+      text-align: center; padding: 60px 20px 40px;
+      background: linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%);
+      color: #fff; border-radius: 10px; margin-bottom: 12px;
+      min-height: 200px;
+    }
+    .cover h1 { font-size: 28px; letter-spacing: 2px; margin: 0 0 10px; }
+    .cover .subtitle { font-size: 15px; opacity: .85; margin-bottom: 20px; }
+    .cover .badge {
+      display: inline-block; background:#e94560; color:#fff;
+      border-radius: 20px; padding: 4px 16px; font-size: 12px; margin: 4px;
+    }
+    .cover .edition { margin-top: 28px; opacity: .6; font-size: 11px; }
+
+    /* ── 章ヘッダー ────────────────────────────────── */
+    .ch-header {
+      border-radius: 8px; padding: 18px 22px; margin-bottom: 16px;
+      color: #fff; page-break-after: avoid;
+    }
+    .ch-num { font-size: 12px; opacity: .8; letter-spacing: 3px; text-transform: uppercase; }
+    .ch-title { font-size: 24px; font-weight: 700; margin: 4px 0 2px; }
+    .ch-desc { font-size: 13px; opacity: .9; }
+    .ch0 { background: linear-gradient(135deg, #2c3e50, #3d566e); }
+    .ch1 { background: linear-gradient(135deg, #1a6b3a, #27ae60); }
+    .ch2 { background: linear-gradient(135deg, #1565c0, #42a5f5); }
+    .ch3 { background: linear-gradient(135deg, #6a1b9a, #ab47bc); }
+    .ch4 { background: linear-gradient(135deg, #ad1457, #ec407a); }
+    .ch5 { background: linear-gradient(135deg, #00838f, #26c6da); }
+    .ch6 { background: linear-gradient(135deg, #4527a0, #7e57c2); }
+    .ch7 { background: linear-gradient(135deg, #d84315, #ff7043); }
+    .ch8 { background: linear-gradient(135deg, #2e7d32, #66bb6a); }
+
+    /* ── 節ヘッダー ────────────────────────────────── */
+    h2 { font-size: 17px; color: #1a1a2e; border-bottom: 2px solid #e0e0e0;
+         padding-bottom: 4px; margin: 18px 0 10px; page-break-after: avoid; }
+    h3 { font-size: 14px; color: #2c3e50; margin: 14px 0 6px; page-break-after: avoid; }
+
+    /* ── 学習サイクル説明用 ─────────────────────────── */
+    .cycle-box {
+      display: flex; flex-direction: column; gap: 6px;
+      border: 1.5px solid #bbb; border-radius: 8px; padding: 14px 16px; margin: 12px 0;
+    }
+    .cycle-row {
+      display: flex; align-items: flex-start; gap: 10px; font-size: 13px;
+    }
+    .cycle-icon {
+      font-size: 20px; width: 30px; text-align: center; flex-shrink: 0; line-height: 1.4;
+    }
+    .cycle-text { flex: 1; }
+    .cycle-arrow { text-align: center; font-size: 18px; color: #888; margin: -2px 0; }
+
+    /* ── アイコン凡例 ──────────────────────────────── */
+    .icon-legend {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0;
+    }
+    .icon-row {
+      display: flex; align-items: center; gap: 8px;
+      background: #f5f5f5; border-radius: 6px; padding: 6px 10px;
+    }
+    .icon-big { font-size: 22px; }
+    .icon-desc { font-size: 12px; }
+    .icon-desc strong { display: block; font-size: 13px; }
+
+    /* ── アプリ画面図（ライトモード配色） ───────────────── */
+    .app-diagram {
+      border: 2px solid #c8cad6; border-radius: 6px; overflow: hidden;
+      font-size: 10.5px; margin: 12px 0; page-break-inside: avoid;
+      background: #f4f5f8;
+    }
+    /* タイトルバー */
+    .app-titlebar {
+      background: #eaecf1; color: #60687a; padding: 4px 10px; font-size: 10px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid #c8cad6;
+    }
+    .app-titlebar .tb-back { color: #1a73e8; }
+    .app-titlebar .tb-title { color: #1c1e26; font-weight: 700; }
+    .app-titlebar .tb-btns { display: flex; gap: 6px; }
+    .app-titlebar .tb-btn { background: #fff; border: 1px solid #c8cad6; color: #60687a;
+                             border-radius: 3px; padding: 1px 7px; font-size: 9.5px; }
+    .app-titlebar .tb-btn.reset { color: #e08800; }
+    /* 本体 */
+    .app-body { display: flex; min-height: 160px; }
+    /* 左パネル：変数一覧 */
+    .app-left { width: 115px; border-right: 1px solid #c8cad6; background: #eaecf1;
+                padding: 6px 5px; font-size: 10px; flex-shrink: 0; color: #1c1e26; }
+    .app-left-title { font-weight: 700; font-size: 9.5px; color: #60687a; letter-spacing: 1px;
+                      text-transform: uppercase; border-bottom: 1px solid #c8cad6;
+                      margin-bottom: 5px; padding-bottom: 3px; }
+    .app-var-group { margin-bottom: 6px; }
+    .app-var-header { color: #1a73e8; font-weight: 700; font-size: 10px; cursor: pointer; }
+    .app-var-header::before { content: '▼ '; font-size: 8px; }
+    .app-var-body { font-size: 9.5px; color: #60687a; padding-left: 8px; line-height: 1.8; }
+    /* 中央：エディタ */
+    .app-center { flex: 1; display: flex; flex-direction: column; background: #fff; }
+    .app-hint-bar { background: #fff8ee; border-bottom: 1px solid #c8cad6;
+                    padding: 4px 10px; font-size: 9.5px; color: #e08800; }
+    .app-editor { padding: 7px 10px; background: #fff; color: #1c1e26;
+                  font-family: monospace; font-size: 10px; flex: 1; }
+    .app-editor .sk { color: #1a73e8; }
+    .app-editor .active-area { background: #e8f5e9; border-radius: 2px; border-left: 3px solid #1e8c3a;
+                                padding: 1px 6px; color: #1e5c2a; display: block; margin: 2px 0 2px 12px; }
+    .app-editor .locked { color: #bbb; margin-left: 12px; display: block; }
+    .app-gamebar { background: #f4f5f8; border-top: 1px solid #c8cad6;
+                   padding: 4px 10px; font-size: 9.5px; color: #1a73e8; cursor: pointer; }
+    /* 右パネル：問題文＋採点 */
+    .app-right { width: 148px; border-left: 1px solid #c8cad6; padding: 6px;
+                 flex-shrink: 0; background: #f4f5f8; display: flex; flex-direction: column; }
+    .app-right-title { font-weight: 700; font-size: 9.5px; color: #60687a; letter-spacing: 1px;
+                       text-transform: uppercase; border-bottom: 1px solid #c8cad6;
+                       margin-bottom: 5px; padding-bottom: 3px; }
+    .app-mondai { font-size: 9.5px; color: #1c1e26; line-height: 1.6; margin-bottom: 6px;
+                  border-left: 2px solid #d93025; padding-left: 5px; }
+    .app-tc { background: #fff; border: 1px solid #c8cad6; border-radius: 3px; padding: 4px 6px;
+              margin-bottom: 3px; font-size: 9px; color: #1c1e26; }
+    .app-tc-label { font-weight: 700; color: #1a73e8; font-size: 8.5px; margin-bottom: 1px; }
+    .app-saiten { margin-top: auto; background: #1a73e8; color: #fff; border: none;
+                  border-radius: 4px; padding: 4px 0; width: 100%; font-size: 10px;
+                  text-align: center; cursor: pointer; font-weight: 700; }
+
+    /* ── カードランク表 ──────────────────────────────── */
+    .rank-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 10px 0; }
+    .rank-table th { background: #2c3e50; color: #fff; padding: 5px 8px; text-align: center; }
+    .rank-table td { border: 1px solid #ddd; padding: 5px 8px; text-align: center; }
+    .rank-weak { background: #d5f5e3; }
+    .rank-strong { background: #fadbd8; }
+
+    /* ── DNCL コードブロック ─────────────────────────── */
+    .code-block {
+      background: #1a1a2e; color: #abb2bf; border-radius: 6px;
+      padding: 10px 14px; font-family: monospace; font-size: 13px;
+      line-height: 1.7; margin: 10px 0; page-break-inside: avoid;
+      white-space: pre-wrap;
+    }
+    .code-block .kw { color: #c678dd; }
+    .code-block .val { color: #e5c07b; }
+    .code-block .str { color: #98c379; }
+    .code-block .cmt { color: #7f848e; }
+    .code-block .hl { background: #2d4a22; border-radius: 2px; padding: 0 2px; }
+    /* 模範解答集のコードは改行文字をそのまま行として表示する */
+    .answer-card .code-block { white-space: pre-wrap; }
+
+    /* ── 問題ページ（緑）────────────────────────────── */
+    .problem-page-hdr {
+      background: linear-gradient(135deg, #1a6b3a, #27ae60);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .prob-icon { font-size: 28px; }
+    .prob-id { font-size: 11px; opacity: .8; }
+    .prob-title-jp { font-size: 20px; font-weight: 700; }
+    .problem-body {
+      border: 2px solid #27ae60; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .problem-statement {
+      background: #f0faf6; border-left: 4px solid #27ae60;
+      padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0;
+      font-size: 14px; line-height: 1.9;
+    }
+    .use-vars {
+      background: #f8f9fa; border: 1px solid #dee2e6;
+      border-radius: 6px; padding: 10px 14px; margin: 10px 0;
+    }
+    .use-vars-title { font-weight: 700; font-size: 12px; color: #555; margin-bottom: 6px; }
+    .var-chip {
+      display: inline-block; background: #d4edda; border: 1px solid #27ae60;
+      border-radius: 4px; padding: 2px 8px; margin: 2px 3px;
+      font-family: monospace; font-size: 12px;
+    }
+    .section-indicator {
+      display: inline-block; background: #e8f5e9; border: 1.5px solid #27ae60;
+      border-radius: 6px; padding: 6px 12px; font-size: 12px; margin: 8px 0;
+    }
+    .try-box {
+      background: #1a6b3a; color: #fff; border-radius: 6px;
+      padding: 12px 16px; margin: 12px 0; text-align: center; font-size: 14px;
+    }
+    .try-box .next-hint { font-size: 11px; opacity: .85; margin-top: 4px; }
+
+    /* ── ヒントページ（オレンジ）──────────────────────── */
+    .hint-page-hdr {
+      background: linear-gradient(135deg, #e67e22, #f39c12);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .hint-body {
+      border: 2px solid #f39c12; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .hint-warning {
+      background: #fff3cd; border: 1.5px solid #f39c12; border-radius: 6px;
+      padding: 8px 12px; margin-bottom: 12px; font-size: 12px;
+    }
+    .step-list { list-style: none; padding: 0; margin: 0; }
+    .step-list li {
+      display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;
+      page-break-inside: avoid;
+    }
+    .step-num {
+      background: #e67e22; color: #fff; border-radius: 50%;
+      width: 24px; height: 24px; display: flex; align-items: center;
+      justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .step-text { flex: 1; padding-top: 2px; }
+    .think-box {
+      background: #fff8f0; border: 1.5px dashed #e67e22;
+      border-radius: 6px; padding: 8px 12px; margin: 8px 0; font-size: 12px;
+    }
+
+    /* ── 解説ページ（青）──────────────────────────────── */
+    .explain-page-hdr {
+      background: linear-gradient(135deg, #1565c0, #2196f3);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .explain-body {
+      border: 2px solid #2196f3; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .explain-note {
+      background: #e3f2fd; border: 1.5px solid #2196f3; border-radius: 6px;
+      padding: 8px 12px; margin-bottom: 12px; font-size: 12px;
+    }
+    .flow-diagram { margin: 12px 0; font-size: 12.5px; page-break-inside: avoid; }
+    .flow-row {
+      display: flex; align-items: center; gap: 8px; margin: 4px 0;
+    }
+    .flow-box {
+      border: 1.5px solid #2196f3; border-radius: 4px;
+      padding: 4px 10px; background: #e3f2fd; font-family: monospace;
+    }
+    .flow-arrow { color: #2196f3; font-size: 16px; }
+    .flow-result { color: #1565c0; font-weight: 700; }
+    .next-prob { background: #e3f2fd; border-radius: 6px; padding: 8px 12px; margin-top: 12px; font-size: 12px; text-align: center; }
+
+    /* ── コラム（紫）──────────────────────────────────── */
+    .column-hdr {
+      background: linear-gradient(135deg, #5c35c9, #8e44ad);
+      color: #fff; border-radius: 8px 8px 0 0; padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px; page-break-after: avoid;
+    }
+    .column-body {
+      border: 2px solid #8e44ad; border-top: none;
+      border-radius: 0 0 8px 8px; padding: 14px 18px; margin-bottom: 8px;
+    }
+    .real-example {
+      background: #f5f0ff; border-left: 4px solid #8e44ad;
+      padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0;
+    }
+    /* 0-4（ルール統合ページ）を A4 に収めるための圧縮 */
+    .pg-tight { font-size: 12px; line-height: 1.45; }
+    .pg-tight table { font-size: 11px; margin: 4px 0; }
+    .pg-tight table th, .pg-tight table td { padding: 2px 6px; }
+    .pg-tight .info-box, .pg-tight .caution-box { padding: 7px 11px; margin: 6px 0; font-size: 12px; }
+    .pg-tight h2 { margin: 2px 0 4px; }
+    .pg-tight h3 { margin: 6px 0 3px; font-size: 14px; }
+    .pg-tight p { margin: 4px 0; }
+    .pg-tight br { line-height: 1.3; }
+    .pg-tight .code-block { font-size: 11px; line-height: 1.4; padding: 6px 10px; margin: 5px 0; }
+    .column-compact .code-block { font-size: 11px; line-height: 1.45; padding: 6px 9px; margin: 4px 0; }
+    /* 概念ページに結合したコラム（章3・章7）はコンパクト表示で A4 に収める */
+    .column-compact .column-body { padding: 10px 14px; }
+    .column-compact .real-example { padding: 6px 11px; margin: 7px 0; }
+    .column-compact .real-example h3 { margin: 1px 0 3px; font-size: 13px; }
+    .column-compact .real-example p { font-size: 11px; margin: 3px 0; }
+    .column-compact .column-body > p { font-size: 11.5px; margin: 4px 0; }
+    .column-compact .code-block { font-size: 11px; padding: 6px 9px; margin: 4px 0; }
+    .column-compact table { font-size: 11px; }
+    .column-compact table th, .column-compact table td { padding: 3px 6px; }
+
+    /* ── 模範解答（グレー）──────────────────────────────── */
+    .answer-hdr {
+      background: #34495e; color: #fff; border-radius: 8px 8px 0 0;
+      padding: 12px 18px; page-break-after: avoid;
+    }
+    .answer-card {
+      border: 1.5px solid #bdc3c7; border-radius: 6px;
+      margin-bottom: 12px; page-break-inside: avoid;
+    }
+    .answer-card-title {
+      background: #ecf0f1; padding: 6px 12px; font-weight: 700; font-size: 13px;
+      border-bottom: 1px solid #bdc3c7;
+    }
+    .answer-card-body { padding: 10px 14px; }
+
+    /* ── ユーティリティ ──────────────────────────────── */
+    .caution-box {
+      background: #fff6f6; border-left: 4px solid #e74c3c;
+      padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 12.5px;
+    }
+    .info-box {
+      background: #f0f7ff; border-left: 4px solid #2980b9;
+      padding: 8px 12px; border-radius: 0 6px 6px 0; margin: 8px 0; font-size: 12.5px;
+    }
+    .check-list { list-style: none; padding: 0; }
+    .check-list li { padding: 3px 0; font-size: 13px; }
+    .check-list li::before { content: "☐ "; font-size: 15px; }
+    .write-area {
+      border: 1.5px dashed #aaa; border-radius: 4px;
+      min-height: 40px; background: #fffde7; margin: 6px 0; padding: 4px 8px;
+      font-size: 12px; color: #999;
+    }
+    table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+    th { background: #2c3e50; color: #fff; padding: 6px 8px; font-size: 12.5px; }
+    td { border: 1px solid #ddd; padding: 5px 8px; font-size: 12.5px; }
+    code { background: #eee; border-radius: 3px; padding: 1px 5px; font-size: 12.5px; font-family: monospace; }
+    .page-label { font-size: 10px; color: #aaa; text-align: right; margin-bottom: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     表紙
+══════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div style="font-size:50px;margin-bottom:10px;">🃏</div>
+  <h1>大富豪プログラミング<br>完全攻略テキスト</h1>
+  <div class="subtitle">―― カードゲームで学ぶ DNCL プログラミング ――</div>
+  <div>
+    <span class="badge">全 8 章</span>
+    <span class="badge">基礎問題 b01〜b27</span>
+    <span class="badge">模範解答集つき</span>
+  </div>
+  <div class="edition">高校「情報Ⅰ」 アルゴリズムとプログラミング対応</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     目次
+══════════════════════════════════════════════════════ -->
+<div class="pg">
+<h2>📑 目次</h2>
+<p>この本は、<strong>「大富豪プログラミング」というアプリと一緒に使う</strong>テキストです。カードゲーム「大富豪」を題材に、プログラミングの基礎を学びます。</p>
+<table>
+  <tr><th style="width:64px;">章</th><th>タイトル</th><th style="width:150px;">学ぶこと</th><th style="width:96px;">問題</th></tr>
+  <tr><td>第0章</td><td>大富豪プログラミングを始めよう</td><td>使い方・画面・ルール・DNCL</td><td>―</td></tr>
+  <tr><td>第1章</td><td>変数と代入</td><td>配列の添字・出す()・表示・要素数・変数</td><td>b01〜b06</td></tr>
+  <tr><td>第2章</td><td>演算子</td><td>＋ ・ ÷（整数除算）・ ％（余り）</td><td>b07〜b09</td></tr>
+  <tr><td>第3章</td><td>条件分岐</td><td>もし〜ならば・比較・かつ／または／でない</td><td>b10〜b15</td></tr>
+  <tr><td>第4章</td><td>forループ</td><td>くり返し・カウンタ・フラグ変数</td><td>b16〜b17</td></tr>
+  <tr><td>第5章</td><td>前判定ループ</td><td>〜の間くり返す・探索</td><td>b19</td></tr>
+  <tr><td>第6章</td><td>後判定ループ・中断する</td><td>中断する・〜になるまで実行する</td><td>b18・b27・b20</td></tr>
+  <tr><td>第7章</td><td>配列</td><td>要素数・配列への代入・集計配列</td><td>b21〜b23</td></tr>
+  <tr><td>第8章</td><td>関数</td><td>定義と呼び出し・引数・返り値</td><td>b24〜b26</td></tr>
+  <tr><td>巻末</td><td>模範解答集</td><td>全27問の解答とポイント解説</td><td>b01〜b27</td></tr>
+</table>
+
+<div class="info-box">
+  <strong>この本の進め方：</strong>各問題は「<strong>問題</strong> → <strong>解説</strong>（正解してから）」の2ページで構成されています。ヒントは各章末のヒント集にまとめています。アプリで実際にコードを動かしながら読み進めましょう。各章末のコラムは、学んだことが大富豪の外の世界（身近なアプリ）でどう使われているかを紹介します。
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     第0章
+══════════════════════════════════════════════════════ -->
+<div class="pg">
+<h2>📑 目次</h2>
+<p>この本は、<strong>「大富豪プログラミング」というアプリと一緒に使う</strong>テキストです。カードゲーム「大富豪」を題材に、プログラミングの基礎を学びます。</p>
+<table>
+  <tr><th style="width:64px;">章</th><th>タイトル</th><th style="width:150px;">学ぶこと</th><th style="width:96px;">問題</th></tr>
+  <tr><td>第0章</td><td>大富豪プログラミングを始めよう</td><td>使い方・画面・ルール・DNCL</td><td>―</td></tr>
+  <tr><td>第1章</td><td>変数と代入</td><td>配列の添字・出す()・表示・要素数・変数</td><td>b01〜b06</td></tr>
+  <tr><td>第2章</td><td>演算子</td><td>＋ ・ ÷（整数除算）・ ％（余り）</td><td>b07〜b09</td></tr>
+  <tr><td>第3章</td><td>条件分岐</td><td>もし〜ならば・比較・かつ／または／でない</td><td>b10〜b15</td></tr>
+  <tr><td>第4章</td><td>forループ</td><td>くり返し・カウンタ・フラグ変数</td><td>b16〜b17</td></tr>
+  <tr><td>第5章</td><td>前判定ループ</td><td>〜の間くり返す・探索</td><td>b19</td></tr>
+  <tr><td>第6章</td><td>後判定ループ・中断する</td><td>中断する・〜になるまで実行する</td><td>b18・b27・b20</td></tr>
+  <tr><td>第7章</td><td>配列</td><td>要素数・配列への代入・集計配列</td><td>b21〜b23</td></tr>
+  <tr><td>第8章</td><td>関数</td><td>定義と呼び出し・引数・返り値</td><td>b24〜b26</td></tr>
+  <tr><td>巻末</td><td>模範解答集</td><td>全27問の解答とポイント解説</td><td>b01〜b27</td></tr>
+</table>
+
+<div class="info-box">
+  <strong>この本の進め方：</strong>各問題は「<strong>問題</strong> → <strong>解説</strong>（正解してから）」の2ページで構成されています。ヒントは各章末のヒント集にまとめています。アプリで実際にコードを動かしながら読み進めましょう。各章末のコラムは、学んだことが大富豪の外の世界（身近なアプリ）でどう使われているかを紹介します。
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     第0章
+══════════════════════════════════════════════════════ -->
+<div class="pg">
+<div class="ch-header ch0">
+  <div class="ch-num">CHAPTER 0</div>
+  <div class="ch-title">大富豪プログラミングを始めよう</div>
+  <div class="ch-desc">アプリの使い方・画面の見方・大富豪のルール・DNCLとは</div>
+</div>
+
+<h2>0-1　アプリを開こう</h2>
+
+<h3>① ブラウザでアプリを開く</h3>
+<p>「大富豪プログラミング」はブラウザ上で動くアプリです。先生から案内された <strong>URL を開く</strong>（または配布された <code>index.html</code> を開く）と起動します。</p>
+
+<table>
+  <tr><th>操作</th><th>方法</th></tr>
+  <tr><td>アプリを開く</td><td>先生の案内する URL を開く（または <code>index.html</code> を開く）</td></tr>
+  <tr><td>推奨ブラウザ</td><td>Google Chrome / Microsoft Edge / Safari（どれでも可）</td></tr>
+  <tr><td>問題が出ない場合</td><td>ブラウザの更新ボタン（F5）を押す</td></tr>
+</table>
+
+<h3>② 問題を選ぶ</h3>
+<p>画面が開いたら、左側の問題リストから選択します。</p>
+<ol>
+  <li>左パネルの「<strong>基礎問題</strong>」をクリックしてリストを展開する</li>
+  <li>「<strong>b01　先頭のカードを出す</strong>」をクリックする</li>
+  <li>画面が問題モードに切り替わる</li>
+</ol>
+
+<div class="info-box">
+💡 <strong>問題の見つけ方：</strong>問題 ID（b01, b02 …）の「b」は「basic（基礎）」の略です。このテキストでは b01 から順番に進めます。
+</div>
+
+<h3>③ 始める前のチェックリスト</h3>
+<ul class="check-list">
+  <li>ブラウザで <code>index.html</code> が開いている</li>
+  <li>左パネルに「基礎問題」リストが見えている</li>
+  <li>b01 を選んで、右パネルにテストケースが表示されている</li>
+  <li>エディタ（下半分）にコードを書く場所がある</li>
+</ul>
+
+<div class="caution-box">
+⚠️ <strong>よくあるトラブル：</strong>ファイルを直接開くと「セキュリティの警告」が出ることがあります。「許可する」または「ブロックを解除」をクリックしてください。
+</div>
+</div><!-- end pg -->
+
+<!-- 0-3 画面の見方 -->
+<div class="pg">
+<h2>0-2　画面の見方</h2>
+<p>アプリの画面は大きく <strong>4つのエリア</strong>に分かれています。</p>
+
+<div class="app-diagram">
+  <!-- タイトルバー -->
+  <div class="app-titlebar">
+    <span class="tb-back">← 問題一覧に戻る</span>
+    <span class="tb-title">基礎問題モード　b01　先頭のカードを出す</span>
+    <span class="tb-btns">
+      <span class="tb-btn reset">↺ リセット</span>
+      <span class="tb-btn">✱ ライト</span>
+    </span>
+  </div>
+  <!-- 本体 -->
+  <div class="app-body">
+    <!-- ① 左パネル：変数一覧 -->
+    <div class="app-left">
+      <div class="app-left-title">変数一覧</div>
+      <div class="app-var-group">
+        <div class="app-var-header">手札[＜式＞]</div>
+        <div class="app-var-body">
+          N番目のカードのランク<br>
+          1始まり・弱い順<br>
+          手札[1]=最弱
+        </div>
+      </div>
+      <div class="app-var-group">
+        <div class="app-var-header">出す(＜式＞, ＜式＞)</div>
+        <div class="app-var-body">
+          第1引数: ランク<br>
+          第2引数: 枚数<br>
+          (1=シングル)
+        </div>
+      </div>
+      <div class="app-var-group">
+        <div class="app-var-header">場の強さ</div>
+        <div class="app-var-body">場に出た<br>カードの強さ</div>
+      </div>
+    </div>
+    <!-- ② 中央：ヒント＋エディタ＋表示画面 -->
+    <div class="app-center">
+      <div class="app-hint-bar">💡 ヒントを見る（0/2）</div>
+      <div class="app-editor">
+        <div class="sk">もし 場の枚数 ＝ 0 ならば</div>
+        <span class="active-area">← ここに書く（緑色＝編集可能）</span>
+        <div class="sk">を実行し，そうでなくもし 場の枚数 ＝ 1 ならば</div>
+        <span class="locked">　パスする</span>
+        <div class="sk">を実行し，そうでなくもし 場の枚数 ＝ 2 ならば</div>
+        <span class="locked">　パスする</span>
+        <div class="sk">を実行し，そうでなければ　パスを実行する</div>
+      </div>
+      <div class="app-gamebar">▶ 表示画面（クリックするとゲーム盤が開く）</div>
+    </div>
+    <!-- ③ 右パネル：問題文＋テストケース＋採点 -->
+    <div class="app-right">
+      <div class="app-right-title">問題文</div>
+      <div class="app-mondai">最弱カードをシングルで出してください。手札は弱い順に並んでおり手札[1]から始まります。</div>
+      <div class="app-right-title" style="margin-top:4px;">テストケース</div>
+      <div class="app-tc">
+        <div class="app-tc-label">ケース 1</div>
+        手札: 3 7 10<br>場: 空き<br>→ 3を1枚出す
+      </div>
+      <div class="app-tc">
+        <div class="app-tc-label">ケース 2</div>
+        手札: 5 J K<br>場: 空き<br>→ 5を1枚出す
+      </div>
+      <div class="app-tc">
+        <div class="app-tc-label">ケース 3</div>
+        手札: 9 Q $<br>場: 空き<br>→ 9を1枚出す
+      </div>
+      <button class="app-saiten">✓ 採点する</button>
+    </div>
+  </div>
+</div>
+
+<h3>各エリアの役割</h3>
+<table>
+  <tr><th>エリア</th><th>場所</th><th>役割</th></tr>
+  <tr><td>① 変数一覧</td><td>左</td><td>使える変数・操作の一覧。書き方の例も確認できる</td></tr>
+  <tr><td>② ヒントを見る</td><td>中央上</td><td>詰まったときに段階的なヒントを表示</td></tr>
+  <tr><td>② エディタ</td><td>中央</td><td>DNCLコードを書く場所。<span style="color:#27ae60;font-weight:700;">緑色</span>の行が編集できる</td></tr>
+  <tr><td>② 表示画面</td><td>中央下</td><td>クリックで展開するゲーム盤面（手札・場のカードを確認）</td></tr>
+  <tr><td>③ 問題文・採点</td><td>右</td><td>何をすべきか確認し、「採点する」でコードを検証</td></tr>
+</table>
+
+<h3>エディタの「セクション」について</h3>
+<p>エディタには <strong>3つのセクション（書く場所）</strong>があります。「場の枚数」（場に出ているカードの枚数）によって実行される場所が変わります。</p>
+
+<table>
+  <tr><th>セクション</th><th>実行される状況</th><th>主な用途</th></tr>
+  <tr><td><code>場の枚数 ＝ 0</code></td><td>場が空き（最初のカードを出す番）</td><td>好きなカードを出す</td></tr>
+  <tr><td><code>場の枚数 ＝ 1</code></td><td>場に1枚出ている（シングル戦）</td><td>場より強いカードを出す or パス</td></tr>
+  <tr><td><code>場の枚数 ＝ 2</code></td><td>場に2枚出ている（ペア戦）</td><td>ペアで出す or パス</td></tr>
+</table>
+
+<div class="info-box">
+📌 <strong>問題ごとに「書くセクション」が決まっています。</strong>各問題ページに「⬛ 書く場所：場の枚数 ＝ ○ のセクション」と記載します。それ以外のセクションはアプリが自動的に「パスする」にしてくれています。
+</div>
+</div><!-- end pg -->
+
+<!-- 0-4 大富豪のルール -->
+<div class="pg">
+<h2>0-3　大富豪のルール（アプリ版）</h2>
+<p>大富豪プログラミングは、トランプの大富豪（大貧民）を元にした<strong>簡略版ルール</strong>でカードを出します。<strong>「どのカードを出すか」をDNCLコードで書くのがこのアプリの目的</strong>です。</p>
+
+<div class="caution-box">
+⚠️ <strong>通常の大富豪とのちがい（アプリ独自のルール）</strong><br><br>
+<table style="margin:0;">
+  <tr><th>項目</th><th>通常の大富豪</th><th>このアプリ</th></tr>
+  <tr><td>プレイ人数</td><td>3〜6人など</td><td><strong>1対1（自分 vs CPU）</strong></td></tr>
+  <tr><td>出せる枚数</td><td>1枚・2枚・3枚・4枚…</td><td><strong>シングル（1枚）またはペア（2枚）のみ</strong></td></tr>
+  <tr><td>革命・8切りなど</td><td>あり（ゲームによる）</td><td><strong>8切りあり（革命なし）</strong></td></tr>
+</table>
+<br>
+プログラミング学習に集中できるよう、ルールを絞っています。<br>
+<span style="font-size:11px;color:#666;">※8切り（8を出すと場が流れる）はフリープレイで体験できます。問題の採点には影響しません。</span>
+</div>
+
+<h3>カードの強さ（ランク）</h3>
+<table class="rank-table">
+  <tr><th>カード</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>J</th><th>Q</th><th>K</th><th>A</th><th>$</th></tr>
+  <tr><td><strong>数値</strong></td><td class="rank-weak">3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td class="rank-strong">15</td></tr>
+</table>
+<p style="font-size:12px;color:#666;">3が最も弱く、$ が最も強い。プログラムでは数値（3〜15）で扱います。</p>
+<div class="info-box" style="font-size:12px;">
+  <strong>A と $ の正体：</strong>A はトランプの「1」、<strong>$ は「2」のカード</strong>です。大富豪では 1（A）と 2 が最強格なので、A を 14、2（$）を 15 という強さの数値で表します。「A は本当は 1 なのに K（13）より強い」のと同じ考え方です。<strong>このアプリにジョーカーはありません。</strong>
+</div>
+
+<h3>手札について</h3>
+<div class="info-box">
+  <strong>手札は弱い順に並んでいます。</strong><br>
+  例：手札が「5」「10」「K」の3枚のとき<br>
+  &emsp;<code>手札[1]</code> = 5（最弱）&emsp;<code>手札[2]</code> = 10&emsp;<code>手札[3]</code> = 13（最強 = K）<br><br>
+  <strong>添字（番号）は 1 から始まります。</strong><code>手札[0]</code> は存在しません。
+</div>
+
+</div><!-- end pg -->
+
+<!-- 0-4 続き -->
+<div class="pg">
+<h2>0-4（続き）　基本操作とターンの流れ</h2>
+
+<h3>基本的な操作</h3>
+<table>
+  <tr><th>操作</th><th>書き方</th><th>意味</th></tr>
+  <tr><td>シングルで出す</td><td><code>出す(手札[1], 1)</code></td><td>手札[1]のカードを1枚出す</td></tr>
+  <tr><td>ペアで出す</td><td><code>出す(手札[1], 2)</code></td><td>手札[1]と同じランクのカードを2枚出す</td></tr>
+  <tr><td>パスする</td><td><code>パスする</code></td><td>このターンを諦める</td></tr>
+</table>
+
+<div class="info-box">
+  <strong><code>出す(カードの値, 枚数)</code> の書き方：</strong><br>
+  ・第1引数：出すカードのランク（数値）&emsp;例：<code>手札[1]</code>、<code>7</code><br>
+  ・第2引数：枚数（<code>1</code> = シングル、<code>2</code> = ペア）<br>
+  ・<strong>3枚以上は使いません</strong>（このアプリにはトリプルなどのルールはありません）
+</div>
+
+<h3>ターンの流れ（1対1）</h3>
+<p>自分とCPUが交互にカードを出します。</p>
+<table>
+  <tr><th>場の状態</th><th>場の枚数</th><th>できること</th></tr>
+  <tr><td>場が空き（先手）</td><td><code>0</code></td><td>シングルまたはペアで好きなカードを出せる</td></tr>
+  <tr><td>シングル戦（1枚出ている）</td><td><code>1</code></td><td>場の強さ より大きいカードを<strong>シングルで</strong>出す、またはパス</td></tr>
+  <tr><td>ペア戦（2枚出ている）</td><td><code>2</code></td><td>場の強さ より大きいカードを<strong>ペアで</strong>出す、またはパス</td></tr>
+</table>
+</div><!-- end pg -->
+
+<!-- 0-5 DNCLとコードを書く場所 -->
+<div class="pg">
+<h2>0-4　DNCLとコードの書き方</h2>
+
+<h3>DNCLとは</h3>
+<p>DNCL（ディーエヌシーエル）は、<strong>大学入試センターが定めたプログラミング記述言語</strong>です。日本語に近い書き方でアルゴリズムを記述します。</p>
+
+<div class="info-box">
+  <strong>DNCLの特徴：</strong><br>
+  ・日本語の単語をそのまま使える（<code>もし</code>、<code>の間</code>、<code>を繰り返す</code>など）<br>
+  ・記号は<strong>全角</strong>を使う（<code>←</code>、<code>＋</code>、<code>＝</code>、<code>≧</code>など）<br>
+  ・インデント（字下げ）に <code>｜　</code>（全角パイプ＋スペース）を使う<br>
+  ・共通テスト（情報Ⅰ）で使われる擬似コード
+</div>
+
+<h3>コードを書く・実行する手順</h3>
+<ol>
+  <li>エディタの<strong>アクティブなセクション</strong>（明るく表示されている部分）をクリックして選択する</li>
+  <li>DNCLコードを入力する</li>
+  <li>「<strong>▶ 実行</strong>」ボタンを押す</li>
+  <li>右側の<strong>テストケース</strong>が全部 🟢 緑になれば正解！</li>
+  <li>エラーが出た場合はエディタ下の赤いメッセージを確認する</li>
+</ol>
+
+<div class="caution-box">
+⚠️ <strong>入力の注意点：</strong><br>
+・<code>←</code>（代入記号）は半角の <code>&lt;-</code> でも入力できます<br>
+・<code>＋ － × ÷ ＝ ≧ ≦ ≠ ＞ ＜</code> などは全角を使います<br>
+・日本語入力（IME）をオフにしてから入力するとスムーズです
+</div>
+
+<h3>左の「基礎リファレンス」をフル活用しよう</h3>
+<p>アプリ左側の「基礎リファレンス」パネルには、問題で使える<strong>変数・操作の一覧</strong>が表示されています。コードを書くときに随時確認しましょう。</p>
+<table>
+  <tr><th>項目</th><th>内容</th></tr>
+  <tr><td><code>手札[i]</code></td><td>i番目のカードのランク（数値）。1から始まる</td></tr>
+  <tr><td><code>要素数[手札]</code></td><td>手札の枚数（最強カードの添字と同じ）</td></tr>
+  <tr><td><code>場の強さ</code></td><td>場に出ているカードのランク（空き場のとき 0）</td></tr>
+  <tr><td><code>場の枚数</code></td><td>場に出ているカードの枚数（0=空き / 1=1枚 / 2=2枚）</td></tr>
+  <tr><td><code>出す(値, 枚数)</code></td><td>カードを出す操作</td></tr>
+  <tr><td><code>パスする</code></td><td>このターンをパスする操作</td></tr>
+</table>
+</div><!-- end pg -->
+
+
+<!-- ══════════════════════════════════════════════════════
+     第1章
+══════════════════════════════════════════════════════ -->
+<div class="pg">
+<div class="ch-header ch1">
+  <div class="ch-num">CHAPTER 1</div>
+  <div class="ch-title">変数と代入</div>
+  <div class="ch-desc">手札[i] ・ 出す() ・ を表示する ・ 要素数[] ・ 変数 ← 値</div>
+</div>
+
+<h2>📖 1-1　手札を取り出す ―― 配列の添字</h2>
+<p>大富豪では、手札のカードが<strong>配列</strong>として管理されています。配列とは、複数の値に「番号」をつけて管理する仕組みです。</p>
+
+<div class="info-box">
+<strong>手札の構造：</strong><br>
+手札は弱い順（弱いカードから強いカードへ）に並んでいます。番号（<strong>添字</strong>）は <strong>1 から始まります</strong>。<br><br>
+たとえば、<strong>手札に 5・10・13 の3枚を持っている場合</strong>：
+<table style="border-collapse:collapse;font-family:monospace;font-size:13px;text-align:center;margin:4px auto 0;">
+  <tr>
+    <td style="padding:2px 6px;color:#888;">手札 =</td>
+    <td style="padding:2px 14px;">5</td>
+    <td style="padding:2px 14px;">10</td>
+    <td style="padding:2px 14px;">13</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><span style="color:#e74c3c;">↑</span></td>
+    <td><span style="color:#e67e22;">↑</span></td>
+    <td><span style="color:#27ae60;">↑</span></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td style="padding:1px 14px;">手札[1]</td>
+    <td style="padding:1px 14px;">手札[2]</td>
+    <td style="padding:1px 14px;">手札[3]</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><span style="color:#e74c3c;font-size:11px;">最弱(5)</span></td>
+    <td></td>
+    <td><span style="color:#27ae60;font-size:11px;">最強(K)</span></td>
+  </tr>
+</table>
+</div>
+
+<h2>📖 1-2　カードを出す ―― <code>出す()</code> の使い方</h2>
+<p><code>出す(カードの値, 枚数)</code> でカードを出します。</p>
+
+<div class="code-block">
+<span class="cmt"># 手札[1]（最弱カード）をシングル（1枚）で出す</span>
+出す(<span class="val">手札[1]</span>, <span class="val">1</span>)
+</div>
+
+<table>
+  <tr><th>引数</th><th>内容</th><th>例</th></tr>
+  <tr><td>第1引数（値）</td><td>出すカードのランク（数値）</td><td><code>手札[1]</code>, <code>手札[3]</code>, <code>7</code></td></tr>
+  <tr><td>第2引数（枚数）</td><td>1=シングル / 2=ペア</td><td><code>1</code> または <code>2</code></td></tr>
+</table>
+
+<div class="caution-box">
+⚠️ <code>出す(手札, 1)</code> と書いても動きません。<strong>必ず添字（番号）を付けて</strong> <code>手札[1]</code> のように書きましょう。
+</div>
+
+<div class="try-box">
+  📱 概念が分かったら、最初の問題に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b01</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b01 問題ページ ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b01　先頭のカードを出す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span>
+    <span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>手札[1]</code> が最弱カードです。<code>出す(カードの値, 1)</code> でシングルで出せます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション</strong>（場が空きのとき）
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]</td><td>3（最弱）をシングルで出す</td></tr>
+    <tr><td>2</td><td>手札 = [5, 11, 13]</td><td>5（最弱）をシングルで出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b01 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b01 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div>
+    <div class="prob-id">b01 解説</div>
+    <div class="prob-title-jp">先頭のカードを出す</div>
+  </div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+出す(<span class="hl">手札[1]</span>, <span class="val">1</span>)
+  </div>
+
+  <h3>動きの図解</h3>
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-box">手札 = [3, 7, 10]</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">手札[1]</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">値 <strong>3</strong> が取り出される</div>
+    </div>
+    <div style="margin:8px 0 4px 0;font-size:12px;color:#555;">
+      &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;↓
+    </div>
+    <div class="flow-row">
+      <div class="flow-box">出す(<strong>3</strong>, 1)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">ランク3のカードをシングルで出す ✅</div>
+    </div>
+  </div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値</th></tr>
+    <tr><td><code>手札[1]</code></td><td>手札の1番目（最弱）のカードのランク</td><td>手札=[3,7,10]なら「3」</td></tr>
+    <tr><td><code>出す(〇, 1)</code></td><td>〇のランクのカードを1枚（シングル）出す</td><td>3を1枚出す</td></tr>
+  </table>
+
+  <h3>なぜ常に「最弱カード」になるの？</h3>
+  <p>手札は<strong>弱い順に自動的にソート</strong>されています。どんな状況でも <code>手札[1]</code> には必ず最弱カードが入っています。そのため、テストケース2（手札=[5,11,13]）でも <code>手札[1]</code> = 5 となり、正しく動作します。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b02　値を表示する</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ 1-3 を表示する ══════════ -->
+<div class="pg">
+<h2>📖 1-3　値を画面に表示する ―― <code>を表示する</code></h2>
+<p>プログラムは、計算した結果や変数の値を<strong>画面に表示</strong>することができます。</p>
+
+<div class="info-box">
+  <strong>表示の書き方：</strong><br>
+  <code>変数や値　を表示する</code><br>
+  <code>「文字列」 と 変数 を表示する</code>
+</div>
+
+<div class="code-block">
+<span class="cmt"># 場の強さをそのまま表示する</span>
+場の強さ を表示する
+<br>
+<span class="cmt"># 文字列と値を組み合わせて表示する</span>
+<span class="str">「場のカードは、」</span> と 場の強さ を表示する
+</div>
+
+<h3>表示される場所</h3>
+<p>アプリでは、エディタ下側の「<strong>表示画面</strong>」エリアに出力されます。</p>
+
+<div class="info-box">
+  <strong>表示と「出す」の違い：</strong><br>
+  <code>を表示する</code> → 画面に文字を出力するだけ。カードは出ない。<br>
+  <code>出す()</code> → カードをゲームとして場に出す操作。
+</div>
+
+<div class="caution-box">
+⚠️ b02・b03 は<strong>「場の枚数 ＝ 1」のセクション</strong>に書きます。
+場にカードが1枚ある状況（シングル戦中）での処理を書く問題です。
+</div>
+
+<div class="try-box">
+  📱 次の問題 b02 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b02</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b02 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b02　値を表示する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">場の強さ</span>
+    <span class="var-chip">を表示する</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>場の強さ</code> は場に出ているカードの強さ（数値）です。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション</strong>（シングル戦のとき）
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>状態</th><th>期待する出力</th></tr>
+    <tr><td>1</td><td>場の強さ = 5</td><td>表示画面に「5」と表示される</td></tr>
+    <tr><td>2</td><td>場の強さ = 10</td><td>表示画面に「10」と表示される</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b02 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+</div>
+</div>
+
+<!-- b02 ヒント -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b02 解説</div><div class="prob-title-jp">値を表示する</div></div>
+</div>
+<div class="explain-body">
+  <div class="explain-note">✅ 正解してから読みましょう。</div>
+
+  <div class="code-block">
+<span class="hl">場の強さ</span> を表示する
+  </div>
+
+  <h3>動きの図解</h3>
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-box">場の強さ = 5</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">場の強さ を表示する</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">画面に「5」と出力</div>
+    </div>
+  </div>
+
+  <p><code>場の強さ</code> は変数です。変数の名前だけを書くと、その<strong>中身の値</strong>が取り出されて表示されます。<code>5</code> とそのまま書くのではなく、変数名 <code>場の強さ</code> を使うことで、どんな値でも自動的に対応できます。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b03　式を表示する</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b03 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b03　式を表示する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">場の強さ</span>
+    <span class="var-chip">「文字列」 と 値 を表示する</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      文字列と値を <code>と</code> でつないで一緒に表示できます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>場の強さ</th><th>期待する出力</th></tr>
+    <tr><td>1</td><td>5</td><td><code>場のカードは、5</code></td></tr>
+    <tr><td>2</td><td>10</td><td><code>場のカードは、10</code></td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b03 に挑戦！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒント</div>
+  </div>
+</div>
+</div>
+
+<!-- b03 ヒント -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b03 解説</div><div class="prob-title-jp">式を表示する</div></div>
+</div>
+<div class="explain-body">
+  <div class="explain-note">✅ 正解してから読みましょう。</div>
+
+  <div class="code-block">
+<span class="str">「場のカードは、」</span> と <span class="hl">場の強さ</span> を表示する
+  </div>
+
+  <h3>動きの図解</h3>
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-box">「場のカードは、」</div>
+      <div class="flow-arrow">＋</div>
+      <div class="flow-box">場の強さ（=5）</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">「場のカードは、5」と表示</div>
+    </div>
+  </div>
+
+  <p>文字列（<code>「場のカードは、」</code>）と変数（<code>場の強さ</code>）を <code>と</code> でつなぐと、続けて表示されます。変数の値が変わっても、コードは変えなくて済みます。</p>
+
+  <div class="next-prob">▶ 次の概念へ：<strong>要素数[ ] の使い方</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ 1-4 要素数 ══════════ -->
+<div class="pg">
+<h2>📖 1-4　手札の枚数を調べる ―― <code>要素数[ ]</code></h2>
+<p>手札の枚数は問題によって違います（2枚のこともあれば4枚のことも）。そこで、<strong>実行時に枚数を調べる</strong>方法が必要です。</p>
+
+<div class="info-box">
+  <strong><code>要素数[手札]</code></strong> は、今の手札の枚数を表します。<br><br>
+  例：手札 = [3, 7, 10] のとき<br>
+  &emsp;<code>要素数[手札]</code> = <strong>3</strong><br><br>
+  例：手札 = [5, 11] のとき<br>
+  &emsp;<code>要素数[手札]</code> = <strong>2</strong>
+</div>
+
+<h3>最強カードとの関係</h3>
+<p>手札は弱い順に並んでいるので、<strong>最強カードの添字 ＝ 手札の枚数</strong> です。</p>
+
+<div class="code-block">
+<span class="cmt"># 手札が [3, 7, 10] のとき</span>
+<span class="cmt"># 要素数[手札] = 3</span>
+<span class="cmt"># 手札[3] = 10（最強カード）</span>
+
+出す(<span class="val">手札[要素数[手札]]</span>, <span class="val">1</span>)
+<span class="cmt"># → 出す(手札[3], 1) → 出す(10, 1) と同じ</span>
+</div>
+
+<div class="try-box">
+  📱 b04 に挑戦しましょう！<div class="next-hint">次のページへ → 問題 b04</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b04 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b04　要素数で最強カードを出す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span>
+    <span class="var-chip">要素数[手札]</span>
+    <span class="var-chip">出す(値, 枚数)</span>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>[3, 7, 10]</td><td>10（最強）をシングルで出す</td></tr>
+    <tr><td>2</td><td>[5, 11]</td><td>11（最強 = J）をシングルで出す</td></tr>
+  </table>
+
+  <div class="try-box">📱 アプリで b04 に挑戦！<div class="next-hint">行き詰まったら → 章末のヒント集へ</div></div>
+</div>
+</div>
+
+<!-- b04 ヒント -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b04 解説</div><div class="prob-title-jp">要素数で最強カードを出す</div></div>
+</div>
+<div class="explain-body">
+  <div class="explain-note">✅ 正解してから読みましょう。</div>
+
+  <div class="code-block">
+出す(<span class="hl">手札[要素数[手札]]</span>, <span class="val">1</span>)
+  </div>
+
+  <h3>入れ子の添字の読み方</h3>
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-box">要素数[手札]</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">手札の枚数（例：3）が得られる</div>
+    </div>
+    <div style="margin:4px 0 4px 24px;font-size:12px;color:#555;">↓ その値を添字として使う</div>
+    <div class="flow-row">
+      <div class="flow-box">手札[3]</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">最強カードのランク（例：10）</div>
+    </div>
+    <div style="margin:4px 0 4px 24px;font-size:12px;color:#555;">↓</div>
+    <div class="flow-row">
+      <div class="flow-box">出す(10, 1)</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">10をシングルで出す ✅</div>
+    </div>
+  </div>
+
+  <p><code>手札[要素数[手札]]</code> は「<strong>枚数が何枚であっても最強カードを取り出す</strong>」汎用的な書き方です。b05ではこれを変数を使ってさらに読みやすく書き直します。</p>
+
+  <div class="next-prob">▶ 次の概念へ：<strong>変数と代入（←）</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ 1-5 変数と代入 ══════════ -->
+<div class="pg">
+<h2>📖 1-5　値を変数に入れる ―― <code>変数 ← 値</code></h2>
+<p>計算した値や長い式を<strong>変数</strong>に入れておくと、コードが読みやすくなります。</p>
+
+<div class="info-box">
+  <strong>代入の書き方：</strong><br>
+  <code>変数名 ← 値や式</code><br><br>
+  <strong>「←」は「右の値を左の変数に入れる」記号です。</strong><br>
+  数学の「＝（等号）」とは意味が違います。
+</div>
+
+<div class="code-block">
+<span class="cmt"># 手札の枚数を変数 n に入れる</span>
+n <span class="kw">←</span> 要素数[手札]
+
+<span class="cmt"># n を使って最強カードを取り出す</span>
+出す(<span class="val">手札[n]</span>, <span class="val">1</span>)
+</div>
+
+<h3>なぜ変数を使うの？</h3>
+<table>
+  <tr><th>書き方</th><th>読みやすさ</th><th>内容</th></tr>
+  <tr><td><code>出す(手札[要素数[手札]], 1)</code></td><td>△</td><td>入れ子が多くて読みにくい</td></tr>
+  <tr><td><code>n ← 要素数[手札]<br>出す(手札[n], 1)</code></td><td>◎</td><td>「nに枚数を入れて、n番目を出す」と読める</td></tr>
+</table>
+
+<div class="caution-box">
+⚠️ <strong>変数名のルール（このアプリ）：</strong><br>
+・英字の<strong>小文字始まり</strong>（<code>n</code>、<code>i</code>、<code>cnt</code> など）→ 普通の変数（数値や真偽値）<br>
+・英字の<strong>大文字始まり</strong>（<code>T</code>、<code>C</code> など）→ 配列（複数の値）<br>
+・<strong>日本語名</strong>はどちらにも使えます（<code>手札</code>・<code>捨札</code> は配列、<code>カウント</code> のような変数も OK）
+</div>
+
+<div class="try-box">
+  📱 b05 に挑戦しましょう！<div class="next-hint">次のページへ → 問題 b05</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b05 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b05　変数で最強カードを出す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">n ← 値</span>
+    <span class="var-chip">要素数[手札]</span>
+    <span class="var-chip">手札[n]</span>
+    <span class="var-chip">出す(値, 枚数)</span>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション</strong>
+  </div>
+
+  <h3>テストケース</h3>
+  <table>
+    <tr><th>ケース</th><th>手札</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>[3, 7, 10]</td><td>10（最強）をシングルで出す</td></tr>
+    <tr><td>2</td><td>[5, 11]</td><td>11（最強 = J）をシングルで出す</td></tr>
+  </table>
+
+  <h3>ヒント（解けそうなら読まずに挑戦！）</h3>
+  <p>コードは2行になります：①代入の行、②出す行。</p>
+
+  <div class="try-box">📱 アプリで b05 に挑戦！<div class="next-hint">行き詰まったら → 章末のヒント集へ</div></div>
+</div>
+</div>
+
+<!-- b05 ヒント -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b05 解説</div><div class="prob-title-jp">変数で最強カードを出す</div></div>
+</div>
+<div class="explain-body">
+  <div class="explain-note">✅ 正解してから読みましょう。</div>
+
+  <div class="code-block">
+n <span class="kw">←</span> <span class="hl">要素数[手札]</span>
+出す(<span class="val">手札[n]</span>, <span class="val">1</span>)
+  </div>
+
+  <h3>動きの図解（手札 = [3, 7, 10] のとき）</h3>
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-box">要素数[手札] = 3</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box">n ← 3</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">n に 3 が入る</div>
+    </div>
+    <div style="margin:4px 0 4px 0;font-size:12px;color:#555;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;↓</div>
+    <div class="flow-row">
+      <div class="flow-box">手札[n] = 手札[3] = 10</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">出す(10, 1) ✅</div>
+    </div>
+  </div>
+
+  <p>変数 <code>n</code> を使うことで「何枚でも対応できる」コードになります。手札が2枚でも5枚でも、<code>n</code> に正しい枚数が入るので最強カードが取り出せます。</p>
+  <div class="next-prob">▶ 次の問題へ：<strong>b06　変数に代入して出す</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b06 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b06　変数に代入して出す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">i ← 値</span>
+    <span class="var-chip">手札[i]</span>
+    <span class="var-chip">出す(値, 枚数)</span>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション</strong>
+  </div>
+
+  <h3>テストケース</h3>
+  <table>
+    <tr><th>ケース</th><th>手札</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>[5, 10, 14]</td><td>10（2番目）をシングルで出す</td></tr>
+    <tr><td>2</td><td>[3, 7, 11, 13]</td><td>7（2番目）をシングルで出す</td></tr>
+  </table>
+
+  <div class="try-box">📱 アプリで b06 に挑戦！<div class="next-hint">行き詰まったら → 章末のヒント集へ</div></div>
+</div>
+</div>
+
+<!-- b06 ヒント -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b06 解説</div><div class="prob-title-jp">変数に代入して出す</div></div>
+</div>
+<div class="explain-body">
+  <div class="explain-note">✅ 正解してから読みましょう。</div>
+
+  <div class="code-block">
+i <span class="kw">←</span> <span class="val">2</span>
+出す(<span class="val">手札[i]</span>, <span class="val">1</span>)
+  </div>
+
+  <h3>動きの図解</h3>
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-box">i ← 2</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">変数 i に 2 が入る</div>
+    </div>
+    <div style="margin:4px 0 4px 0;font-size:12px;color:#555;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;↓</div>
+    <div class="flow-row">
+      <div class="flow-box">手札[i] = 手札[2]</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-result">手札の2番目のランクが得られる</div>
+    </div>
+  </div>
+
+  <h3>b05 と b06 の違いを確認しよう</h3>
+  <table>
+    <tr><th>問題</th><th>i に入れるもの</th><th>取り出すカード</th></tr>
+    <tr><td>b05</td><td><code>要素数[手札]</code>（枚数）</td><td>最強カード</td></tr>
+    <tr><td>b06</td><td><code>2</code>（固定の数）</td><td>2番目のカード</td></tr>
+  </table>
+  <p>変数 <code>i</code> に入れる値を変えるだけで、取り出すカードを自由に変えられます。これが変数を使う最大のメリットです。</p>
+
+  <div class="next-prob">▶ 第1章 完了！ 次は → <strong>コラム（任意）</strong> または <strong>第2章へ進む</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">変数は「状態を記憶する箱」―― 大富豪の外の世界</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第1章では、大富豪の <code>手札[i]</code> や <code>n ← 要素数[手札]</code> を通じて「変数」を学びました。実は、変数は大富豪だけでなく、<strong>あらゆるプログラムの基礎</strong>です。</p>
+
+  <div class="real-example">
+    <h3>🛒 例1：ネットショッピングの在庫管理</h3>
+    <p>商品の残り個数を変数で管理します。</p>
+    <div class="code-block" style="font-size:12px;">
+zaiko <span class="kw">←</span> <span class="val">100</span>　　<span class="cmt"># 在庫100個からスタート</span>
+zaiko <span class="kw">←</span> zaiko <span class="kw">－</span> <span class="val">1</span>　<span class="cmt"># 1個売れた → 99個</span>
+zaiko <span class="kw">←</span> zaiko <span class="kw">－</span> <span class="val">1</span>　<span class="cmt"># また1個売れた → 98個</span>
+    </div>
+    <p style="font-size:12px;">大富豪では <code>手札[1]</code>（最弱カード）を取り出すために配列と変数を使いました。ネットショッピングでも在庫数を「箱（変数）」に入れて、減らしながら管理しています。仕組みは同じです。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🎮 例2：ゲームのスコア管理</h3>
+    <div class="code-block" style="font-size:12px;">
+score <span class="kw">←</span> <span class="val">0</span>　　　<span class="cmt"># ゲーム開始時のスコア</span>
+score <span class="kw">←</span> score <span class="kw">＋</span> <span class="val">100</span>　<span class="cmt"># 敵を倒した → +100点</span>
+score <span class="kw">←</span> score <span class="kw">＋</span> <span class="val">50</span>　 <span class="cmt"># アイテム取得 → +50点</span>
+    </div>
+    <p style="font-size:12px;">大富豪では <code>n ← 要素数[手札]</code> で「今の手札枚数」を記憶しました。ゲームのスコアも「今の点数」を変数に記憶して、加算・減算で更新します。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：変数は「状態のスナップショット」</h3>
+    <table style="font-size:12px;">
+      <tr><th>分野</th><th>変数が記憶するもの</th></tr>
+      <tr><td>大富豪（このアプリ）</td><td>手札枚数、場の強さ、添字 i など</td></tr>
+      <tr><td>ゲーム</td><td>スコア、残り時間、プレイヤー位置</td></tr>
+      <tr><td>通販サイト</td><td>在庫数、カート内の合計金額</td></tr>
+      <tr><td>気象観測</td><td>気温、湿度、今日の最高気温</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">どの分野でも「今の状態を名前のついた箱に入れておき、必要なときに取り出す」という使い方は同じです。</p>
+  </div>
+
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 1 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div>
+    <div class="prob-id">b01 ヒント</div>
+    <div class="prob-title-jp">先頭のカードを出す</div>
+  </div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「最弱カード」は手札のどこにある？</strong><br>
+        手札は弱い順に並んでいて、番号（添字）は 1 から始まります。<br>
+        一番弱いカードの添字は何番でしょうか？
+        <div class="think-box">手札 = [3, 7, 10] のとき、最弱は「3」で手札[<span style="color:#e67e22;font-weight:700;">?</span>] に入っています。</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>カードを出すには何を使う？</strong><br>
+        「出す」操作のためには <code>出す(カードの値, 枚数)</code> を使います。<br>
+        「シングルで出す」なら枚数は何でしょうか？
+        <div class="think-box"><code>出す(_______, _______)</code> ← 2つの引数に何を入れる？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>コードにしてみよう</strong><br>
+        「手札の1番目のカードをシングルで出す」を DNCL に書くと…<br>
+        <code>出す( 手札[<span style="color:#e67e22;">?</span>] , <span style="color:#e67e22;">?</span> )</code><br>
+        <br>
+        数字を入れたら、アプリで試してみましょう。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b01 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b02 ヒント</div><div class="prob-title-jp">値を表示する</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「場の強さ」はどこに入っている？</strong><br>
+        <code>場の強さ</code> は、場に出ているカードのランクを表す<strong>変数</strong>です。基礎リファレンスにも書いてあります。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>表示するにはどう書く？</strong><br>
+        「〇〇 を表示する」の形に合わせます。〇〇の部分に表示したいものを入れましょう。
+        <div class="think-box"><code>_______ を表示する</code></div>
+      </div>
+    </li>
+  </ul></div>
+</div>
+</div>
+
+<!-- b02 解説 -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b03 ヒント</div><div class="prob-title-jp">式を表示する</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>文字列はどう書く？</strong><br>
+        DNCLでは文字列を「　」（全角カギカッコ）で囲みます。<br>
+        「場のカードは、」と書くと、その文字そのものが表示されます。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>文字列と変数をつなぐには？</strong><br>
+        <code>と</code> という単語でつなぎます。
+        <div class="think-box">
+          <code>「場のカードは、」 と _______ を表示する</code><br>
+          _______の部分に何を入れればいい？
+        </div>
+      </div>
+    </li>
+  </ul></div>
+</div>
+</div>
+
+<!-- b03 解説 -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b04 ヒント</div><div class="prob-title-jp">要素数で最強カードを出す</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>最強カードの添字は何番？</strong><br>
+        手札が3枚 [3, 7, 10] なら最強カードは <code>手札[3]</code>。<br>
+        手札が2枚 [5, 11] なら最強カードは <code>手札[2]</code>。<br>
+        「最強カードの添字」＝「手札の枚数」ですね。どんな枚数のときでも使える書き方は？
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>添字の中に <code>要素数[手札]</code> を使う</strong><br>
+        <div class="think-box">
+          <code>手札[　　　　　　　]</code> の [ ] の中に何を書く？
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>組み合わせてみよう</strong><br>
+        <code>出す( 手札[<span style="color:#e67e22;">?</span>] , 1)</code> の<span style="color:#e67e22;">?</span>部分に答えを入れましょう。
+      </div>
+    </li>
+  </ul></div>
+</div>
+</div>
+
+<!-- b04 解説 -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b05 ヒント</div><div class="prob-title-jp">変数で最強カードを出す</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>まず「n に枚数を入れる」1行目を書こう</strong><br>
+        <div class="think-box"><code>n ← _______</code>（何を入れる？）</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>次に「n 番目のカードを出す」2行目を書こう</strong><br>
+        <div class="think-box"><code>出す( 手札[_______] , 1 )</code></div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2行をエディタに書いて実行しよう</strong><br>
+        1行目と2行目は改行で区切ります。
+      </div>
+    </li>
+  </ul></div>
+</div>
+</div>
+
+<!-- b05 解説 -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b06 ヒント</div><div class="prob-title-jp">変数に代入して出す</div></div>
+</div>
+<div class="hint-body">
+  <div class="hint-warning">💡 行き詰まったときだけ読んでください。</div>
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>まず「i に 2 を入れる」を書こう</strong><br>
+        <div class="think-box"><code>i ← _______</code></div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>次に「i 番目のカードを出す」を書こう</strong><br>
+        <code>手札[i]</code> は <code>i</code> に入っている数の番目のカードです。<br>
+        <code>i = 2</code> なら <code>手札[i]</code> は <code>手札[2]</code> と同じになります。
+        <div class="think-box"><code>出す( 手札[_______] , 1 )</code></div>
+      </div>
+    </li>
+  </ul></div>
+</div>
+</div>
+
+<!-- b06 解説 -->
+<div class="pg">
+<div class="ch-header ch2">
+  <div class="ch-num">CHAPTER 2</div>
+  <div class="ch-title">演算子</div>
+  <div class="ch-desc">＋ 足し算 ・ ÷ 整数の割り算 ・ ％ 余り</div>
+</div>
+
+<h2>📖 2-1　計算する ―― 算術演算子</h2>
+<p>プログラムでは、数を使った<strong>計算</strong>ができます。大富豪でも「2枚のカードの合計」や「真ん中のカードの位置」を計算で求められます。計算には<strong>算術演算子</strong>という記号を使います。</p>
+
+<div class="info-box">
+<strong>このアプリで使う算術演算子（すべて全角）：</strong><br>
+<table style="margin-top:8px;">
+  <tr><th>記号</th><th>意味</th><th>例</th><th>結果</th></tr>
+  <tr><td><code>＋</code></td><td>足し算</td><td><code>3 ＋ 4</code></td><td>7</td></tr>
+  <tr><td><code>－</code></td><td>引き算</td><td><code>10 － 3</code></td><td>7</td></tr>
+  <tr><td><code>×</code></td><td>かけ算</td><td><code>3 × 4</code></td><td>12</td></tr>
+  <tr><td><code>÷</code></td><td><strong>整数の</strong>割り算（小数切り捨て）</td><td><code>7 ÷ 2</code></td><td>3</td></tr>
+  <tr><td><code>％</code></td><td>割り算の<strong>余り</strong></td><td><code>7 ％ 2</code></td><td>1</td></tr>
+</table>
+</div>
+
+<h2>📖 2-2　÷ は「整数の割り算」</h2>
+<p>このアプリの <code>÷</code> は、ふつうの割り算とちがって<strong>小数点以下を切り捨てます</strong>。これを「整数除算」と呼びます。</p>
+
+<div class="info-box">
+<strong>整数除算の例（小数点以下は切り捨て）：</strong>
+<table style="margin-top:6px;">
+  <tr><th>式</th><th>結果</th><th>ふつうの割り算なら</th></tr>
+  <tr><td><code>7 ÷ 2</code></td><td><strong>3</strong></td><td>3.5 → 切り捨てて 3</td></tr>
+  <tr><td><code>9 ÷ 3</code></td><td><strong>3</strong></td><td>3（割り切れる）</td></tr>
+  <tr><td><code>5 ÷ 2</code></td><td><strong>2</strong></td><td>2.5 → 切り捨てて 2</td></tr>
+</table>
+</div>
+
+<p>これは「真ん中のカードの位置」を求めるときに役立ちます。たとえば手札が3枚なら、真ん中は <code>(3 ＋ 1) ÷ 2 ＝ 2</code> 番目です。</p>
+</div><!-- end pg -->
+
+<div class="pg">
+<h2>📖 2-3　％ は「余り」 ―― 偶数・奇数の判定</h2>
+<p><code>％</code> は割り算の<strong>余り</strong>を求めます。特に <code>2 で割った余り</code> は、偶数・奇数を見分けるのに使えます。</p>
+
+<div class="info-box">
+<strong>偶数・奇数の見分け方：</strong><br>
+<code>枚数 ％ 2 ＝ 0</code> → 余りが0 → <strong>偶数</strong>（2, 4, 6 ...）<br>
+<code>枚数 ％ 2 ＝ 1</code> → 余りが1 → <strong>奇数</strong>（1, 3, 5 ...）
+</div>
+
+<div class="caution-box">
+⚠️ 記号はすべて<strong>全角</strong>で入力します。半角の <code>+</code> <code>/</code> <code>%</code> ではエラーになります。左パネルのボタンをクリックして入力すると確実です。
+</div>
+
+<div class="try-box">
+  📱 概念が分かったら、問題 b07 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b07</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b07 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b07　先頭2枚の合計を計算して表示する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">＋</span><span class="var-chip">を表示する</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>手札[1] ＋ 手札[2]</code> で先頭2枚の合計が計算できます。「と」でつなぐと計算式をそのまま表示できます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]</td><td>「先頭2枚の合計は、10」と表示（3＋7）</td></tr>
+    <tr><td>2</td><td>手札 = [5, 11, 13]</td><td>「先頭2枚の合計は、16」と表示（5＋11）</td></tr>
+    <tr><td>3</td><td>手札 = [6, 9]</td><td>「先頭2枚の合計は、15」と表示（6＋9）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b07 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b07 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b07 解説</div><div class="prob-title-jp">先頭2枚の合計を計算して表示する</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="str">「先頭2枚の合計は、」</span> と <span class="hl">手札[1] ＋ 手札[2]</span> を表示する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>手札[1] ＋ 手札[2]</code></td><td>先頭2枚のランクを足した値</td><td>手札=[3,7,10]なら 3＋7=10</td></tr>
+    <tr><td><code>「…」 と 式 を表示する</code></td><td>文字列と計算結果を連結して表示</td><td>「先頭2枚の合計は、10」</td></tr>
+  </table>
+
+  <h3>なぜ計算式を「と」の後ろに書けるの？</h3>
+  <p><code>を表示する</code> は、その手前にある<strong>式を先に計算してから</strong>表示します。そのため <code>手札[1] ＋ 手札[2]</code> はまず <code>10</code> という値になり、その値が文字列のうしろに連結されて「先頭2枚の合計は、10」と表示されます。変数や計算をいったん「値」に変えてから扱う、という考え方はプログラム全体で共通です。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b08　真ん中のカードを出す</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b08 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b08　真ん中のカードを出す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">要素数[手札]</span><span class="var-chip">＋</span><span class="var-chip">÷</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      真ん中の位置は <code>(枚数 ＋ 1) ÷ 2</code> で求められます。<code>÷</code> は小数を切り捨てる整数の割り算です。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]（3枚）</td><td>真ん中 手札[2]=7 を出す</td></tr>
+    <tr><td>2</td><td>手札 = [5, 7, 9, 11, 13]（5枚）</td><td>真ん中 手札[3]=9 を出す</td></tr>
+    <tr><td>3</td><td>手札 = [4, 8, 12]（3枚）</td><td>真ん中 手札[2]=8 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b08 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b08 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b08 解説</div><div class="prob-title-jp">真ん中のカードを出す</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">n</span> <span class="kw">←</span> 要素数[手札]<br>
+<span class="hl">i</span> <span class="kw">←</span> (n ＋ 1) ÷ 2<br>
+出す(手札[<span class="hl">i</span>], <span class="val">1</span>)
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>n ← 要素数[手札]</code></td><td>手札の枚数を変数nに記憶</td><td>3枚なら n=3</td></tr>
+    <tr><td><code>(n ＋ 1) ÷ 2</code></td><td>真ん中の添字を計算（整数除算）</td><td>(3＋1)÷2=2 / (5＋1)÷2=3</td></tr>
+    <tr><td><code>出す(手札[i], 1)</code></td><td>真ん中のカードをシングルで出す</td><td>手札[2]=7 を出す</td></tr>
+  </table>
+
+  <h3>なぜ (n ＋ 1) ÷ 2 で真ん中になるの？</h3>
+  <p>奇数枚の配列の真ん中は「両端から数えて同じ位置」です。3枚なら (3＋1)÷2＝2、5枚なら (5＋1)÷2＝3。<code>÷</code> が小数を切り捨てるので、たとえ計算途中で割り切れなくても整数の位置が得られます。「枚数から位置を計算で求める」と、手札が何枚でも同じコードで真ん中を出せます。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b09　余りで偶奇を判定する</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b09 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b09　余りで偶奇を判定する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">要素数[手札]</span><span class="var-chip">手札[i]</span><span class="var-chip">％</span><span class="var-chip">＝</span><span class="var-chip">もし〜ならば</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>枚数 ％ 2 ＝ 0</code> なら偶数です。<code>もし〜ならば〜そうでなければ</code> で2通りに分けます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10, 12]（4枚・偶数）</td><td>最弱 手札[1]=3 を出す</td></tr>
+    <tr><td>2</td><td>手札 = [5, 9, 13]（3枚・奇数）</td><td>最強 手札[3]=13 を出す</td></tr>
+    <tr><td>3</td><td>手札 = [4, 6]（2枚・偶数）</td><td>最弱 手札[1]=4 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b09 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b09 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b09 解説</div><div class="prob-title-jp">余りで偶奇を判定する</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">n</span> <span class="kw">←</span> 要素数[手札]<br>
+もし <span class="hl">n ％ 2 ＝ 0</span> ならば<br>
+｜　出す(手札[<span class="val">1</span>], 1)<br>
+を実行し，そうでなければ<br>
+｜　出す(手札[<span class="hl">n</span>], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>n ％ 2 ＝ 0</code></td><td>2で割った余りが0 → 偶数</td><td>4％2=0（偶数） / 3％2=1（奇数）</td></tr>
+    <tr><td><code>もし〜ならば〜そうでなければ</code></td><td>条件で2通りの処理を切り替える</td><td>偶数→最弱 / 奇数→最強</td></tr>
+    <tr><td><code>手札[1] / 手札[n]</code></td><td>最弱 / 最強カード</td><td>n=要素数[手札] が最強の添字</td></tr>
+  </table>
+
+  <h3>なぜ「余り」で偶数・奇数が分かるの？</h3>
+  <p>偶数は「2でちょうど割り切れる数」なので、2で割った余りは必ず0になります。奇数は割り切れず、余りが必ず1になります。この「余りで分類する」考え方は、3の倍数判定（<code>％ 3 ＝ 0</code>）など、いろいろな「○○の倍数か？」の判定に応用できます。</p>
+
+  <div class="next-prob">▶ 第2章 完了！ 次は → <strong>コラム（任意）</strong> または <strong>第3章へ進む</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">「÷」と「％」はセットで覚える ―― 時間・お金の計算</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第2章では <code>÷</code>（整数の割り算）と <code>％</code>（余り）を学びました。この2つは、日常のプログラムでも<strong>セットで</strong>大活躍します。</p>
+
+  <div class="real-example">
+    <h3>⏰ 例1：秒を「分と秒」に変換する</h3>
+    <div class="code-block" style="font-size:12px;">
+byou <span class="kw">←</span> <span class="val">125</span>　　<span class="cmt"># 125秒</span>
+fun  <span class="kw">←</span> byou ÷ <span class="val">60</span>　<span class="cmt"># 125 ÷ 60 = 2（分）</span>
+amari <span class="kw">←</span> byou ％ <span class="val">60</span>　<span class="cmt"># 125 ％ 60 = 5（秒）</span>
+<span class="cmt"># → 「2分5秒」</span>
+    </div>
+    <p style="font-size:12px;"><code>÷</code> で「何分か」、<code>％</code> で「あまり何秒か」が同時に求められます。大富豪で真ん中の位置を <code>(n＋1)÷2</code> で出したのと同じ仕組みです。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>💴 例2：おつりの硬貨を計算する</h3>
+    <div class="code-block" style="font-size:12px;">
+otsuri <span class="kw">←</span> <span class="val">370</span>
+hyaku <span class="kw">←</span> otsuri ÷ <span class="val">100</span>　<span class="cmt"># 100円玉 3枚</span>
+nokori <span class="kw">←</span> otsuri ％ <span class="val">100</span>　<span class="cmt"># 残り 70円</span>
+    </div>
+    <p style="font-size:12px;">レジや自販機のおつり計算も、<code>÷</code> と <code>％</code> の組み合わせでできています。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ</h3>
+    <table style="font-size:12px;">
+      <tr><th>やりたいこと</th><th>使う演算子</th></tr>
+      <tr><td>偶数・奇数の判定</td><td><code>％ 2</code></td></tr>
+      <tr><td>「何個ぶんか」を求める</td><td><code>÷</code></td></tr>
+      <tr><td>「あまり」を求める</td><td><code>％</code></td></tr>
+      <tr><td>○の倍数か判定</td><td><code>％ ○ ＝ 0</code></td></tr>
+    </table>
+  </div>
+
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 2 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b07 ヒント</div><div class="prob-title-jp">先頭2枚の合計を計算して表示する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>先頭2枚はどこにある？</strong><br>
+        手札の1番目は <code>手札[1]</code>、2番目は <code>手札[2]</code> です。<br>この2つを足すには、どんな記号を使うでしょうか？<div class="think-box">手札[1] <span style="color:#e67e22;font-weight:700;">?</span> 手札[2] ← 足し算の記号は？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>計算式をそのまま表示できる</strong><br>
+        <code>「文字列」 と 式 を表示する</code> の「式」の部分には、計算式をそのまま書けます。<br><div class="think-box">「先頭2枚の合計は、」 と <span style="color:#e67e22;">______</span> を表示する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>組み立ててみよう</strong><br>
+        文字列と「手札[1] ＋ 手札[2]」を <code>と</code> でつなげば完成です。全角の <code>＋</code> を使いましょう。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b07 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b08 ヒント</div><div class="prob-title-jp">真ん中のカードを出す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>真ん中の位置を式にできる？</strong><br>
+        手札が3枚なら真ん中は2番目、5枚なら3番目です。枚数から真ん中の位置を計算する式を考えましょう。<div class="think-box">3枚 → 位置2、5枚 → 位置3。(枚数 ＋ 1) ÷ 2 を計算してみると…？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>枚数はどう取得する？</strong><br>
+        手札の枚数は <code>要素数[手札]</code> で分かります。これをいったん変数に入れると式が読みやすくなります。<div class="think-box">n ← 要素数[手札]　／　i ← (n ＋ 1) ÷ 2</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>真ん中のカードを出す</strong><br>
+        計算した位置 <code>i</code> を使って <code>手札[i]</code> を取り出し、シングル（1枚）で出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b08 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b09 ヒント</div><div class="prob-title-jp">余りで偶奇を判定する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>偶数かどうかをどう判定する？</strong><br>
+        <code>％</code> は割り算の余りです。<code>枚数 ％ 2</code> が <code>0</code> なら偶数、<code>1</code> なら奇数になります。<div class="think-box">4 ％ 2 ＝ ?　／　3 ％ 2 ＝ ?</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>枚数を変数に入れておく</strong><br>
+        <code>n ← 要素数[手札]</code> としておくと、最強カードの添字 <code>手札[n]</code> にもそのまま使えて便利です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2通りに分ける</strong><br>
+        <code>もし n ％ 2 ＝ 0 ならば</code>（偶数）最弱、<code>そうでなければ</code>（奇数）最強を出す、という形にします。<div class="think-box">最弱は 手札[1]、最強は 手札[n] です。</div>
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b09 解説 ══════════ -->
+<div class="pg">
+<div class="ch-header ch3">
+  <div class="ch-num">CHAPTER 3</div>
+  <div class="ch-title">条件分岐</div>
+  <div class="ch-desc">もし〜ならば ・ 比較演算子 ・ かつ／または／でない</div>
+</div>
+
+<h2>📖 3-1　もし〜ならば ―― 条件で処理を分ける</h2>
+<p>「場より強ければ出す、弱ければパスする」のように、状況に応じて処理を変えたいことがあります。これを<strong>条件分岐</strong>といいます。</p>
+
+<div class="info-box">
+<strong>基本の形（条件を満たすときだけ実行）：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+もし <span style="color:#6a1b9a;">条件</span> ならば<br>
+｜　<span style="color:#1565c0;">処理</span><br>
+を実行する
+</span><br><br>
+条件が<strong>成り立つ（真）</strong>ときだけ、字下げした処理が実行されます。
+</div>
+
+<p>この流れは<strong>フローチャート（流れ図）</strong>で表すと分かりやすくなります。条件のところで道が分かれ、「はい（真）」のときだけ処理を行い、その後は合流して次の行へ進みます。</p>
+<div class="info-box">
+<strong>フローチャートで見ると：</strong>
+<div style="font-family:monospace;font-size:13px;line-height:1.9;margin-top:6px;">
+　　↓<br>
+　&lt; 条件は真？ &gt;<br>
+　├ はい &nbsp;→ ［処理を行う］<br>
+　└ いいえ →（何もしない）<br>
+　　↓<br>
+　次の行へ進む
+</div>
+</div>
+
+<h2>📖 3-2　そうでなければ ―― 2通りに分ける</h2>
+<p><code>もし〜ならば</code> だけでは「条件が真のときに何かする」だけでした。<code>そうでなければ</code> を加えると、<strong>真のとき</strong>と<strong>偽のとき</strong>で<strong>必ずどちらか一方</strong>の処理を行えます。</p>
+<div class="info-box">
+<strong>2通りに分ける形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+もし <span style="color:#6a1b9a;">条件</span> ならば<br>
+｜　<span style="color:#1565c0;">処理A</span>（条件が真のとき）<br>
+を実行し，そうでなければ<br>
+｜　<span style="color:#1565c0;">処理B</span>（条件が偽のとき）<br>
+を実行する
+</span>
+</div>
+</div><!-- end pg -->
+
+<div class="pg">
+<h2>📖 3-3　比較演算子</h2>
+<p>条件は、2つの値を<strong>比べて</strong>作ります。比較には次の記号（全角）を使います。</p>
+<table>
+  <tr><th>記号</th><th>意味</th><th>例</th></tr>
+  <tr><td><code>＞</code></td><td>より大きい</td><td><code>手札[1] ＞ 場の強さ</code></td></tr>
+  <tr><td><code>＜</code></td><td>より小さい</td><td><code>手札[1] ＜ 5</code></td></tr>
+  <tr><td><code>≧</code></td><td>以上（大きいか等しい）</td><td><code>要素数[手札] ≧ 3</code></td></tr>
+  <tr><td><code>≦</code></td><td>以下（小さいか等しい）</td><td><code>手札[1] ≦ 場の強さ</code></td></tr>
+  <tr><td><code>＝</code></td><td>等しい</td><td><code>手札[1] ＝ 手札[2]</code></td></tr>
+  <tr><td><code>≠</code></td><td>等しくない</td><td><code>手札[1] ≠ 手札[2]</code></td></tr>
+</table>
+<div class="caution-box">
+⚠️ <code>≧</code> は <code>&gt;=</code>、<code>≦</code> は <code>&lt;=</code> と入力すると変換されます。比較演算子は左パネルのボタンからの入力が確実です。
+</div>
+
+<h2>📖 3-4　かつ・または・でない ―― 論理演算子</h2>
+<p>複数の条件を組み合わせるには<strong>論理演算子</strong>を使います。</p>
+<table>
+  <tr><th>記号</th><th>意味</th><th>真になるとき</th></tr>
+  <tr><td><code>かつ</code></td><td>AND（両方）</td><td>条件Aも条件Bも成り立つとき</td></tr>
+  <tr><td><code>または</code></td><td>OR（どちらか）</td><td>条件Aか条件Bの少なくとも一方が成り立つとき</td></tr>
+  <tr><td><code>でない</code></td><td>NOT（否定）</td><td>条件が成り立た<strong>ない</strong>とき</td></tr>
+</table>
+<div class="caution-box">
+⚠️ <code>でない</code> を使うときは、否定したい条件を <code>( )</code> でくくると範囲がはっきりします。例：<code>(手札[1] ≦ 場の強さ) でない</code>
+</div>
+
+<div class="try-box">
+  📱 概念が分かったら、問題 b10 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b10</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b10 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b10　場より強ければ出す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">＞</span><span class="var-chip">もし〜ならば</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>場の強さ</code> は場に出ているカードの値です。<code>手札[1] ＞ 場の強さ</code> なら最弱カードでも場に勝てます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札[1]=7、場の強さ=5</td><td>7を出す（7＞5）</td></tr>
+    <tr><td>2</td><td>手札[1]=3、場の強さ=9</td><td>パス（3は9より弱い）</td></tr>
+    <tr><td>3</td><td>手札[1]=10、場の強さ=8</td><td>10を出す（10＞8）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b10 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b10 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b10 解説</div><div class="prob-title-jp">場より強ければ出す</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+もし <span class="hl">手札[1] ＞ 場の強さ</span> ならば<br>
+｜　出す(手札[1], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>手札[1] ＞ 場の強さ</code></td><td>最弱カードが場より強いか</td><td>7＞5 は真 / 3＞9 は偽</td></tr>
+    <tr><td><code>もし〜ならば〜を実行する</code></td><td>条件が真のときだけ実行</td><td>真→出す / 偽→何もしない</td></tr>
+    <tr><td>（出さない）</td><td>何も実行されなければ自動でパス</td><td>手札[1]=3、場=9 → パス</td></tr>
+  </table>
+
+  <h3>なぜ「そうでなければ」がいらないの？</h3>
+  <p>この問題では「出せないときは<strong>パス</strong>」ですが、アプリは何もしなければ自動でパス扱いになります。そのため <code>そうでなければ</code> でパスを書かなくても正しく動きます。「やることがある場合だけ書く」と、コードがすっきりします。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b11　枚数に応じて出し方を変える</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b11 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b11　枚数に応じて出し方を変える</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">要素数[手札]</span><span class="var-chip">手札[i]</span><span class="var-chip">≧</span><span class="var-chip">もし〜ならば〜そうでなければ</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>要素数[手札] ≧ 3</code> で「3枚以上」を判定します。2通りなので <code>そうでなければ</code> を使います。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]（3枚）</td><td>2番目 手札[2]=7 を出す</td></tr>
+    <tr><td>2</td><td>手札 = [5, 11]（2枚）</td><td>最弱 手札[1]=5 を出す</td></tr>
+    <tr><td>3</td><td>手札 = [4, 8, 12, 14]（4枚）</td><td>2番目 手札[2]=8 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b11 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b11 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b11 解説</div><div class="prob-title-jp">枚数に応じて出し方を変える</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+もし <span class="hl">要素数[手札] ≧ 3</span> ならば<br>
+｜　出す(手札[<span class="val">2</span>], 1)<br>
+を実行し，そうでなければ<br>
+｜　出す(手札[<span class="val">1</span>], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>要素数[手札] ≧ 3</code></td><td>手札が3枚以上か</td><td>3枚→真 / 2枚→偽</td></tr>
+    <tr><td>真のとき <code>手札[2]</code></td><td>2番目のカードを出す</td><td>[3,7,10]→7</td></tr>
+    <tr><td>偽のとき <code>手札[1]</code></td><td>最弱カードを出す</td><td>[5,11]→5</td></tr>
+  </table>
+
+  <h3>「≧（以上）」と「＞（より大きい）」のちがいは？</h3>
+  <p><code>≧</code> は「その数を含む」、<code>＞</code> は「その数を含まない」です。「3枚<strong>以上</strong>」はちょうど3枚も含むので <code>≧ 3</code>。もし <code>＞ 3</code> と書くと、ちょうど3枚のときに偽になってしまいます。「以上／以下」と「より大きい／小さい」の区別は、条件分岐でとても重要です。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b12　ペアで出す</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b12 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b12　ペアで出す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">＝</span><span class="var-chip">もし〜ならば〜そうでなければ</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>手札[1] ＝ 手札[2]</code> で先頭2枚が同じか判定します。<code>出す(値, 2)</code> でペアになります。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [5, 5, 10]</td><td>ペア（5を2枚）で出す</td></tr>
+    <tr><td>2</td><td>手札 = [3, 7, 10]</td><td>シングル（3を1枚）で出す</td></tr>
+    <tr><td>3</td><td>手札 = [13, 13]</td><td>ペア（13を2枚）で出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b12 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b12 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b12 解説</div><div class="prob-title-jp">ペアで出す</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+もし <span class="hl">手札[1] ＝ 手札[2]</span> ならば<br>
+｜　出す(手札[1], <span class="val">2</span>)<br>
+を実行し，そうでなければ<br>
+｜　出す(手札[1], <span class="val">1</span>)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>手札[1] ＝ 手札[2]</code></td><td>先頭2枚が同じランクか</td><td>[5,5,..]→真 / [3,7,..]→偽</td></tr>
+    <tr><td><code>出す(手札[1], 2)</code></td><td>同じランクを2枚（ペア）で出す</td><td>5を2枚</td></tr>
+    <tr><td><code>出す(手札[1], 1)</code></td><td>1枚（シングル）で出す</td><td>3を1枚</td></tr>
+  </table>
+
+  <h3>なぜ隣どうし（[1]と[2]）を比べるだけでよいの？</h3>
+  <p>手札は<strong>弱い順にソート</strong>されているため、同じランクのカードは必ず隣り合います。だから先頭にペアがあるなら <code>手札[1]</code> と <code>手札[2]</code> が等しくなります。「ソートされている」という前提を使うと、調べる範囲をぐっと減らせます。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b13　かつで複数条件をチェック</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b13 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b13　かつで複数条件をチェック</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">要素数[手札]</span><span class="var-chip">手札[i]</span><span class="var-chip">≧</span><span class="var-chip">＝</span><span class="var-chip">かつ</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>条件A かつ 条件B</code> は両方が成り立つときだけ真になります。手札が1枚だと <code>手札[2]</code> が存在しないので、枚数チェックが必要です。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [5, 5, 9]</td><td>ペア（5を2枚）で出す</td></tr>
+    <tr><td>2</td><td>手札 = [3, 7, 10]</td><td>シングル（3を1枚）で出す</td></tr>
+    <tr><td>3</td><td>手札 = [8, 8]</td><td>ペア（8を2枚）で出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b13 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b13 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b13 解説</div><div class="prob-title-jp">かつで複数条件をチェック</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+もし <span class="hl">要素数[手札] ≧ 2 かつ 手札[1] ＝ 手札[2]</span> ならば<br>
+｜　出す(手札[1], <span class="val">2</span>)<br>
+を実行し，そうでなければ<br>
+｜　出す(手札[1], <span class="val">1</span>)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>要素数[手札] ≧ 2</code></td><td>手札が2枚以上あるか（安全確認）</td><td>1枚だと手札[2]が無い</td></tr>
+    <tr><td><code>かつ</code></td><td>両方の条件が真のときだけ真</td><td>2枚以上 かつ 同じランク</td></tr>
+    <tr><td><code>手札[1] ＝ 手札[2]</code></td><td>先頭2枚が同じランクか</td><td>[5,5,..]→真</td></tr>
+  </table>
+
+  <h3>なぜ「かつ」では順番が大事なの？</h3>
+  <p>多くのプログラムは <code>かつ</code> の左から順に判定し、左が偽ならその時点で全体を偽と決め、右は調べません（これを<strong>短絡評価</strong>といいます）。そのため「要素数 ≧ 2」を<strong>先に</strong>書くと、手札が1枚のとき <code>手札[2]</code> を見ずに済み、エラーを防げます。条件の順番は安全性に直結します。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b14　またはで条件を広げる</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b14 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b14　またはで条件を広げる</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">要素数[手札]</span><span class="var-chip">手札[i]</span><span class="var-chip">＝</span><span class="var-chip">≦</span><span class="var-chip">または</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>条件A または 条件B</code> はどちらか一方でも成り立てば真です。最強カードの添字は <code>要素数[手札]</code> です。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [7]（1枚）</td><td>手札[1]=7 を出す（1枚なので）</td></tr>
+    <tr><td>2</td><td>手札 = [5, 9, 14]（最強A=14）</td><td>手札[3]=14 を出す（A以上）</td></tr>
+    <tr><td>3</td><td>手札 = [3, 7, 10]</td><td>最弱 手札[1]=3 を出す（どちらも該当せず）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b14 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b14 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b14 解説</div><div class="prob-title-jp">またはで条件を広げる</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">cnt</span> <span class="kw">←</span> 要素数[手札]<br>
+もし <span class="hl">要素数[手札] ＝ 1 または 14 ≦ 手札[cnt]</span> ならば<br>
+｜　出す(手札[<span class="hl">cnt</span>], 1)<br>
+を実行し，そうでなければ<br>
+｜　出す(手札[1], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>cnt ← 要素数[手札]</code></td><td>最強カードの添字を記憶</td><td>3枚なら cnt=3</td></tr>
+    <tr><td><code>または</code></td><td>どちらか一方でも真なら真</td><td>1枚 または A以上</td></tr>
+    <tr><td><code>14 ≦ 手札[cnt]</code></td><td>最強カードがA(14)以上か</td><td>14≦14 は真</td></tr>
+  </table>
+
+  <h3>「かつ」と「または」の使い分けは？</h3>
+  <p><code>かつ</code> は条件を<strong>厳しく</strong>します（両方必要）。<code>または</code> は条件を<strong>ゆるく</strong>します（どちらかでよい）。この問題は「ピンチ（1枚）か、強い切り札（A以上）がある」という2つの<strong>攻めどき</strong>を <code>または</code> でまとめています。狙いに合わせて2つを使い分けるのがコツです。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b15　でないで条件を否定する</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b15 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b15　でないで条件を否定する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">≦</span><span class="var-chip">でない</span><span class="var-chip">もし〜ならば</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>(条件) でない</code> は条件を逆にします。「場以下 でない」＝「場より強い」と同じ意味です。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札[1]=7、場の強さ=5</td><td>出す（7は5以下 でない＝場より強い）</td></tr>
+    <tr><td>2</td><td>手札[1]=3、場の強さ=9</td><td>パス（3は9以下 → でないが偽）</td></tr>
+    <tr><td>3</td><td>手札[1]=12、場の強さ=10</td><td>出す（12は10以下 でない）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b15 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b15 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b15 解説</div><div class="prob-title-jp">でないで条件を否定する</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+もし <span class="hl">(手札[1] ≦ 場の強さ) でない</span> ならば<br>
+｜　出す(手札[1], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>手札[1] ≦ 場の強さ</code></td><td>最弱カードが場以下か（出せない条件）</td><td>3≦9 は真</td></tr>
+    <tr><td><code>(…) でない</code></td><td>条件を逆にする（否定）</td><td>「場以下」でない＝場より強い</td></tr>
+    <tr><td>結果</td><td>場より強いときだけ出す</td><td>7,12→出す / 3→パス</td></tr>
+  </table>
+
+  <h3><code>(A ≦ B) でない</code> は <code>A ＞ B</code> と同じ？</h3>
+  <p>はい、同じ結果になります。「以下でない」＝「より大きい」だからです。では、なぜ <code>でない</code> を使うのでしょう？ それは、「出せない条件（場以下）」をそのまま書いて、最後に<strong>ひっくり返す</strong>方が考えやすい場面があるからです。複雑な条件ほど「いったん素直に書いて否定する」とミスが減ります。これは <code>でない</code> の大切な使い道です。</p>
+
+  <div class="next-prob">▶ 第3章 完了！ 次は → <strong>コラム（任意）</strong> または <strong>第4章へ進む</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">条件分岐は「if文」―― 世界中のアプリの心臓部</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第3章で学んだ <code>もし〜ならば</code> は、英語では <strong>if（イフ）文</strong>と呼ばれ、あらゆるプログラミング言語にある最重要機能です。アプリの「判断」はすべてこれでできています。</p>
+
+  <div class="real-example">
+    <h3>🚦 例1：自動ドア・信号機</h3>
+    <div class="code-block" style="font-size:12px;">
+もし 人が近づいた ならば
+｜　ドアを開ける
+を実行し，そうでなければ
+｜　ドアを閉める
+を実行する
+    </div>
+    <p style="font-size:12px;">「センサーが反応したか？」という条件で動作を変えています。大富豪で「場より強いか？」で出すか決めたのと同じ構造です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🔐 例2：ログイン画面</h3>
+    <div class="code-block" style="font-size:12px;">
+もし パスワード ＝ 正解 ならば
+｜　ログイン成功
+を実行し，そうでなければ
+｜　エラーを表示
+を実行する
+    </div>
+    <p style="font-size:12px;">「入力 ＝ 正解」という条件分岐です。<code>＝</code> による比較は b12（ペア判定）でも使いました。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：論理演算子は「条件の組み立て」</h3>
+    <table style="font-size:12px;">
+      <tr><th>場面</th><th>条件の例</th></tr>
+      <tr><td>会員 かつ 18歳以上</td><td><code>かつ</code>（両方必要）</td></tr>
+      <tr><td>現金 または クレジット</td><td><code>または</code>（どちらかでOK）</td></tr>
+      <tr><td>営業時間外 でない</td><td><code>でない</code>（否定）</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">大富豪の戦略づくりも、アプリの判断も、すべて「条件をどう組み立てるか」で決まります。</p>
+  </div>
+
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 3 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b10 ヒント</div><div class="prob-title-jp">場より強ければ出す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「場より強い」を式にする</strong><br>
+        最弱カード <code>手札[1]</code> が場のカード <code>場の強さ</code> より大きいかを比べます。<div class="think-box">手札[1] <span style="color:#e67e22;font-weight:700;">?</span> 場の強さ ← どの比較記号？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>もし〜ならば の形に入れる</strong><br>
+        条件が成り立つときだけ出せばよいので、<code>そうでなければ</code> は不要です。<div class="think-box">もし 条件 ならば ／ ｜　処理 ／ を実行する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>出せないときは何もしない</strong><br>
+        条件が偽のときは何も書かなければ、アプリが自動でパスします。比較演算子は左パネルのボタンから入力しましょう。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b10 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b11 ヒント</div><div class="prob-title-jp">枚数に応じて出し方を変える</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「3枚以上」を式にする</strong><br>
+        「以上」は <code>≧</code> です。手札の枚数は <code>要素数[手札]</code> で分かります。<div class="think-box">要素数[手札] <span style="color:#e67e22;font-weight:700;">?</span> 3</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>2通りなので「そうでなければ」</strong><br>
+        3枚以上なら2番目、そうでなければ最弱、と2つに分かれます。<div class="think-box">もし 条件 ならば ／ 処理A ／ を実行し，そうでなければ ／ 処理B ／ を実行する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>それぞれ出すカードを書く</strong><br>
+        真のとき <code>手札[2]</code>、偽のとき <code>手札[1]</code> をシングルで出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b11 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b12 ヒント</div><div class="prob-title-jp">ペアで出す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「同じランク」をどう調べる？</strong><br>
+        手札は弱い順に並んでいるので、同じランクのカードは隣どうしになります。<code>手札[1]</code> と <code>手札[2]</code> が等しいか調べましょう。<div class="think-box">手札[1] <span style="color:#e67e22;font-weight:700;">?</span> 手札[2] ← 「等しい」記号は？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>ペアは枚数を2にする</strong><br>
+        <code>出す(値, 枚数)</code> の枚数を <code>2</code> にするとペアになります。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2通りに分ける</strong><br>
+        同じならペア <code>出す(手札[1], 2)</code>、違えばシングル <code>出す(手札[1], 1)</code> です。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b12 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b13 ヒント</div><div class="prob-title-jp">かつで複数条件をチェック</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>なぜ枚数チェックが必要？</strong><br>
+        もし手札が1枚しかないと <code>手札[2]</code> は存在しません。先に「2枚以上あるか」を確かめる必要があります。<div class="think-box">要素数[手札] ≧ 2</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>2つの条件を「かつ」でつなぐ</strong><br>
+        「2枚以上」と「先頭2枚が同じ」の<strong>両方</strong>が必要なので <code>かつ</code> でつなぎます。<div class="think-box">要素数[手札] ≧ 2 かつ 手札[1] ＝ 手札[2]</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>ペアかシングルか</strong><br>
+        両方成り立てばペア、そうでなければ最弱カードをシングルで出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b13 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b14 ヒント</div><div class="prob-title-jp">またはで条件を広げる</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>最強カードの位置を変数に</strong><br>
+        <code>cnt ← 要素数[手札]</code> とすれば、最強カードは <code>手札[cnt]</code> です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>2つの条件を「または」でつなぐ</strong><br>
+        「1枚（<code>要素数[手札] ＝ 1</code>）」か「最強がA以上（<code>14 ≦ 手札[cnt]</code>）」のどちらかで攻めます。<div class="think-box">要素数[手札] ＝ 1 または 14 ≦ 手札[cnt]</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>どちらかが真なら最強を出す</strong><br>
+        条件が真なら最強 <code>手札[cnt]</code>、そうでなければ最弱 <code>手札[1]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b14 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b15 ヒント</div><div class="prob-title-jp">でないで条件を否定する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「場以下」を式にする</strong><br>
+        まず「最弱カードが場以下」を素直に書きます。<code>手札[1] ≦ 場の強さ</code> です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>それを「でない」で逆にする</strong><br>
+        否定する条件は <code>( )</code> でくくってから <code>でない</code> を付けます。<div class="think-box">(手札[1] ≦ 場の強さ) でない</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>真のとき出す</strong><br>
+        「場以下 でない」＝「場より強い」なので、真のとき <code>手札[1]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b15 解説 ══════════ -->
+<div class="pg">
+<div class="ch-header ch4">
+  <div class="ch-num">CHAPTER 4</div>
+  <div class="ch-title">forループ</div>
+  <div class="ch-desc">同じ処理のくり返し ・ カウンタ変数 ・ フラグ変数</div>
+</div>
+
+<h2>📖 4-1　くり返し ―― forループ</h2>
+<p>手札を1枚ずつ全部調べたいとき、<code>手札[1]</code>、<code>手札[2]</code>、<code>手札[3]</code> …と1つずつ書くのは大変です。<strong>forループ</strong>を使うと、同じ処理を「番号を変えながら」くり返せます。</p>
+
+<div class="info-box">
+<strong>forループの形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+<span style="color:#ad1457;">i</span> を <span style="color:#1565c0;">1</span> から <span style="color:#1565c0;">要素数[手札]</span> まで <span style="color:#1565c0;">1</span> ずつ増やしながら，<br>
+｜　<span style="color:#6a1b9a;">処理（ここで 手札[i] を使う）</span><br>
+を繰り返す
+</span>
+</div>
+
+<p>変数 <code>i</code> が <code>1, 2, 3 …</code> と自動で変わり、そのたびに字下げした処理が実行されます。<code>i</code> を<strong>カウンタ変数</strong>と呼びます。</p>
+
+<div class="info-box">
+<strong>手札=[3,7,10] のときの動き：</strong><br>
+<span style="font-family:monospace;font-size:12.5px;">
+i=1 → 手札[1]=3 を処理<br>
+i=2 → 手札[2]=7 を処理<br>
+i=3 → 手札[3]=10 を処理<br>
+（i が 要素数[手札]=3 を超えたら終了）
+</span>
+</div>
+
+<h2>📖 4-2　数えるパターン ―― カウンタ変数</h2>
+<p>「条件を満たすものが何個あるか」を数えるには、<strong>数える用の変数</strong>を用意し、ループの前で <code>0</code> にしておきます（初期化）。条件を満たすたびに <code>＋1</code> します。</p>
+
+<div class="code-block">
+<span class="cmt"># 数える変数を0で初期化</span>
+cnt <span class="kw">←</span> <span class="val">0</span>
+<span class="cmt"># ループの中で条件を満たすたびに1増やす</span>
+cnt <span class="kw">←</span> cnt ＋ <span class="val">1</span>
+</div>
+</div><!-- end pg -->
+
+<div class="pg">
+<h2>📖 4-3　見つけるパターン ―― フラグ変数</h2>
+<p>「条件を満たすものを見つけたか？」を覚えておく変数を<strong>フラグ変数</strong>といいます。最初は <code>0</code>（まだ無い）にしておき、見つかったら値を入れます。</p>
+
+<div class="caution-box">
+⚠️ <strong>初期化を忘れない：</strong>数える変数・フラグ変数は、ループに入る<strong>前</strong>に必ず <code>0</code> を入れておきます。これを忘れると正しく数えられません。
+</div>
+
+<div class="try-box">
+  📱 概念が分かったら、問題 b16 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b16</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b16 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b16　forで出せる枚数を数える</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">要素数[手札]</span><span class="var-chip">forループ</span><span class="var-chip">＋</span><span class="var-chip">＞</span><span class="var-chip">を表示する</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      カウンタ <code>cnt</code> を <code>0</code> で初期化し、<code>手札[i] ＞ 場の強さ</code> のたびに <code>＋1</code> します。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>場=5、手札 = [3, 7, 10]</td><td>「出せるカードは、2」（7と10）</td></tr>
+    <tr><td>2</td><td>場=10、手札 = [4, 8, 12]</td><td>「出せるカードは、1」（12のみ）</td></tr>
+    <tr><td>3</td><td>場=3、手札 = [5, 7, 9]</td><td>「出せるカードは、3」（全部）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b16 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b16 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b16 解説</div><div class="prob-title-jp">forで出せる枚数を数える</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">cnt</span> <span class="kw">←</span> <span class="val">0</span><br>
+<span class="hl">i を 1 から 要素数[手札] まで 1 ずつ増やしながら，</span><br>
+｜　もし 手札[i] ＞ 場の強さ ならば<br>
+｜　｜　cnt <span class="kw">←</span> cnt ＋ 1<br>
+｜　を実行する<br>
+を繰り返す<br>
+<span class="str">「出せるカードは、」</span> と cnt を表示する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>cnt ← 0</code></td><td>数える変数を0で初期化（ループ前）</td><td>スタートは0枚</td></tr>
+    <tr><td><code>i を 1 から 要素数[手札] まで</code></td><td>手札を1枚ずつ全部調べる</td><td>i=1,2,3…</td></tr>
+    <tr><td><code>cnt ← cnt ＋ 1</code></td><td>条件を満たすたびに1増やす</td><td>7,10で2回</td></tr>
+  </table>
+
+  <h3>なぜ「cnt ← cnt ＋ 1」で数えられるの？</h3>
+  <p><code>cnt ← cnt ＋ 1</code> は「今の cnt に1を足して、また cnt に戻す」という意味です。これをくり返すと、条件を満たした回数だけ cnt が増えていきます。右辺で「今の値」を読み、左辺で「新しい値」を書く――この<strong>変数を更新する</strong>パターンは、ループの中でとてもよく使います。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b17　forで出せる最弱カードを探す</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b17 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b17　forで出せる最弱カードを探す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">要素数[手札]</span><span class="var-chip">forループ</span><span class="var-chip">＞</span><span class="var-chip">＝</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      フラグ <code>found ← 0</code> は「まだ見つかっていない」を表します。<code>found ＝ 0</code> のときだけ上書きすると最弱が残ります。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]、場=5</td><td>7を出す（最初に勝てるカード）</td></tr>
+    <tr><td>2</td><td>手札 = [4, 6, 9]、場=8</td><td>9を出す</td></tr>
+    <tr><td>3</td><td>手札 = [3, 5, 8]、場=10</td><td>パス（出せるカードなし）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b17 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b17 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b17 解説</div><div class="prob-title-jp">forで出せる最弱カードを探す</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">found</span> <span class="kw">←</span> <span class="val">0</span><br>
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
+｜　もし 手札[i] ＞ 場の強さ かつ <span class="hl">found ＝ 0</span> ならば<br>
+｜　｜　found <span class="kw">←</span> 手札[i]<br>
+｜　を実行する<br>
+を繰り返す<br>
+もし <span class="hl">found ＞ 0</span> ならば<br>
+｜　出す(found, 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>found ← 0</code></td><td>「まだ見つかっていない」印</td><td>0＝未発見</td></tr>
+    <tr><td><code>found ＝ 0 かつ …</code></td><td>最初の1枚だけ記録する条件</td><td>2回目以降は上書きしない</td></tr>
+    <tr><td><code>もし found ＞ 0 ならば</code></td><td>見つかったときだけ出す</td><td>0なら自動パス</td></tr>
+  </table>
+
+  <h3>なぜ <code>found ＝ 0</code> の条件が必要なの？</h3>
+  <p>これがないと、勝てるカードが見つかるたびに found が上書きされ、最後には<strong>一番強い</strong>カードが残ってしまいます。この問題は「最も弱い」勝てるカードを出したいので、<code>found ＝ 0</code>（まだ何も入っていない）のときだけ記録します。こうすると最初に見つかった1枚（＝最弱）が守られます。次の b18 では、これを「中断する」でもっとスマートに書きます。</p>
+
+  <div class="next-prob">▶ 第4章 完了！ 次は → <strong>コラム（任意）</strong> または <strong>第5章へ進む</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">ループは「くり返しの自動化」―― コンピュータが得意なこと</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第4章で学んだ<strong>ループ（くり返し）</strong>は、コンピュータが人間より圧倒的に得意なことです。何千件、何万件でも、文句を言わず同じ処理をくり返せます。</p>
+
+  <div class="real-example">
+    <h3>📧 例1：メールの一斉送信</h3>
+    <div class="code-block" style="font-size:12px;">
+i を 1 から 会員数 まで 1 ずつ増やしながら，
+｜　会員[i] にメールを送る
+を繰り返す
+    </div>
+    <p style="font-size:12px;">「全員に1通ずつ送る」を自動化しています。大富豪で「手札を1枚ずつ全部調べた」のと同じ構造です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🛒 例2：買い物カゴの合計金額</h3>
+    <div class="code-block" style="font-size:12px;">
+goukei <span class="kw">←</span> <span class="val">0</span>
+i を 1 から 品数 まで 1 ずつ増やしながら，
+｜　goukei <span class="kw">←</span> goukei ＋ 値段[i]
+を繰り返す
+    </div>
+    <p style="font-size:12px;"><code>goukei ← 0</code> で初期化してから足していくのは、b16 で <code>cnt ← 0</code> から数えたのと全く同じパターンです。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：ループの2大パターン</h3>
+    <table style="font-size:12px;">
+      <tr><th>パターン</th><th>使う変数</th><th>大富豪での例</th></tr>
+      <tr><td>数える（集計）</td><td>カウンタ（0から＋1）</td><td>b16 出せる枚数</td></tr>
+      <tr><td>探す（検索）</td><td>フラグ（0→値）</td><td>b17 出せる最弱札</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">「数える」と「探す」――この2つを押さえれば、ループの応用範囲が一気に広がります。</p>
+  </div>
+
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 4 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b16 ヒント</div><div class="prob-title-jp">forで出せる枚数を数える</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>数える準備をする</strong><br>
+        ループの<strong>前</strong>で <code>cnt ← 0</code> として数える変数を用意します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>手札を1枚ずつ調べる</strong><br>
+        <code>i を 1 から 要素数[手札] まで 1 ずつ増やしながら，</code> で全部の手札を順に見ます。<div class="think-box">ループの中で 手札[i] ＞ 場の強さ かどうか調べる</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>条件を満たしたら1増やす</strong><br>
+        <code>もし 手札[i] ＞ 場の強さ ならば</code> のとき <code>cnt ← cnt ＋ 1</code> します。ループが終わったら <code>「出せるカードは、」 と cnt を表示する</code> で表示します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b16 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b17 ヒント</div><div class="prob-title-jp">forで出せる最弱カードを探す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>「まだ無い」を0で表す</strong><br>
+        ループ前に <code>found ← 0</code>。0は「出せるカードはまだ見つかっていない」という印です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>最初に見つかった1枚だけ記録</strong><br>
+        手札はソート済みなので、<strong>最初に</strong>勝てたカードが最弱です。<code>found ＝ 0</code>（まだ未発見）のときだけ <code>found ← 手札[i]</code> と上書きします。<div class="think-box">もし 手札[i] ＞ 場の強さ かつ found ＝ 0 ならば</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>ループ後に出す</strong><br>
+        ループが終わったら <code>もし found ＞ 0 ならば 出す(found, 1)</code>。0のままなら自動でパスします。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b17 解説 ══════════ -->
+<div class="pg">
+<div class="ch-header ch5">
+  <div class="ch-num">CHAPTER 5</div>
+  <div class="ch-title">前判定ループ</div>
+  <div class="ch-desc">〜の間，くり返す ・ 条件で回数が変わるループ</div>
+</div>
+
+<h2>📖 5-1　前判定ループ ―― 条件が真の間くり返す</h2>
+<p>forループは「1から要素数まで」と<strong>回数が決まった</strong>くり返しでした。一方、<strong>前判定ループ</strong>は「ある条件が成り立っている間ずっとくり返す」という、回数が状況で変わるループです。</p>
+
+<div class="info-box">
+<strong>前判定ループの形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+<span style="color:#00838f;">条件</span> の間，<br>
+｜　<span style="color:#6a1b9a;">処理</span><br>
+を繰り返す
+</span>
+</div>
+
+<p>「前判定」とは、<strong>くり返しの前に</strong>条件をチェックするという意味です。条件が最初から偽なら、処理は<strong>1回も実行されません</strong>。</p>
+
+<h2>📖 5-2　カウンタを自分で動かす</h2>
+<p>forループは <code>i</code> を自動で増やしてくれましたが、前判定ループでは<strong>自分で</strong>カウンタを増やす必要があります。</p>
+
+<div class="code-block">
+<span class="cmt"># ① ループの前でカウンタを初期化</span>
+i <span class="kw">←</span> <span class="val">1</span>
+<span class="cmt"># ② 条件が真の間くり返す</span>
+i ≦ 要素数[手札] の間，
+｜　<span class="cmt"># ③ ループの中で必ず i を進める（無限ループ防止）</span>
+｜　i <span class="kw">←</span> i ＋ <span class="val">1</span>
+を繰り返す
+</div>
+
+<div class="caution-box">
+⚠️ <strong>無限ループに注意：</strong>前判定ループでは、ループの中で<strong>条件がいつか偽になる</strong>ようにしないと、永遠に止まりません。カウンタ <code>i</code> を必ず進めましょう。
+</div>
+
+<h2>📖 5-3　「探す」ループに向く</h2>
+<p>前判定ループは「条件を満たすものが見つかるまで進める」という<strong>探索</strong>にぴったりです。見つかったらループを抜け、抜けた後の <code>i</code> の値で結果を判断します。</p>
+
+<div class="try-box">
+  📱 概念が分かったら、問題 b19 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b19</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b19 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b19　前判定ループで出せる札を探す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">要素数[手札]</span><span class="var-chip">前判定ループ</span><span class="var-chip">＋</span><span class="var-chip">≦</span><span class="var-chip">かつ</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>i ← 1</code> で始め、「範囲内 <strong>かつ</strong> 場より強くない間」 <code>i</code> を進めます。抜けたあとの <code>i</code> で判定します。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]、場=5</td><td>7を出す</td></tr>
+    <tr><td>2</td><td>手札 = [4, 6, 9]、場=8</td><td>9を出す</td></tr>
+    <tr><td>3</td><td>手札 = [3, 5, 8]、場=10</td><td>パス（出せるカードなし）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b19 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b19 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b19 解説</div><div class="prob-title-jp">前判定ループで出せる札を探す</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">i</span> <span class="kw">←</span> <span class="val">1</span><br>
+<span class="hl">i ≦ 要素数[手札] かつ 手札[i] ≦ 場の強さ</span> の間，<br>
+｜　i <span class="kw">←</span> i ＋ 1<br>
+を繰り返す<br>
+もし <span class="hl">i ≦ 要素数[手札]</span> ならば<br>
+｜　出す(手札[i], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>i ← 1</code></td><td>カウンタを先頭で初期化</td><td>先頭から探す</td></tr>
+    <tr><td><code>i ≦ 要素数[手札] かつ 手札[i] ≦ 場の強さ</code></td><td>範囲内 かつ まだ勝てない間 進む</td><td>勝てたら止まる</td></tr>
+    <tr><td><code>もし i ≦ 要素数[手札] ならば</code></td><td>範囲内で止まった＝見つかった</td><td>超えていたらパス</td></tr>
+  </table>
+
+  <h3>なぜ条件に「かつ」で範囲チェックを入れるの？</h3>
+  <p>もし <code>i ≦ 要素数[手札]</code> を入れずに <code>手札[i] ≦ 場の強さ</code> だけにすると、勝てるカードが1枚もないとき <code>i</code> が手札の枚数を超え、存在しない <code>手札[i]</code> を読もうとしてエラーになります。<code>かつ</code> の左に範囲チェックを置けば（短絡評価で）安全に止まれます。「ループは必ずいつか止まる」ように条件を作るのが鉄則です。</p>
+
+  <div class="next-prob">▶ 第5章 完了！ 次は → <strong>コラム（任意）</strong> または <strong>第6章へ進む</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">「回数が決まらないくり返し」―― forとwhileの使い分け</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>くり返しには2種類あります。<strong>回数が分かっている</strong>ときはforループ、<strong>「○○になるまで」</strong>のように回数が読めないときは前判定ループ（while）が向いています。</p>
+
+  <div class="real-example">
+    <h3>🎮 例1：ゲームの「ライフがある間」</h3>
+    <div class="code-block" style="font-size:12px;">
+life ≧ <span class="val">1</span> の間，
+｜　ゲームを続ける
+を繰り返す
+<span class="cmt"># ライフが0になったら自動で終了</span>
+    </div>
+    <p style="font-size:12px;">何ターン続くかは事前に分かりません。「条件が成り立つ間」だけ回す前判定ループの出番です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🔍 例2：データを「見つかるまで」探す</h3>
+    <div class="code-block" style="font-size:12px;">
+i <span class="kw">←</span> <span class="val">1</span>
+データ[i] ≠ 探す値 の間，
+｜　i <span class="kw">←</span> i ＋ <span class="val">1</span>
+を繰り返す
+    </div>
+    <p style="font-size:12px;">大富豪で「場より強い札を見つけるまで」進めた b19 と同じ、<strong>探索（リニアサーチ）</strong>です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：使い分けの目安</h3>
+    <table style="font-size:12px;">
+      <tr><th>状況</th><th>向いているループ</th></tr>
+      <tr><td>「全部の手札を調べる」</td><td>forループ（回数＝枚数）</td></tr>
+      <tr><td>「見つかるまで探す」</td><td>前判定ループ（while）</td></tr>
+      <tr><td>「条件が成り立つ間ずっと」</td><td>前判定ループ（while）</td></tr>
+    </table>
+    <p style="font-size:12px;margin:8px 0 0;">どちらも「くり返し」ですが、回数の決まり方がちがいます。場面に合わせて選びましょう。</p>
+  </div>
+
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 5 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b19 ヒント</div><div class="prob-title-jp">前判定ループで出せる札を探す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>カウンタを初期化</strong><br>
+        まず <code>i ← 1</code> で先頭から探し始めます。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>「進め続ける条件」を考える</strong><br>
+        「まだ範囲内（<code>i ≦ 要素数[手札]</code>）」で、かつ「まだ場に勝てない（<code>手札[i] ≦ 場の強さ</code>）」間は次へ進みます。<div class="think-box">i ≦ 要素数[手札] かつ 手札[i] ≦ 場の強さ の間，</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>抜けた後で判定</strong><br>
+        ループを抜けたとき <code>i ≦ 要素数[手札]</code> なら、<code>手札[i]</code> は場より強いカードです。それを出します。範囲を超えていたら見つからなかったので、何もしなければ自動でパスします。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b19 解説 ══════════ -->
+<div class="pg">
+<div class="ch-header ch6">
+  <div class="ch-num">CHAPTER 6</div>
+  <div class="ch-title">後判定ループ・中断する</div>
+  <div class="ch-desc">中断する ・ 繰り返し〜になるまで実行する</div>
+</div>
+
+<h2>📖 6-1　中断する ―― ループを途中で抜ける</h2>
+<p>第4章のforループでは、目的のカードが見つかっても最後まで回り続けていました。<code>中断する</code> を使うと、<strong>その場でループをすぐ抜けられます</strong>。</p>
+
+<div class="info-box">
+<strong>中断するの使い方：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
+｜　もし 見つかった ならば<br>
+｜　｜　found <span style="color:#1565c0;">←</span> 手札[i]<br>
+｜　｜　<span style="color:#d84315;">中断する</span>　<span style="color:#999;"># ここでループを抜ける</span><br>
+｜　を実行する<br>
+を繰り返す
+</span>
+</div>
+
+<p>b17 では <code>found ＝ 0</code> という条件で「最初の1枚だけ記録」しましたが、<code>中断する</code> なら<strong>見つけた瞬間に止まる</strong>ので、その条件すらいりません。よりシンプルになります。</p>
+
+<h2>📖 6-2　後判定ループ ―― 必ず1回は実行する</h2>
+<p>前判定ループ（第5章）は「先に条件をチェック」しました。<strong>後判定ループ</strong>はその逆で、<strong>処理を1回実行してから</strong>条件をチェックします。だから条件に関係なく<strong>最低1回は必ず実行されます</strong>。</p>
+
+<div class="info-box">
+<strong>後判定ループの形：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+繰り返し，<br>
+｜　<span style="color:#6a1b9a;">処理</span><br>
+を，<span style="color:#00838f;">条件</span> になるまで実行する
+</span>
+</div>
+
+<p>「<strong>○○になるまで</strong>くり返す」という書き方です。条件が<strong>真になったら</strong>ループを抜けます（前判定とは真偽が逆なので注意）。</p>
+
+<div class="caution-box">
+⚠️ <strong>前判定との違い：</strong>前判定は「条件が真の<strong>間</strong>続ける」、後判定は「条件が真に<strong>なるまで</strong>続ける（＝偽の間続ける）」。判定のタイミングと真偽が逆です。
+</div>
+
+<div class="try-box">
+  📱 概念が分かったら、問題 b18 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b18</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b18 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b18　見つけたらループを中断する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">要素数[手札]</span><span class="var-chip">forループ</span><span class="var-chip">中断する</span><span class="var-chip">＞</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>中断する</code> で見つけた瞬間にループを抜けます。b17 と違い <code>found ＝ 0</code> の条件はいりません。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 8, 10]、場=6</td><td>8を出す（最初に勝てた札で中断）</td></tr>
+    <tr><td>2</td><td>手札 = [4, 7, 12]、場=5</td><td>7を出す</td></tr>
+    <tr><td>3</td><td>手札 = [3, 5, 8]、場=10</td><td>パス（出せるカードなし）</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b18 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b18 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b18 解説</div><div class="prob-title-jp">見つけたらループを中断する</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">found</span> <span class="kw">←</span> <span class="val">0</span><br>
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
+｜　もし 手札[i] ＞ 場の強さ ならば<br>
+｜　｜　found <span class="kw">←</span> 手札[i]<br>
+｜　｜　<span class="hl">中断する</span><br>
+｜　を実行する<br>
+を繰り返す<br>
+もし found ＞ 0 ならば<br>
+｜　出す(found, 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>found ← 0</code></td><td>フラグを初期化</td><td>未発見＝0</td></tr>
+    <tr><td><code>found ← 手札[i]</code></td><td>勝てる札を記録</td><td>最初に勝てた札</td></tr>
+    <tr><td><code>中断する</code></td><td>見つけた瞬間ループを抜ける</td><td>以降は調べない</td></tr>
+  </table>
+
+  <h3>b17 と b18 はどう違うの？</h3>
+  <p>どちらも「最初に勝てる（最弱の）札」を出すという結果は同じです。違いは止め方です。<strong>b17</strong> は最後までループを回し、<code>found ＝ 0</code> の条件で「2回目以降は上書きしない」ようにしました。<strong>b18</strong> は <code>中断する</code> で見つけた瞬間に止めます。無駄なくり返しがなく、条件もシンプルです。「見つかったらもう調べなくてよい」場面では <code>中断する</code> が効率的です。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b27　8を探して場を流す</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b27 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b27　8を探して場を流す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">要素数[手札]</span><span class="var-chip">forループ</span><span class="var-chip">中断する</span><span class="var-chip">＝</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <strong>8切り</strong>：8 を出すと場が流れます。b18 の「場より強い札を探す」を「<code>手札[i] ＝ 8</code> を探す」に変えるだけです。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 8, 10]</td><td>8 を出す（8切り）</td></tr>
+    <tr><td>2</td><td>手札 = [3, 7, 10]（8なし）</td><td>最弱 3 を出す</td></tr>
+    <tr><td>3</td><td>手札 = [4, 8, 8, 12]</td><td>8 をシングルで出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b27 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b27 解説 ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b27 解説</div><div class="prob-title-jp">8を探して場を流す</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">found</span> <span class="kw">←</span> <span class="val">0</span><br>
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
+｜　もし 手札[i] ＝ <span class="val">8</span> ならば<br>
+｜　｜　found <span class="kw">←</span> <span class="val">1</span><br>
+｜　｜　出す(手札[i], 1)<br>
+｜　｜　<span class="hl">中断する</span><br>
+｜　を実行する<br>
+を繰り返す<br>
+もし found ＝ 0 ならば<br>
+｜　出す(手札[1], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>手札[i] ＝ 8</code></td><td>特定の値を探す条件</td><td>8切り狙い</td></tr>
+    <tr><td><code>found ← 1</code></td><td>出したことを記録</td><td>ループ後の分岐に使う</td></tr>
+    <tr><td><code>中断する</code></td><td>見つけた瞬間ループを抜ける</td><td>8は1枚出せば十分</td></tr>
+  </table>
+
+  <h3>b18 とどこが違うの？</h3>
+  <p>b18 は「<strong>場より強い</strong>札」を探しましたが、b27 は「<strong>ちょうど 8</strong> の札」を探します。条件式が <code>＞ 場の強さ</code> から <code>＝ 8</code> に変わっただけで、<strong>探して・見つけたら・中断する</strong>という骨組みは同じです。このように、ループの骨組みを覚えれば条件を入れ替えるだけで色々な探索が書けます。なお 8 を出すと場が流れる（8切り）のはフリープレイで体験できます。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b20　後判定ループで最後まで走る</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b20 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b20　後判定ループで最後まで走る</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">要素数[手札]</span><span class="var-chip">後判定ループ</span><span class="var-chip">＋</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>繰り返し，</code> … <code>を，条件 になるまで実行する</code> の形。最後の添字 <code>要素数[手札]</code> に達するまで <code>i</code> を進めます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]（3枚）</td><td>i=3、手札[3]=10 を出す</td></tr>
+    <tr><td>2</td><td>手札 = [5, 11]（2枚）</td><td>i=2、手札[2]=11 を出す</td></tr>
+    <tr><td>3</td><td>手札 = [4, 6, 9, 12]（4枚）</td><td>i=4、手札[4]=12 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b20 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b20 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b20 解説</div><div class="prob-title-jp">後判定ループで最後まで走る</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">i</span> <span class="kw">←</span> <span class="val">0</span><br>
+<span class="hl">繰り返し，</span><br>
+｜　i <span class="kw">←</span> i ＋ 1<br>
+を，<span class="hl">i ＝ 要素数[手札]</span> になるまで実行する<br>
+出す(手札[<span class="hl">i</span>], 1)
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>i ← 0</code></td><td>カウンタを0で初期化</td><td>先に＋1するため0から</td></tr>
+    <tr><td><code>繰り返し，… を，… になるまで実行する</code></td><td>後判定ループの形</td><td>1回は必ず実行</td></tr>
+    <tr><td><code>i ＝ 要素数[手札]</code></td><td>最後の添字に達したら止まる</td><td>3枚なら i=3 で停止</td></tr>
+  </table>
+
+  <h3>前判定と後判定、どう使い分ける？</h3>
+  <p>大きな違いは「<strong>1回も実行しない</strong>ことがあり得るか」です。前判定（第5章）は最初に条件を見るので、条件が偽なら0回。後判定は<strong>必ず1回は実行</strong>してから条件を見ます。「最低1回はやってほしい処理」――たとえば「メニューを表示してから入力を待つ」などには後判定が向きます。なお手札は必ず1枚以上あるので、この問題では後判定がぴったりです。</p>
+
+  <div class="next-prob">▶ 第6章 完了！ 次は → <strong>コラム（任意）</strong> または <strong>第7章へ進む</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">3つのループを整理する ―― for・while・do-while</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>ここまでで<strong>3種類のくり返し</strong>を学びました。プログラミング言語では順に for / while / do-while と呼ばれます。それぞれの「止まり方」を整理しましょう。</p>
+
+  <div class="real-example">
+    <h3>🔁 3つのループの比較</h3>
+    <table style="font-size:12px;">
+      <tr><th>種類</th><th>本書での呼び方</th><th>判定のタイミング</th><th>最低実行回数</th></tr>
+      <tr><td>for</td><td>forループ（4章）</td><td>回数で決まる</td><td>0回</td></tr>
+      <tr><td>while</td><td>前判定ループ（5章）</td><td>実行する前</td><td>0回</td></tr>
+      <tr><td>do-while</td><td>後判定ループ（6章）</td><td>実行した後</td><td>1回</td></tr>
+    </table>
+  </div>
+
+  <div class="real-example">
+    <h3>🏧 例：ATMの暗証番号入力</h3>
+    <div class="code-block" style="font-size:12px;">
+繰り返し，
+｜　暗証番号を入力させる
+を，番号 ＝ 正解 になるまで実行する
+    </div>
+    <p style="font-size:12px;">「まず1回は必ず入力させたい」ので後判定（do-while）が自然です。b20 で最後まで走らせたのと同じ構造です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>⚡ 中断する（break）はどのループでも使える</h3>
+    <p style="font-size:12px;">b18 で使った <code>中断する</code> は、ループを途中で抜ける万能の道具です。「見つかったらもう用はない」探索では、最後まで回さず途中で抜けることで処理が速くなります。多くの言語で <code>break</code> と呼ばれます。</p>
+  </div>
+
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 6 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b18 ヒント</div><div class="prob-title-jp">見つけたらループを中断する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>フラグを初期化</strong><br>
+        ループ前に <code>found ← 0</code> を置きます（まだ見つかっていない）。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>見つけたら記録して中断</strong><br>
+        <code>もし 手札[i] ＞ 場の強さ ならば</code> のとき、<code>found ← 手札[i]</code> で記録し、すぐ <code>中断する</code> でループを抜けます。<div class="think-box">手札はソート済みなので、最初に勝てた札が最弱。だから中断でOK。</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>ループ後に出す</strong><br>
+        <code>もし found ＞ 0 ならば 出す(found, 1)</code>。見つからなければ0のまま → 自動パス。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b27 ヒント ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b27 ヒント</div><div class="prob-title-jp">8を探して場を流す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>探す条件を考える</strong><br>
+        b18 では「場より強い札」を探しました。今回探すのは「ちょうど 8 の札」。条件式はどう変わるでしょうか？<div class="think-box">手札[i] ？ 8　← どの比較記号？</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>見つけたら出して中断</strong><br>
+        フラグ <code>found ← 0</code> を用意し、8 が見つかったら <code>found ← 1</code> にして出し、<code>中断する</code> でループを抜けます。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>見つからなかったとき</strong><br>
+        ループの後で <code>found</code> が <code>0</code> のままなら 8 はありません。最弱カード <code>手札[1]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b18 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b20 ヒント</div><div class="prob-title-jp">後判定ループで最後まで走る</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>カウンタを0から始める</strong><br>
+        <code>i ← 0</code> で初期化します。ループの中で先に <code>＋1</code> するので0スタートです。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>1回実行してから判定</strong><br>
+        <code>繰り返し，</code> の中で <code>i ← i ＋ 1</code> し、<code>を，i ＝ 要素数[手札] になるまで実行する</code> とします。<div class="think-box">最後の添字（＝要素数[手札]）に達したら止まる</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>最後のカードを出す</strong><br>
+        ループを抜けたとき <code>i</code> は最後の添字。<code>手札[i]</code>（最強カード）をシングルで出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b20 解説 ══════════ -->
+<div class="pg">
+<div class="ch-header ch7">
+  <div class="ch-num">CHAPTER 7</div>
+  <div class="ch-title">配列</div>
+  <div class="ch-desc">要素数[配列] ・ 配列への代入 ・ 集計用の配列</div>
+</div>
+
+<h2>📖 7-1　配列とは ―― 番号つきの箱の列</h2>
+<p>これまで使ってきた <code>手札</code> は<strong>配列</strong>でした。配列とは、たくさんの値を「番号（添字）」で管理する、箱がならんだ仕組みです。このアプリには <code>手札</code> のほかにも <code>捨札</code>（場に出されたカードの記録）という配列があります。</p>
+
+<div class="info-box">
+<strong>このアプリの配列：</strong><br>
+<table style="margin-top:8px;">
+  <tr><th>配列</th><th>意味</th></tr>
+  <tr><td><code>手札[i]</code></td><td>自分の手札（弱い順）</td></tr>
+  <tr><td><code>捨札[i]</code></td><td>これまでに場に出されたカードの記録</td></tr>
+</table>
+</div>
+
+<div class="caution-box">
+⚠️ DNCLの配列の添字は <strong>1から</strong>始まります（多くの言語は0からですが、共通テストのDNCLは1始まりです）。
+</div>
+
+<h2>📖 7-2　要素数[配列] ―― 配列の長さ</h2>
+<p><code>要素数[配列名]</code> で、その配列に入っている個数が分かります。<code>手札</code> 以外にも使えます。</p>
+<div class="code-block">
+要素数[手札]　<span class="cmt"># 手札の枚数</span>
+要素数[捨札]　<span class="cmt"># 捨て札の枚数</span>
+</div>
+
+<h2>📖 7-3　配列に値を入れる ―― 配列への代入</h2>
+<p>自分で新しい配列を作って、値を入れることもできます。DNCLでは<strong>大文字で始まる名前</strong>（例 <code>T</code>、<code>C</code>）を配列として使えます。</p>
+<div class="code-block">
+<span class="cmt"># 配列Tの1番目に手札[1]をコピー</span>
+T[<span class="val">1</span>] <span class="kw">←</span> 手札[1]
+T[<span class="val">2</span>] <span class="kw">←</span> 手札[2]
+</div>
+</div><!-- end pg -->
+
+<div class="pg">
+<h2>📖 7-4　集計用の配列 ―― 「ランクごとに数える」</h2>
+<p>配列は「ランクを添字にして数を数える」のにも使えます。たとえば <code>C[5]</code> に「ランク5が何枚出たか」を入れる、という使い方です。</p>
+<div class="code-block">
+<span class="cmt"># ランク r のカウントを1増やす</span>
+C[r] <span class="kw">←</span> C[r] ＋ <span class="val">1</span>
+</div>
+<p>これは「番号で仕分けして数える」強力なテクニックで、<strong>集計（ヒストグラム）</strong>と呼ばれます。</p>
+
+<div class="caution-box">
+⚠️ <strong>使う前に初期化：</strong>集計用の配列は、数え始める前にすべての要素を <code>0</code> にしておきます（例: <code>j を 3 から 15 まで 1 ずつ増やしながら，｜　C[j] ← 0 を繰り返す</code>）。<br>
+<span style="font-size:11px;">※このアプリでは、まだ値を入れていない変数・配列要素は 0 として読めますが、<strong>共通テストの DNCL では初期化を書くのが正式</strong>です。b16 で「数える変数は最初に 0」と学んだのと同じルールです。</span>
+</div>
+
+<div class="try-box">
+  📱 概念が分かったら、問題 b21 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b21</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b21 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b21　要素数で配列サイズを調べる</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">要素数[捨札]</span><span class="var-chip">手札[i]</span><span class="var-chip">＝</span><span class="var-chip">もし〜ならば〜そうでなければ</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>要素数[捨札]</code> で捨て札の枚数が分かります。<code>要素数</code> は手札以外の配列にも使えます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>捨て札なし、手札 = [3, 7, 10]</td><td>最弱 手札[1]=3 を出す</td></tr>
+    <tr><td>2</td><td>捨て札2枚、手札 = [3, 7, 10]</td><td>最強 手札[3]=10 を出す</td></tr>
+    <tr><td>3</td><td>捨て札なし、手札 = [5, 9, 13]</td><td>最弱 手札[1]=5 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b21 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b21 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b21 解説</div><div class="prob-title-jp">要素数で配列サイズを調べる</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+もし <span class="hl">要素数[捨札] ＝ 0</span> ならば<br>
+｜　出す(手札[<span class="val">1</span>], 1)<br>
+を実行し，そうでなければ<br>
+｜　出す(手札[<span class="hl">要素数[手札]</span>], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>要素数[捨札]</code></td><td>捨て札の枚数</td><td>0枚 / 2枚 など</td></tr>
+    <tr><td><code>要素数[捨札] ＝ 0</code></td><td>捨て札が0枚か</td><td>ゲーム序盤かの判断</td></tr>
+    <tr><td><code>手札[要素数[手札]]</code></td><td>最強カード（最後の添字）</td><td>[3,7,10]→手札[3]=10</td></tr>
+  </table>
+
+  <h3><code>要素数</code> は手札以外にも使えるの？</h3>
+  <p>はい。<code>要素数</code> は「配列の長さを返す道具」なので、<code>手札</code> でも <code>捨札</code> でも、どんな配列でも使えます。<code>要素数[捨札] ＝ 0</code> は「まだ誰もカードを出していない＝ゲームの序盤」を意味します。このように配列の長さを調べると、状況を判断する材料が増えます。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b22　配列に値を代入する</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b22 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b22　配列に値を代入する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">配列 T</span><span class="var-chip">←</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      大文字で始まる <code>T</code> は配列です。<code>T[添字] ← 式</code> で要素に値を入れられます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]</td><td>T[2]=7 を出す</td></tr>
+    <tr><td>2</td><td>手札 = [5, 9, 12]</td><td>T[2]=9 を出す</td></tr>
+    <tr><td>3</td><td>手札 = [6, 10, 14]</td><td>T[2]=10 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b22 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b22 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b22 解説</div><div class="prob-title-jp">配列に値を代入する</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">T</span>[1] <span class="kw">←</span> 手札[1]<br>
+<span class="hl">T</span>[2] <span class="kw">←</span> 手札[2]<br>
+出す(<span class="hl">T</span>[2], 1)
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>T[1] ← 手札[1]</code></td><td>配列Tの1番目に値をコピー</td><td>3を入れる</td></tr>
+    <tr><td><code>T[2] ← 手札[2]</code></td><td>配列Tの2番目に値をコピー</td><td>7を入れる</td></tr>
+    <tr><td><code>出す(T[2], 1)</code></td><td>Tの2番目を出す</td><td>7を出す</td></tr>
+  </table>
+
+  <h3>わざわざ配列にコピーする意味は？</h3>
+  <p>この問題だけ見ると <code>出す(手札[2], 1)</code> でも同じ結果です。でも「いったん別の配列にコピーしておく」のは、元のデータを<strong>こわさずに加工したい</strong>ときの基本テクニックです。たとえば「手札を並べ替えた作業用コピーを作る」「一部だけ抜き出す」など、本格的なプログラムでは配列を作って値を入れる操作が欠かせません。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b23　配列で捨て札をカウントする</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b23 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b23　配列で捨て札をカウントする</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">捨札[i]</span><span class="var-chip">手札[i]</span><span class="var-chip">要素数[捨札]</span><span class="var-chip">配列 C</span><span class="var-chip">forループ</span><span class="var-chip">＋</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>C[ランク]</code> にそのランクの出現数を貯めます。<code>C[r] ← C[r] ＋ 1</code> で数えます。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>捨て札[3,7,3]、手札[3,7,10]</td><td>C[3]=2 → 最強 10 を出す</td></tr>
+    <tr><td>2</td><td>捨て札[5,7,5]、手札[3,7,10]</td><td>C[3]=0 → 手札[1]=3 を出す</td></tr>
+    <tr><td>3</td><td>捨て札なし、手札[3,7,10]</td><td>C[3]=0 → 手札[1]=3 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b23 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b23 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b23 解説</div><div class="prob-title-jp">配列で捨て札をカウントする</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，</span><br>
+｜　r <span class="kw">←</span> 捨札[i]<br>
+｜　<span class="hl">C[r] <span class="kw">←</span> C[r] ＋ 1</span><br>
+を繰り返す<br>
+もし <span class="hl">C[手札[1]] ＞ 0</span> ならば<br>
+｜　出す(手札[要素数[手札]], 1)<br>
+を実行し，そうでなければ<br>
+｜　出す(手札[1], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>r ← 捨札[i]</code></td><td>i番目の捨て札のランクを取得</td><td>3, 7, 3 …</td></tr>
+    <tr><td><code>C[r] ← C[r] ＋ 1</code></td><td>ランクrの出現数を1増やす</td><td>C[3]が2になる</td></tr>
+    <tr><td><code>C[手札[1]] ＞ 0</code></td><td>手札[1]のランクが既出か</td><td>C[3]＞0 → 既出</td></tr>
+  </table>
+
+  <h3>なぜ「ランクを添字にして数える」と便利なの？</h3>
+  <p><code>C[3]</code>、<code>C[7]</code> のように<strong>ランクそのものを添字</strong>にすると、「ランク3は何枚出た？」を <code>C[3]</code> 一発で調べられます。1枚ずつ捨て札を見直す必要がありません。この「番号で仕分けして数える」配列の使い方は<strong>集計（ヒストグラム）</strong>と呼ばれ、アンケート集計や得点分布など、データ分析のいたるところで使われます。</p>
+
+  <div class="next-prob">▶ 第7章 完了！ 次は → <strong>コラム（任意）</strong> または <strong>第8章へ進む</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">配列は「データをまとめて扱う」―― 表計算からAIまで</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>配列は、たくさんのデータを<strong>ひとまとめ</strong>にして、番号で取り出したり、ループで一気に処理したりするための仕組みです。現代のソフトウェアは配列なしには成り立ちません。</p>
+
+  <div class="real-example">
+    <h3>📋 例1：名簿・表計算</h3>
+    <p style="font-size:12px;">エクセルの1列は、まさに配列です。<code>点数[1]</code>〜<code>点数[40]</code> に40人ぶんの点数を入れ、ループで合計や平均を計算します。b16 で合計を出したのと同じ要領です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 例2：集計（ヒストグラム）</h3>
+    <div class="code-block" style="font-size:12px;">
+<span class="cmt"># アンケート「1〜5」の回答を集計</span>
+C[回答] <span class="kw">←</span> C[回答] ＋ <span class="val">1</span>
+<span class="cmt"># C[1]=人数, C[2]=人数 …</span>
+    </div>
+    <p style="font-size:12px;">b23 で捨て札をランクごとに数えた <code>C[r] ← C[r] ＋ 1</code> は、そのままアンケート集計に使えます。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🤖 例3：画像やAIの中身</h3>
+    <p style="font-size:12px;">写真は「画素の明るさ」を並べた巨大な配列です。AIが扱う数値の列（ベクトル）も配列です。すべては <code>配列[番号]</code> という、あなたが大富豪で使ったのと同じ仕組みでできています。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ</h3>
+    <table style="font-size:12px;">
+      <tr><th>配列の使い方</th><th>大富豪での例</th></tr>
+      <tr><td>番号で取り出す</td><td>手札[i]、捨札[i]</td></tr>
+      <tr><td>長さを調べる</td><td>要素数[捨札]</td></tr>
+      <tr><td>作って値を入れる</td><td>T[1] ← 手札[1]</td></tr>
+      <tr><td>仕分けて数える</td><td>C[r] ← C[r] ＋ 1</td></tr>
+    </table>
+  </div>
+
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 7 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b21 ヒント</div><div class="prob-title-jp">要素数で配列サイズを調べる</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>捨て札の枚数を調べる</strong><br>
+        <code>要素数[捨札]</code> で捨て札が何枚あるか分かります。0枚かどうかを判定しましょう。<div class="think-box">要素数[捨札] ＝ 0</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>最強カードの添字は？</strong><br>
+        最強カードは手札の最後なので、添字は <code>要素数[手札]</code> です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2通りに分ける</strong><br>
+        捨て札0枚なら最弱 <code>手札[1]</code>、そうでなければ最強 <code>手札[要素数[手札]]</code> を出します。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b21 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b22 ヒント</div><div class="prob-title-jp">配列に値を代入する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>配列にコピーする</strong><br>
+        <code>T[1] ← 手札[1]</code>、<code>T[2] ← 手札[2]</code> で、先頭2枚を新しい配列 T に写します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>T[2] を取り出す</strong><br>
+        コピーした <code>T[2]</code> は手札の2番目と同じ値です。これをシングルで出します。<div class="think-box">出す(T[2], 1)</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>大文字に注意</strong><br>
+        配列名は大文字で始めます（<code>T</code>）。小文字だとただの変数になります。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b22 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b23 ヒント</div><div class="prob-title-jp">配列で捨て札をカウントする</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>集計用の配列を初期化する</strong><br>
+        数え始める前に、配列 <code>C</code> のすべてのランク（3〜15）を <code>0</code> にします。<div class="think-box">j を 3 から 15 まで 1 ずつ増やしながら，｜　C[j] ← 0</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>捨て札を1枚ずつ数える</strong><br>
+        forループで捨て札を順に見て、そのランクの <code>C</code> を1増やします。<div class="think-box">r ← 捨札[i]　／　C[r] ← C[r] ＋ 1</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>手札[1]が出ているか調べる</strong><br>
+        ループ後、<code>C[手札[1]]</code> が <code>0</code> より大きければ、手札[1]のランクはすでに捨て札に出ています。<div class="think-box">もし C[手札[1]] ＞ 0 ならば</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <strong>出し方を変える</strong><br>
+        すでに出ているなら相手も警戒済み → 最強 <code>手札[要素数[手札]]</code>。出ていなければ最弱 <code>手札[1]</code>。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b23 解説 ══════════ -->
+<div class="pg">
+<div class="ch-header ch8">
+  <div class="ch-num">CHAPTER 8</div>
+  <div class="ch-title">関数</div>
+  <div class="ch-desc">関数の定義と呼び出し ・ 引数 ・ 返り値</div>
+</div>
+
+<h2>📖 8-1　関数とは ―― 処理に名前をつける</h2>
+<p>同じ処理を何度も使うとき、毎回書くのは大変です。<strong>関数</strong>を使うと、ひとまとまりの処理に<strong>名前をつけて</strong>おき、必要なときに名前を呼ぶだけで実行できます。</p>
+
+<div class="info-box">
+<strong>関数の定義：</strong><br>
+<span style="font-family:monospace;font-size:13px;">
+関数 <span style="color:#2e7d32;">名前()</span> を<br>
+｜　<span style="color:#6a1b9a;">処理</span><br>
+と定義する
+</span>
+<br><br>
+<strong>関数の呼び出し：</strong><br>
+<span style="font-family:monospace;font-size:13px;"><span style="color:#2e7d32;">名前()</span></span>
+</div>
+
+<div class="caution-box">
+⚠️ 関数は<strong>定義しただけでは動きません</strong>。定義したあとに「名前()」と書いて<strong>呼び出して</strong>はじめて実行されます。
+</div>
+
+<h2>📖 8-2　引数 ―― 関数に値を渡す</h2>
+<p>関数に値を<strong>渡して</strong>、その値を使って処理させることができます。渡す値を<strong>引数（ひきすう）</strong>といいます。</p>
+<div class="code-block">
+関数 出せるか(<span class="val">c</span>) を　<span class="cmt"># c が引数（受け取る箱）</span>
+｜　…
+と定義する
+出せるか(<span class="val">手札[1]</span>)　<span class="cmt"># 手札[1]の値を c に渡して呼ぶ</span>
+</div>
+
+<h2>📖 8-3　返り値 ―― 関数から結果を受け取る</h2>
+<p>関数は計算した<strong>結果を返す</strong>ことができます。これを<strong>返り値（戻り値）</strong>といい、<code>返す(値)</code> で返します。呼び出し側は変数で受け取ります。</p>
+<div class="code-block">
+関数 出せるか(c) を
+｜　もし c ＞ 場の強さ ならば
+｜　｜　<span class="hl">返す(1)</span>　<span class="cmt"># 1を返す</span>
+｜　を実行し，そうでなければ
+｜　｜　<span class="hl">返す(0)</span>
+｜　を実行する
+と定義する
+r <span class="kw">←</span> 出せるか(手札[1])　<span class="cmt"># 返り値を r で受け取る</span>
+</div>
+
+<div class="try-box">
+  📱 概念が分かったら、問題 b24 に挑戦しましょう！<br>
+  <div class="next-hint">次のページへ → 問題 b24</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════ b24 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b24　返り値なし関数を定義する</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">関数定義</span><span class="var-chip">関数の呼び出し</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>関数 名前() を … と定義する</code> で定義し、あとで <code>名前()</code> と書いて呼び出します。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 0」のセクション（自分から場に出すとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]</td><td>最弱 3 を出す</td></tr>
+    <tr><td>2</td><td>手札 = [5, 11]</td><td>最弱 5 を出す</td></tr>
+    <tr><td>3</td><td>手札 = [6, 9, 14]</td><td>最弱 6 を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b24 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b24 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b24 解説</div><div class="prob-title-jp">返り値なし関数を定義する</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">関数 先頭を出す() を</span><br>
+｜　出す(手札[1], 1)<br>
+<span class="hl">と定義する</span><br>
+<span class="hl">先頭を出す()</span>
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>関数 先頭を出す() を … と定義する</code></td><td>処理に名前をつけて定義</td><td>中身は最弱を出す</td></tr>
+    <tr><td><code>先頭を出す()</code></td><td>定義した関数を呼び出して実行</td><td>ここで初めて動く</td></tr>
+    <tr><td>（）が空</td><td>引数も返り値もない</td><td>一番シンプルな関数</td></tr>
+  </table>
+
+  <h3>なぜ「定義」と「呼び出し」が分かれているの？</h3>
+  <p>関数は「料理のレシピ」に似ています。レシピを<strong>書く</strong>（定義）だけでは料理はできません。レシピを見て<strong>実際に作る</strong>（呼び出し）必要があります。一度レシピを書いておけば、何度でも同じ料理を作れます。関数も同じで、一度定義すれば何度でも呼び出せるのが大きな利点です。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b25　関数を定義して使う</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b25 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b25　関数を定義して使う（引数と返り値）</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">関数定義（引数）</span><span class="var-chip">返す(値)</span><span class="var-chip">＞</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      <code>c</code> は渡されたカードの値。<code>返す(値)</code> で結果を返し、<code>r ← 出せるか(手札[1])</code> で受け取ります。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札[1]=7、場=5</td><td>出せるか(7)=1 → 7を出す</td></tr>
+    <tr><td>2</td><td>手札[1]=3、場=9</td><td>出せるか(3)=0 → パス</td></tr>
+    <tr><td>3</td><td>手札[1]=10、場=8</td><td>出せるか(10)=1 → 10を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b25 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b25 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b25 解説</div><div class="prob-title-jp">関数を定義して使う（引数と返り値）</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">関数 出せるか(c) を</span><br>
+｜　もし c ＞ 場の強さ ならば<br>
+｜　｜　<span class="hl">返す(1)</span><br>
+｜　を実行し，そうでなければ<br>
+｜　｜　<span class="hl">返す(0)</span><br>
+｜　を実行する<br>
+<span class="hl">と定義する</span><br>
+<span class="hl">r</span> <span class="kw">←</span> 出せるか(手札[1])<br>
+もし r ＞ 0 ならば<br>
+｜　出す(手札[1], 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>出せるか(c)</code></td><td>引数 c でカードの値を受け取る</td><td>手札[1]の値が入る</td></tr>
+    <tr><td><code>返す(1) / 返す(0)</code></td><td>出せる→1、出せない→0 を返す</td><td>判定結果</td></tr>
+    <tr><td><code>r ← 出せるか(手札[1])</code></td><td>返り値を変数rで受け取る</td><td>r=1 か 0</td></tr>
+  </table>
+
+  <h3>「判定」を関数にすると何が良いの？</h3>
+  <p>「出せるか？」という判断を関数にまとめると、メインの処理は <code>r ← 出せるか(…)</code> と<strong>一言で済み</strong>、読みやすくなります。また、判定のルールを変えたいときは関数の中だけ直せばよく、使っている場所すべてに反映されます。「中身を気にせず、名前で機能を使う」――これが関数の便利さで、プログラムを大きく育てる土台になります。</p>
+
+  <div class="next-prob">▶ 次の問題へ：<strong>b26　関数で最強出せるカードを返す</strong></div>
+</div>
+</div>
+
+
+<!-- ══════════ b26 問題 ══════════ -->
+<div class="pg">
+<div class="problem-page-hdr">
+  <div class="prob-icon">📱</div>
+  <div>
+    <div class="prob-id">基礎問題</div>
+    <div class="prob-title-jp">b26　関数で最強出せるカードを返す</div>
+  </div>
+</div>
+<div class="problem-body">
+<div class="use-vars">
+    <div class="use-vars-title">この問題で使うもの</div>
+    <span class="var-chip">手札[i]</span><span class="var-chip">場の強さ</span><span class="var-chip">要素数[手札]</span><span class="var-chip">関数定義</span><span class="var-chip">forループ</span><span class="var-chip">返す(値)</span><span class="var-chip">＞</span><span class="var-chip">出す(値, 枚数)</span>
+    <p style="font-size:12px;margin:6px 0 0;color:#555;">
+      関数の中で <code>best ← 0</code> と初期化し、より強いカードが見つかるたびに更新。最後に <code>返す(best)</code>。
+    </p>
+  </div>
+
+  <div class="section-indicator">
+    ⬛ 書く場所：<strong>「場の枚数 ＝ 1」のセクション（場にシングルが1枚あるとき）</strong>
+  </div>
+
+  <h3>テストケースの確認</h3>
+  <table>
+    <tr><th>ケース</th><th>手札・場の状態</th><th>期待する動作</th></tr>
+    <tr><td>1</td><td>手札 = [3, 7, 10]、場=5</td><td>最強出せる=10 → 10を出す</td></tr>
+    <tr><td>2</td><td>手札 = [3, 5, 8]、場=10</td><td>最強出せる=0 → パス</td></tr>
+    <tr><td>3</td><td>手札 = [6, 9, 12]、場=7</td><td>最強出せる=12 → 12を出す</td></tr>
+  </table>
+
+  <div class="try-box">
+    📱 アプリで b26 を選んで、コードを書いて「▶ 実行」を押そう！<br>
+    <div class="next-hint">行き詰まったら → 次のページのヒントを読む</div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ b26 ヒント ══════════ -->
+<div class="pg">
+<div class="explain-page-hdr">
+  <div class="prob-icon">✅</div>
+  <div><div class="prob-id">b26 解説</div><div class="prob-title-jp">関数で最強出せるカードを返す</div></div>
+</div>
+<div class="explain-body">
+
+  <div class="explain-note">
+    ✅ このページは<strong>正解してから</strong>読みましょう。「なぜこのコードで動くか」を理解することが目的です。
+  </div>
+
+  <h3>正解のコード（模範解答は巻末参照）</h3>
+  <div class="code-block">
+<span class="hl">関数 最強出せる() を</span><br>
+｜　best <span class="kw">←</span> 0<br>
+｜　i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
+｜　｜　もし 手札[i] ＞ 場の強さ ならば<br>
+｜　｜　｜　best <span class="kw">←</span> 手札[i]<br>
+｜　｜　を実行する<br>
+｜　を繰り返す<br>
+｜　<span class="hl">返す(best)</span><br>
+<span class="hl">と定義する</span><br>
+<span class="hl">b</span> <span class="kw">←</span> 最強出せる()<br>
+もし b ＞ 0 ならば<br>
+｜　出す(b, 1)<br>
+を実行する
+</div>
+
+  <h3>ポイントの解説</h3>
+  <table>
+    <tr><th>要素</th><th>意味</th><th>今回の値・例</th></tr>
+    <tr><td><code>best ← 0</code></td><td>最大値の初期値（見つからない印も兼ねる）</td><td>0＝該当なし</td></tr>
+    <tr><td><code>best ← 手札[i]</code></td><td>勝てる札を見つけるたび更新</td><td>昇順なので最後が最大</td></tr>
+    <tr><td><code>返す(best)</code> / <code>b ← 最強出せる()</code></td><td>結果を返し、受け取る</td><td>b=10 など</td></tr>
+  </table>
+
+  <h3>これまで学んだ全部が詰まっている</h3>
+  <p>この最終問題は、<strong>配列・ループ・条件分岐・変数の更新・関数</strong>の集大成です。関数 <code>最強出せる()</code> の中では、第4章の「ループで最大値を更新するパターン」を使い、その結果を<strong>返り値</strong>として外へ渡しています。複雑な処理を関数の中に隠し、外からは <code>b ← 最強出せる()</code> の一言で使う――これが、大きなプログラムを整理して作るための最も大切な考え方です。ここまで来たあなたは、DNCLの基礎をひと通りマスターしました！</p>
+
+  <div class="next-prob">▶ 全27問 完了！ お疲れさまでした 🎉</div>
+</div>
+</div>
+
+
+<!-- ══════════ コラム ══════════ -->
+<div class="pg">
+<div class="info-box" style="font-size:15px;line-height:2;">
+<strong style="font-size:17px;">📌 関数の3要素</strong><br>
+・<strong>名前</strong>：処理を呼び出すための名札<br>
+・<strong>引数</strong>：関数に渡す入力（なくてもよい）<br>
+・<strong>返り値</strong>：関数が返す結果（なくてもよい）
+</div>
+<div class="column-hdr">
+  <div class="prob-icon">◆</div>
+  <div>
+    <div class="prob-id">コラム</div>
+    <div class="prob-title-jp">関数は「部品化」―― 大きなプログラムを組み立てる鍵</div>
+  </div>
+</div>
+<div class="column-body">
+
+  <p>第8章の<strong>関数</strong>は、プログラムを「部品」に分けて整理するための、最も重要な考え方です。大きなアプリも、小さな関数をたくさん組み合わせてできています。</p>
+
+  <div class="real-example">
+    <h3>🧩 例1：身近なアプリの中身</h3>
+    <p style="font-size:12px;">SNSアプリは「ログインする()」「投稿を取得する()」「いいねを送る()」のような関数の集まりです。あなたが b25 で「出せるか(c)」という判定部品を作ったのと同じように、機能ごとに部品化されています。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>🔁 例2：同じ計算を何度も使う</h3>
+    <div class="code-block" style="font-size:12px;">
+関数 税込(値段) を
+｜　返す(値段 × 110 ÷ 100)
+と定義する
+a <span class="kw">←</span> 税込(<span class="val">100</span>)　<span class="cmt"># 110</span>
+b <span class="kw">←</span> 税込(<span class="val">250</span>)　<span class="cmt"># 275</span>
+    </div>
+    <p style="font-size:12px;">一度「税込」を定義すれば、何度でも呼び出せます。b24 で学んだ「定義は1回、呼び出しは何度でも」の威力です。</p>
+  </div>
+
+  <div class="real-example">
+    <h3>📊 まとめ：関数のうれしさ</h3>
+    <table style="font-size:12px;">
+      <tr><th>うれしさ</th><th>説明</th></tr>
+      <tr><td>くり返しを減らせる</td><td>同じ処理を1回書けばよい</td></tr>
+      <tr><td>読みやすくなる</td><td>名前で「何をするか」が分かる</td></tr>
+      <tr><td>直しやすい</td><td>関数の中だけ直せば全体に反映</td></tr>
+      <tr><td>分担できる</td><td>部品ごとに別の人が作れる</td></tr>
+    </table>
+  </div>
+
+</div>
+<div style="text-align:center;margin:32px 0 6px;">
+  <div style="font-size:25px;font-weight:800;color:#8e44ad;line-height:1.35;">🎉 全8章 完走おめでとうございます！</div>
+  <div style="font-size:13px;color:#555;margin-top:12px;">大富豪プログラミング 完全攻略テキスト</div>
+</div>
+</div><!-- end pg -->
+
+
+<!-- ══════════════════════════════════════════════════════
+     巻末：模範解答集
+══════════════════════════════════════════════════════ -->
+<div class="pg">
+<div class="hint-section-hdr">
+  <div class="hint-sec-label">CHAPTER 8 — 章末ヒント集</div>
+  <div class="hint-sec-title">💡 ヒント集</div>
+  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
+</div>
+
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b24 ヒント</div><div class="prob-title-jp">返り値なし関数を定義する</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>関数を定義する</strong><br>
+        <code>関数 先頭を出す() を</code> … <code>と定義する</code> の形でくくります。中の処理は字下げします。<div class="think-box">関数 先頭を出す() を ／ ｜　出す(手札[1], 1) ／ と定義する</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>呼び出しを忘れない</strong><br>
+        定義しただけでは何も起きません。最後に <code>先頭を出す()</code> と書いて呼び出します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>2行の関係を意識</strong><br>
+        「定義（作る）」と「呼び出し（使う）」は別の操作です。両方が必要です。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b24 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b25 ヒント</div><div class="prob-title-jp">関数を定義して使う（引数と返り値）</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>引数つきで関数を定義</strong><br>
+        <code>関数 出せるか(c) を</code> … <code>と定義する</code>。<code>c</code> が受け取った値です。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>結果を返す</strong><br>
+        <code>もし c ＞ 場の強さ ならば 返す(1) そうでなければ 返す(0)</code> とします。<div class="think-box">返す(値) で関数の外へ結果を渡す</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>呼び出して使う</strong><br>
+        <code>r ← 出せるか(手札[1])</code> で返り値を受け取り、<code>もし r ＞ 0 ならば 出す(手札[1], 1)</code> とします。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b25 解説 ══════════ -->
+<div class="pg">
+<div class="hint-page-hdr">
+  <div class="prob-icon">💡</div>
+  <div><div class="prob-id">b26 ヒント</div><div class="prob-title-jp">関数で最強出せるカードを返す</div></div>
+</div>
+<div class="hint-body">
+
+  <div class="hint-warning">
+    💡 このページは<strong>行き詰まったときだけ</strong>読んでください。答えは書いていません。考え方の道筋だけが書いてあります。
+  </div>
+
+  <ul class="step-list">
+    <li>
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <strong>関数の中で最大値を探す</strong><br>
+        <code>best ← 0</code> から始め、forループで <code>手札[i] ＞ 場の強さ</code> のとき <code>best ← 手札[i]</code> と更新します。
+      </div>
+    </li>
+    <li>
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <strong>手札はソート済み</strong><br>
+        弱い順なので、勝てるカードを見つけるたび更新すれば、最後に <code>best</code> には<strong>最大の</strong>勝てる札が残ります。<div class="think-box">ループ後に 返す(best)</div>
+      </div>
+    </li>
+    <li>
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <strong>呼び出して出す</strong><br>
+        <code>b ← 最強出せる()</code> で受け取り、<code>もし b ＞ 0 ならば 出す(b, 1)</code>。0ならパス。
+      </div>
+    </li>
+  </ul>
+</div>
+</div>
+
+<!-- ══════════ b26 解説 ══════════ -->
+<div class="pg">
+<div class="answer-hdr">
+  <div style="font-size:22px;font-weight:700;">📋 模範解答集（全27問 b01〜b27）</div>
+  <div style="font-size:12px;margin-top:4px;opacity:.85;">
+    自力で全問を解いてから確認しましょう。コードの動き方を理解することが目的です。
+  </div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b01　先頭のカードを出す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">出す(手札[1], 1)</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>手札は弱い順に並んでいるため、<code>手札[1]</code> は常に最弱カードです。<code>出す(値, 1)</code> の「1」はシングル（1枚出し）を意味します。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b02　値を表示する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">場の強さ を表示する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>場の強さ</code> という変数の中身がそのまま表示されます。変数を使うことで、場の強さが変わっても同じコードで対応できます。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b03　式を表示する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">「場のカードは、」 と 場の強さ を表示する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>文字列 <code>「場のカードは、」</code> と変数 <code>場の強さ</code> を <code>と</code> でつなぎます。出力は「場のカードは、5」のように連結されます。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b04　要素数で最強カードを出す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">出す(手札[要素数[手札]], 1)</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>要素数[手札]</code> が手札の枚数を返し、それを添字として使います。手札=[3,7,10] なら 要素数=3 → 手札[3]=10 です。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b05　変数で最強カードを出す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">n ← 要素数[手札]
+出す(手札[n], 1)</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>まず <code>n</code> に手札の枚数を代入し、<code>手札[n]</code> で最強カードを取り出します。変数を経由することでコードが読みやすくなります。
+    </p>
+  </div>
+</div>
+
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b06〜b09</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b06　変数に代入して出す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">i ← 2
+出す(手札[i], 1)</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>i</code> に固定値 <code>2</code> を代入し、<code>手札[i]</code> で2番目のカードを取り出します。<code>i</code> を変えれば取り出す番号を自由に変えられます。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b07　先頭2枚の合計を計算して表示する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">「先頭2枚の合計は、」 と 手札[1] ＋ 手札[2] を表示する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>手札[1] ＋ 手札[2]</code> が先に計算されて値になり、文字列のうしろに連結されます。全角の <code>＋</code> を使う点に注意します。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b08　真ん中のカードを出す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">n ← 要素数[手札]
+i ← (n ＋ 1) ÷ 2
+出す(手札[i], 1)</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>(n ＋ 1) ÷ 2</code> で真ん中の添字を計算します。<code>÷</code> は小数を切り捨てるので、3枚なら2、5枚なら3になります。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b09　余りで偶奇を判定する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">n ← 要素数[手札]
+もし n ％ 2 ＝ 0 ならば
+｜　出す(手札[1], 1)
+を実行し，そうでなければ
+｜　出す(手札[n], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>n ％ 2 ＝ 0</code> で偶数を判定します。偶数なら最弱 <code>手札[1]</code>、奇数なら最強 <code>手札[n]</code> を出します。
+    </p>
+  </div>
+</div>
+
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b10〜b13</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b10　場より強ければ出す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">もし 手札[1] ＞ 場の強さ ならば
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>最弱カードが場より強いときだけ出します。出せないときは何も書かなければ自動でパスになるため、<code>そうでなければ</code>は不要です。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b11　枚数に応じて出し方を変える</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">もし 要素数[手札] ≧ 3 ならば
+｜　出す(手札[2], 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>≧</code>（以上）はちょうど3枚も含みます。3枚以上なら2番目、2枚以下なら最弱を出します。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b12　ペアで出す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">もし 手札[1] ＝ 手札[2] ならば
+｜　出す(手札[1], 2)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>手札はソート済みなので同じランクは隣り合います。先頭2枚が等しければ枚数2でペア、違えば枚数1でシングルです。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b13　かつで複数条件をチェック</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">もし 要素数[手札] ≧ 2 かつ 手札[1] ＝ 手札[2] ならば
+｜　出す(手札[1], 2)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>「2枚以上」を先に書くことで、手札1枚のとき <code>手札[2]</code> を参照せずに済みます（短絡評価）。両方真のときだけペアを出します。
+    </p>
+  </div>
+</div>
+
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b14〜b16</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b14　またはで条件を広げる</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">cnt ← 要素数[手札]
+もし 要素数[手札] ＝ 1 または 14 ≦ 手札[cnt] ならば
+｜　出す(手札[cnt], 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>「1枚（ピンチ）」か「最強がA以上（切り札）」のどちらかで最強カードを出します。<code>または</code>は片方でも真なら成立します。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b15　でないで条件を否定する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">もし (手札[1] ≦ 場の強さ) でない ならば
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>「場以下 でない」＝「場より強い」です。出せない条件を素直に書いてから <code>でない</code> でひっくり返すと、考えやすくなる場面があります。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b16　forで出せる枚数を数える</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">cnt ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＞ 場の強さ ならば
+｜　｜　cnt ← cnt ＋ 1
+｜　を実行する
+を繰り返す
+「出せるカードは、」 と cnt を表示する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>ループ前に <code>cnt ← 0</code> で初期化し、条件を満たすたびに <code>cnt ← cnt ＋ 1</code> で数えます。これが「集計」の基本パターンです。
+    </p>
+  </div>
+</div>
+
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b17・b19</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b17　forで出せる最弱カードを探す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">found ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＞ 場の強さ かつ found ＝ 0 ならば
+｜　｜　found ← 手札[i]
+｜　を実行する
+を繰り返す
+もし found ＞ 0 ならば
+｜　出す(found, 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>フラグ <code>found</code> を0で初期化し、<code>found ＝ 0</code> のときだけ上書きすることで、最初に見つかった（最弱の）カードだけを記録します。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b19　前判定ループで出せる札を探す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">i ← 1
+i ≦ 要素数[手札] かつ 手札[i] ≦ 場の強さ の間，
+｜　i ← i ＋ 1
+を繰り返す
+もし i ≦ 要素数[手札] ならば
+｜　出す(手札[i], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>「範囲内 かつ まだ場に勝てない間」 <code>i</code> を進めます。範囲チェックを <code>かつ</code> の左に置くことで、勝てる札が無くてもエラーにならず安全に止まります。
+    </p>
+  </div>
+</div>
+
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b18・b20・b21</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b18　見つけたらループを中断する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">found ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＞ 場の強さ ならば
+｜　｜　found ← 手札[i]
+｜　｜　中断する
+｜　を実行する
+を繰り返す
+もし found ＞ 0 ならば
+｜　出す(found, 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>見つけた瞬間に <code>中断する</code> でループを抜けるので、b17 の <code>found ＝ 0</code> の条件が不要になり、無駄なくり返しもなくなります。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b20　後判定ループで最後まで走る</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">i ← 0
+繰り返し，
+｜　i ← i ＋ 1
+を，i ＝ 要素数[手札] になるまで実行する
+出す(手札[i], 1)</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>後判定ループは処理を1回実行してから条件を判定します。<code>i</code> が最後の添字（要素数）に達するまで進め、最強カードを出します。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b21　要素数で配列サイズを調べる</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">もし 要素数[捨札] ＝ 0 ならば
+｜　出す(手札[1], 1)
+を実行し，そうでなければ
+｜　出す(手札[要素数[手札]], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>要素数</code> は手札以外の配列にも使えます。捨て札0枚（序盤）なら最弱、出ていれば最強を出します。
+    </p>
+  </div>
+</div>
+
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b22〜b24</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b22　配列に値を代入する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">T[1] ← 手札[1]
+T[2] ← 手札[2]
+出す(T[2], 1)</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>大文字で始まる <code>T</code> は配列です。<code>T[添字] ← 式</code> で要素に値を入れ、元データをこわさず作業用コピーを作れます。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b23　配列で捨て札をカウントする</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">j を 3 から 15 まで 1 ずつ増やしながら，
+｜　C[j] ← 0
+を繰り返す
+i を 1 から 要素数[捨札] まで 1 ずつ増やしながら，
+｜　r ← 捨札[i]
+｜　C[r] ← C[r] ＋ 1
+を繰り返す
+もし C[手札[1]] ＞ 0 ならば
+｜　出す(手札[要素数[手札]], 1)
+を実行し，そうでなければ
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>まず <code>C[j] ← 0</code> で集計用配列を初期化してから、ランクを添字にした配列 <code>C</code> で出現数を集計します。<code>C[手札[1]] ＞ 0</code> なら手札[1]は既に捨て札に出ています（集計＝ヒストグラム）。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b24　返り値なし関数を定義する</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">関数 先頭を出す() を
+｜　出す(手札[1], 1)
+と定義する
+先頭を出す()</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong><code>関数 名前() を … と定義する</code> で定義し、<code>名前()</code> で呼び出します。定義だけでは動かず、呼び出して初めて実行されます。
+    </p>
+  </div>
+</div>
+
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b25・b26</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b25　関数を定義して使う（引数と返り値）</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">関数 出せるか(c) を
+｜　もし c ＞ 場の強さ ならば
+｜　｜　返す(1)
+｜　を実行し，そうでなければ
+｜　｜　返す(0)
+｜　を実行する
+と定義する
+r ← 出せるか(手札[1])
+もし r ＞ 0 ならば
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>引数 <code>c</code> で値を受け取り、<code>返す(値)</code> で結果を返します。判定を関数にまとめると、メイン処理が読みやすくなります。
+    </p>
+  </div>
+</div>
+
+<div class="answer-card">
+  <div class="answer-card-title">b26　関数で最強出せるカードを返す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">関数 最強出せる() を
+｜　best ← 0
+｜　i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　｜　もし 手札[i] ＞ 場の強さ ならば
+｜　｜　｜　best ← 手札[i]
+｜　｜　を実行する
+｜　を繰り返す
+｜　返す(best)
+と定義する
+b ← 最強出せる()
+もし b ＞ 0 ならば
+｜　出す(b, 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>配列・ループ・条件分岐・変数更新・関数の集大成です。手札は昇順なので、勝てる札で更新を続けると最後に最大値が残り、それを <code>返す</code> で返します。
+    </p>
+  </div>
+</div>
+</div><!-- end pg -->
+
+
+<div class="pg answer-pg">
+<div class="answer-hdr" style="font-size:14px;padding:10px 16px;">
+  <div style="font-weight:700;">📋 模範解答集（続き）　b27</div>
+</div>
+<br>
+
+<div class="answer-card">
+  <div class="answer-card-title">b27　8を探して場を流す</div>
+  <div class="answer-card-body">
+    <div class="code-block" style="font-size:13px;">found ← 0
+i を 1 から 要素数[手札] まで 1 ずつ増やしながら，
+｜　もし 手札[i] ＝ 8 ならば
+｜　｜　found ← 1
+｜　｜　出す(手札[i], 1)
+｜　｜　中断する
+｜　を実行する
+を繰り返す
+もし found ＝ 0 ならば
+｜　出す(手札[1], 1)
+を実行する</div>
+    <p style="font-size:12.5px;">
+      <strong>解説：</strong>b18 の探索パターンの応用。条件を <code>手札[i] ＝ 8</code> に変えるだけで「特定の値を探す」コードになります。見つけたら出して <code>中断する</code>、見つからなければ <code>found ＝ 0</code> のままなので最弱カードを出します。
+    </p>
+  </div>
+</div>
+
+
+<div style="text-align:center;margin-top:24px;font-size:13px;color:#555;">
+  ―― 全8章 完 ――<br>
+  <span style="font-size:12px;">大富豪プログラミング 完全攻略テキスト</span>
+</div>
+</div><!-- end pg -->
+
+
+</body>
+</html>
