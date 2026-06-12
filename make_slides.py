@@ -524,6 +524,171 @@ if "--requests" in sys.argv:   # オフライン検証用
     sys.exit(0)
 
 # ════════════════════════════════════════════════════════════════
+#  2.5 HTML プレビュー（API リクエストをそのまま描画。実行前の確認用）
+# ════════════════════════════════════════════════════════════════
+def render_preview(reqs):
+    def css_color(rgb):
+        return 'rgb(%d,%d,%d)' % (round(rgb.get('red', 0)*255),
+                                  round(rgb.get('green', 0)*255),
+                                  round(rgb.get('blue', 0)*255))
+    def u16_slice(s, a, b):
+        raw = s.encode('utf-16-le')
+        return raw[a*2:b*2].decode('utf-16-le', errors='ignore')
+
+    slides, shapes, tables = [], {}, {}
+    for r in reqs:
+        if 'createSlide' in r:
+            slides.append({'id': r['createSlide']['objectId'], 'els': []})
+        elif 'createShape' in r:
+            c = r['createShape']
+            ep = c['elementProperties']
+            el = dict(kind='shape', type=c['shapeType'],
+                      x=ep['transform']['translateX'], y=ep['transform']['translateY'],
+                      w=ep['size']['width']['magnitude'], h=ep['size']['height']['magnitude'],
+                      fill=None, line=None, line_w=1, dash=False, valign='TOP',
+                      text='', runs=[], para={})
+            shapes[c['objectId']] = el
+            slides[-1]['els'].append(el)
+        elif 'updateShapeProperties' in r:
+            u = r['updateShapeProperties']
+            el = shapes.get(u['objectId'])
+            if not el:
+                continue
+            sp = u['shapeProperties']
+            if 'shapeBackgroundFill' in sp:
+                el['fill'] = css_color(sp['shapeBackgroundFill']['solidFill']['color']['rgbColor'])
+            if 'outline' in sp and 'outlineFill' in sp.get('outline', {}):
+                el['line'] = css_color(sp['outline']['outlineFill']['solidFill']['color']['rgbColor'])
+                el['line_w'] = sp['outline']['weight']['magnitude']
+                el['dash'] = sp['outline'].get('dashStyle') == 'DASH'
+            if 'contentAlignment' in sp:
+                el['valign'] = sp['contentAlignment']
+        elif 'createTable' in r:
+            c = r['createTable']
+            ep = c['elementProperties']
+            tb = dict(kind='table', x=ep['transform']['translateX'], y=ep['transform']['translateY'],
+                      w=ep['size']['width']['magnitude'], rows=c['rows'], cols=c['columns'],
+                      col_w=[None]*c['columns'], header_fill=None, cells={})
+            tables[c['objectId']] = tb
+            slides[-1]['els'].append(tb)
+        elif 'updateTableColumnProperties' in r:
+            u = r['updateTableColumnProperties']
+            tb = tables[u['objectId']]
+            for ci in u['columnIndices']:
+                tb['col_w'][ci] = u['tableColumnProperties']['columnWidth']['magnitude']
+        elif 'updateTableCellProperties' in r:
+            u = r['updateTableCellProperties']
+            tables[u['objectId']]['header_fill'] = css_color(
+                u['tableCellProperties']['tableCellBackgroundFill']['solidFill']['color']['rgbColor'])
+        elif 'insertText' in r:
+            u = r['insertText']
+            if 'cellLocation' in u:
+                cl = u['cellLocation']
+                tables[u['objectId']]['cells'][(cl['rowIndex'], cl['columnIndex'])] = \
+                    {'text': u['text'], 'style': {}}
+            elif u['objectId'] in shapes:
+                shapes[u['objectId']]['text'] = u['text']
+        elif 'updateTextStyle' in r:
+            u = r['updateTextStyle']
+            if 'cellLocation' in u:
+                cl = u['cellLocation']
+                tables[u['objectId']]['cells'][(cl['rowIndex'], cl['columnIndex'])]['style'] = u['style']
+            elif u['objectId'] in shapes:
+                tr = u['textRange']
+                shapes[u['objectId']]['runs'].append(
+                    (tr.get('startIndex', 0), tr.get('endIndex', 0), u['style']))
+        elif 'updateParagraphStyle' in r:
+            u = r['updateParagraphStyle']
+            if u['objectId'] in shapes:
+                shapes[u['objectId']]['para'] = u['style']
+
+    def style_css(st):
+        css = []
+        if 'fontSize' in st:
+            css.append(f"font-size:{st['fontSize']['magnitude']}pt")
+        if 'fontFamily' in st:
+            fam = st['fontFamily']
+            mono = ",monospace" if "Mono" in fam else ",sans-serif"
+            css.append(f"font-family:'{fam}'{mono}")
+        css.append("font-weight:700" if st.get('bold') else "font-weight:400")
+        if 'foregroundColor' in st:
+            css.append("color:" + css_color(st['foregroundColor']['opaqueColor']['rgbColor']))
+        if st.get('italic'):
+            css.append("font-style:italic")
+        return ';'.join(css)
+
+    esc = lambda s: html.escape(s).replace('\n', '<br>')
+    out = []
+    for i, sl in enumerate(slides):
+        els_html = []
+        for el in sl['els']:
+            if el['kind'] == 'table':
+                tw = sum(c or 0 for c in el['col_w'])
+                cols = ''.join(f'<col style="width:{c}pt">' for c in el['col_w'])
+                trs = []
+                for ri in range(el['rows']):
+                    tds = []
+                    for ci in range(el['cols']):
+                        cell = el['cells'].get((ri, ci), {'text': '', 'style': {}})
+                        bg = f"background:{el['header_fill']};" if (ri == 0 and el['header_fill']) else ''
+                        tds.append(f'<td style="{bg}{style_css(cell["style"])};'
+                                   f'border:1px solid #b7bec8;padding:3pt 6pt;vertical-align:middle;">'
+                                   f'{esc(cell["text"])}</td>')
+                    trs.append('<tr>' + ''.join(tds) + '</tr>')
+                els_html.append(
+                    f'<table style="position:absolute;left:{el["x"]}pt;top:{el["y"]}pt;'
+                    f'width:{tw}pt;border-collapse:collapse;table-layout:fixed;">'
+                    f'<colgroup>{cols}</colgroup>{"".join(trs)}</table>')
+                continue
+            box = [f'position:absolute;left:{el["x"]}pt;top:{el["y"]}pt;'
+                   f'width:{el["w"]}pt;height:{el["h"]}pt;box-sizing:border-box']
+            if el['fill']:
+                box.append('background:' + el['fill'])
+            if el['line']:
+                box.append(f'border:{el["line_w"]}pt {"dashed" if el["dash"] else "solid"} {el["line"]}')
+            if el['type'] == 'ELLIPSE':
+                box.append('border-radius:50%')
+            elif el['type'] == 'ROUND_RECTANGLE':
+                box.append('border-radius:6pt')
+            vmap = {'TOP': 'flex-start', 'MIDDLE': 'center', 'BOTTOM': 'flex-end'}
+            box.append(f'display:flex;flex-direction:column;justify-content:{vmap[el["valign"]]}')
+            spans = ''
+            if el['text']:
+                for a, b, st in sorted(el['runs']):
+                    spans += f'<span style="{style_css(st)}">{esc(u16_slice(el["text"], a, b))}</span>'
+                if not el['runs']:
+                    spans = esc(el['text'])
+            para = el['para']
+            amap = {'START': 'left', 'CENTER': 'center', 'END': 'right'}
+            ta = amap.get(para.get('alignment', 'START'), 'left')
+            lh = para.get('lineSpacing', 118) / 100
+            els_html.append('<div style="' + ';'.join(box) + '">'
+                            f'<div style="white-space:pre-wrap;text-align:{ta};line-height:{lh};'
+                            f'padding:2pt 3pt;overflow-wrap:break-word;">{spans}</div></div>')
+        out.append(f'<div class="sl-label">スライド {i+1} / {len(slides)}　'
+                   f'<span style="color:#888">{sl["id"]}</span></div>'
+                   f'<div class="slide">{"".join(els_html)}</div>')
+
+    return ('<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">'
+            '<title>スライドプレビュー</title>'
+            '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">'
+            '<style>body{background:#3c4043;margin:0;padding:24px;font-family:"Noto Sans JP",sans-serif;}'
+            '.slide{position:relative;width:720pt;height:405pt;background:#fff;margin:0 auto 8px;'
+            'border-radius:4px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.4);}'
+            '.sl-label{color:#e8eaed;font-size:13px;margin:18px auto 6px;width:720pt;}'
+            '</style></head><body>'
+            f'<div style="color:#e8eaed;text-align:center;font-size:15px;margin-bottom:12px;">'
+            f'Google スライド生成プレビュー（全 {len(slides)} 枚 / 実際の API リクエストから描画）</div>'
+            + ''.join(out) + '</body></html>')
+
+if "--preview" in sys.argv:
+    d, n = build_deck()
+    with open('slides_preview.html', 'w', encoding='utf-8') as f:
+        f.write(render_preview(d.req))
+    print(f"slides_preview.html に {n} 枚を書き出しました")
+    sys.exit(0)
+
+# ════════════════════════════════════════════════════════════════
 #  3. Google Slides API で作成
 # ════════════════════════════════════════════════════════════════
 def main():
