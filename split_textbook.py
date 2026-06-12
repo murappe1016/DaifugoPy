@@ -102,11 +102,13 @@ def strip_codeblock_edges(text):
                   lambda m: m.group(1) + m.group(2).strip('\n') + m.group(3),
                   text, flags=re.S)
 
-def build(title, body_html, booklet=None):
+def build(title, body_html, booklet=None, extra_css=None):
     h = head
     if title:
         h = re.sub(r'<title>.*?</title>',
                    f'<title>大富豪プログラミング {title}</title>', h, flags=re.S)
+    if extra_css:
+        h = h.replace('</head>', f'<style>\n{extra_css}\n</style>\n</head>')
     body_tag = f'<body data-booklet="{booklet}">' if booklet else '<body>'
     body_html = strip_codeblock_edges(body_html)
     return f"{h}\n{body_tag}\n{body_html}\n</body>\n</html>\n"
@@ -149,6 +151,146 @@ def chapter_label(blk):
     return ""
 
 # ---------------------------------------------------------------
+#  ワークブック化: ケース1のカード図・書き込み欄・文字拡大
+# ---------------------------------------------------------------
+RANK_LABEL = {11: 'J', 12: 'Q', 13: 'K', 14: 'A', 15: '$'}
+def _rank(n): return RANK_LABEL.get(n, str(n))
+
+def _card(n, sub=''):
+    cls = 'cv-card cv-gold' if n == 15 else 'cv-card'
+    sub_html = f'<span class="cv-sub">{sub}</span>' if sub else ''
+    return f'<div class="{cls}">{_rank(n)}{sub_html}</div>'
+
+def case_visual_html(blk):
+    """テストケース1行目のテキストから手札・場・捨て札のカード図を生成"""
+    m = re.search(r'<h3>テストケース(?:の確認)?</h3>\s*<table>(.*?)</table>', blk, re.S)
+    if not m:
+        return ''
+    row = re.search(r'<tr><td>1</td><td>(.*?)</td>', m.group(1), re.S)
+    if not row:
+        return ''
+    cell = html.unescape(re.sub('<[^>]+>', '', row.group(1)))
+
+    hand = re.search(r'手札\s*=?\s*\[([\d,，\s]+)\]', cell)
+    if not hand and '手札' not in cell and '捨て札' not in cell:
+        hand = re.search(r'\[([\d,，\s]+)\]', cell)           # b04: 接頭辞なしのリスト
+    hand1 = re.search(r'手札\[1\]\s*=\s*(\d+)', cell)
+    field = re.search(r'場(?:の強さ)?\s*=\s*(\d+)', cell)
+    disc = re.search(r'捨て札\s*=?\s*\[([\d,，\s]+)\]', cell)
+    disc_none = '捨て札なし' in cell
+    field_empty = '場の枚数 ＝ 0' in blk and not field
+
+    zones = []
+    if hand:
+        cards = [int(x) for x in hand.group(1).replace('，', ',').split(',')]
+        ch = ''.join(_card(c, f'手札[{i+1}]') for i, c in enumerate(cards))
+        zones.append('<div class="cv-zone"><div class="cv-zttl">あなたの手札（弱い順）</div>'
+                     f'<div class="cv-cards cv-has-sub">{ch}</div></div>')
+    elif hand1:
+        ch = (_card(int(hand1.group(1)), '手札[1]')
+              + '<div class="cv-card cv-ghost">?<span class="cv-sub">手札[2]…</span></div>')
+        zones.append('<div class="cv-zone"><div class="cv-zttl">あなたの手札（弱い順）</div>'
+                     f'<div class="cv-cards cv-has-sub">{ch}</div></div>')
+    if field:
+        zones.append('<div class="cv-zone"><div class="cv-zttl">場のカード</div>'
+                     f'<div class="cv-cards">{_card(int(field.group(1)))}</div></div>')
+    elif field_empty and zones:
+        zones.append('<div class="cv-zone"><div class="cv-zttl">場</div>'
+                     '<div class="cv-empty">空き</div></div>')
+    if disc:
+        cards = [int(x) for x in disc.group(1).replace('，', ',').split(',')]
+        ch = ''.join(_card(c) for c in cards)
+        zones.append('<div class="cv-zone"><div class="cv-zttl">捨て札</div>'
+                     f'<div class="cv-cards cv-mini">{ch}</div></div>')
+    elif disc_none:
+        zones.append('<div class="cv-zone"><div class="cv-zttl">捨て札</div>'
+                     '<div class="cv-empty">なし</div></div>')
+
+    if not zones:
+        return ''
+    return ('<div class="case-visual"><div class="cv-cap">🃏 ケース1のようす</div>'
+            f'<div class="cv-flex">{"".join(zones)}</div></div>')
+
+def insert_after_testcases(blk, extra):
+    """テストケース表の直後にカード図を挿入"""
+    if not extra:
+        return blk
+    m = re.search(r'(<h3>テストケース(?:の確認)?</h3>\s*<table>.*?</table>)', blk, re.S)
+    if not m:
+        return blk
+    return blk[:m.end(1)] + '\n' + extra + blk[m.end(1):]
+
+def append_into_body(blk, extra):
+    """ページ本文 div の閉じ直前に要素を追加（末尾の </div> 2つ＝本文・pg の閉じ）"""
+    b = blk.rstrip()
+    i = b.rfind('</div>')
+    j = b.rfind('</div>', 0, i)
+    if j < 0:
+        return blk
+    return b[:j] + extra + '\n' + b[j:] + '\n'
+
+WRITE_AREA = ('<div class="write-area-bk"><div class="wa-ttl">'
+              '✍️ コードを書いてみよう（アプリに入力する前の下書き）</div>'
+              '<div class="wa-lines"></div></div>')
+MEMO_AREA = ('<div class="write-area-bk"><div class="wa-ttl">'
+             '📝 気づいたことメモ（どのステップで分かった？）</div>'
+             '<div class="wa-lines"></div></div>')
+
+# カード図・記入欄・文字拡大（zoom）の冊子用スタイル
+CSS_CARDS = '''
+/* ── ケース1の状況図 ── */
+.case-visual { margin: 9px 0 4px; padding: 8px 12px 5px; border: 1.5px solid #cfdcf0;
+               border-radius: 8px; background: #f8fbff; }
+.cv-cap { font-weight: 700; font-size: 11.5px; color: #1d4ed8; margin-bottom: 6px; }
+.cv-flex { display: flex; gap: 9mm; flex-wrap: wrap; align-items: flex-start; }
+.cv-zttl { font-size: 10.5px; color: #556; font-weight: 700; margin-bottom: 3px; }
+.cv-cards { display: flex; gap: 2.2mm; }
+.cv-has-sub { padding-bottom: 4.8mm; }
+.cv-card { width: 10.5mm; height: 14.5mm; border: 0.5mm solid #2c3e50; border-radius: 1.8mm;
+           background: #fff; display: flex; align-items: center; justify-content: center;
+           font-size: 19px; font-weight: 800; color: #1d2433;
+           box-shadow: 0 1px 2px rgba(0,0,0,.10); position: relative; }
+.cv-card .cv-sub { position: absolute; bottom: -4.8mm; left: 50%; transform: translateX(-50%);
+                   font-size: 8.5px; font-weight: 500; color: #667; white-space: nowrap; }
+.cv-gold { color: #b8860b; border-color: #b8860b; }
+.cv-ghost { border-style: dashed; color: #9aa7bb; border-color: #9aa7bb;
+            background: #fbfcfe; box-shadow: none; }
+.cv-mini .cv-card { width: 7.5mm; height: 10.5mm; font-size: 13px; border-width: 0.4mm; }
+.cv-empty { width: 10.5mm; height: 14.5mm; border: 0.5mm dashed #9aa7bb; border-radius: 1.8mm;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px; color: #9aa7bb; text-align: center; line-height: 1.3; }
+'''
+
+CSS_WRITE = '''
+/* ── 書き込み欄（残り余白いっぱいに伸びる）── */
+.write-area-bk { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 20mm;
+                 margin-top: 9px; border: 1.5px solid #c9d4e4; border-radius: 8px;
+                 padding: 7px 11px 9px; background: #fff; }
+.wa-ttl { font-size: 11.5px; font-weight: 700; color: #3b5b8c; margin-bottom: 1.5mm; }
+.wa-lines { flex: 1 1 auto; min-height: 12mm;
+            background: repeating-linear-gradient(to bottom,
+              transparent 0, transparent calc(8mm - 1px),
+              #dbe3ee calc(8mm - 1px), #dbe3ee 8mm); }
+'''
+
+CSS_PROBLEMS = '''
+/* ── ワークブック化: 文字拡大 ── */
+.pg > *:not(.print-header):not(.print-footer) { zoom: 1.18; }
+.problem-body { display: flex; flex-direction: column; flex: 1 1 auto; }
+''' + CSS_CARDS + CSS_WRITE
+
+CSS_HINTS = '''
+/* ── ワークブック化: 文字拡大 ── */
+.pg > *:not(.print-header):not(.print-footer) { zoom: 1.18; }
+.hint-body { display: flex; flex-direction: column; flex: 1 1 auto; }
+''' + CSS_WRITE
+
+CSS_ANSWERS = '''
+/* ── 解説ページの文字拡大（密度の高い模範解答ページは対象外）── */
+.pg.pg-explain > *:not(.print-header):not(.print-footer) { zoom: 1.12; }
+'''
+
+# ---------------------------------------------------------------
 #  ① 問題集
 # ---------------------------------------------------------------
 def make_problems():
@@ -164,18 +306,30 @@ def make_problems():
             # 「次のページのヒント」→ ヒント集 へ表現変更
             blk = b.replace("次のページのヒントを読む", "ヒント集（別冊）を読む")
             blk = blk.replace("次のページのヒント", "別冊のヒント集")
+            # ケース1のカード図 + 解答下書き欄（ワークブック化）
+            blk = insert_after_testcases(blk, case_visual_html(blk))
+            blk = append_into_body(blk, WRITE_AREA)
             out.append(blk)
-    return build("問題集", "\n".join(out), booklet="問題集")
+    return build("問題集", "\n".join(out), booklet="問題集", extra_css=CSS_PROBLEMS)
 
 # ---------------------------------------------------------------
 #  ② ヒント集
 # ---------------------------------------------------------------
 def make_hints():
     out = [cover("ヒント集", "行き詰まったときだけ読もう", ["全27問のヒント", "答えは書いていません"], "#d97706")]
+    cur_ch = ""
     for k, b in blocks:
+        if k == "chapter":
+            cur_ch = chapter_label(b)
         if k == "hint":
-            out.append(b)
-    return build("ヒント集", "\n".join(out), booklet="ヒント集")
+            # スタイル未定義の hint-section-hdr は章区切りバナーに置き換える
+            b = re.sub(r'<div class="hint-section-hdr">(?:\s*<div[^>]*>.*?</div>){3}\s*</div>\s*',
+                       '', b, flags=re.S)
+            if cur_ch:
+                out.append(f'<div class="pg-chap-divider" data-chapter="{cur_ch}　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">{cur_ch}　ヒント</div>')
+                cur_ch = ""
+            out.append(append_into_body(b, MEMO_AREA))
+    return build("ヒント集", "\n".join(out), booklet="ヒント集", extra_css=CSS_HINTS)
 
 # ---------------------------------------------------------------
 #  ③ 解答集（解説 + 模範解答集）
@@ -191,7 +345,10 @@ def make_answers():
                 out.append(f'<div class="pg-chap-divider" data-chapter="{cur_ch}　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">{cur_ch}　解説</div>')
                 cur_ch = ""
             # コードブロック複数行化で伸びる解説ページを圧縮
-            out.append(b.replace('<div class="pg">', '<div class="pg pg-tight">', 1))
+            # 文字拡大(pg-explain)。元の充填率が高い b26 は拡大すると A4 を超えるため対象外
+            pid = (re.search(r'class="prob-id">\s*(b\d+)', b) or [None, ''])[1]
+            cls = 'pg pg-tight' if pid == 'b26' else 'pg pg-tight pg-explain'
+            out.append(b.replace('<div class="pg">', f'<div class="{cls}">', 1))
     # 模範解答集を末尾に
     for k, b in blocks:
         if k == "answer":
@@ -200,7 +357,7 @@ def make_answers():
     if os.path.exists("answers_strategy_section.html"):
         with open("answers_strategy_section.html", encoding="utf-8") as f:
             out.append(f.read())
-    return build("解答集", "\n".join(out), booklet="解答集")
+    return build("解答集", "\n".join(out), booklet="解答集", extra_css=CSS_ANSWERS)
 
 # ---------------------------------------------------------------
 #  ④ 本体（概念・章扉・コラム）。0-4 結合、問題等は除去しポインタ挿入

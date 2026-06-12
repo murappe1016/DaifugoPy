@@ -324,6 +324,12 @@
     code { background: #eee; border-radius: 3px; padding: 1px 5px; font-size: 12.5px; font-family: monospace; }
     .page-label { font-size: 10px; color: #aaa; text-align: right; margin-bottom: 2px; }
   </style>
+<style>
+
+/* ── 解説ページの文字拡大（密度の高い模範解答ページは対象外）── */
+.pg.pg-explain > *:not(.print-header):not(.print-footer) { zoom: 1.12; }
+
+</style>
 </head>
 <body data-booklet="解答集">
 <div class="cover" style="border-color:#16a34a;">
@@ -335,7 +341,7 @@
 </div>
 
 <div class="pg-chap-divider" data-chapter="第1章　変数と代入　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第1章　変数と代入　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div>
@@ -385,7 +391,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b02　値を表示する</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b02 解説</div><div class="prob-title-jp">値を表示する</div></div>
@@ -412,7 +418,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b03　式を表示する</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b03 解説</div><div class="prob-title-jp">式を表示する</div></div>
@@ -439,7 +445,7 @@
   <div class="next-prob">▶ 次の概念へ：<strong>要素数[ ] の使い方</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b04 解説</div><div class="prob-title-jp">要素数で最強カードを出す</div></div>
@@ -476,7 +482,7 @@
   <div class="next-prob">▶ 次の概念へ：<strong>変数と代入（←）</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b05 解説</div><div class="prob-title-jp">変数で最強カードを出す</div></div>
@@ -509,7 +515,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b06　変数に代入して出す</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b06 解説</div><div class="prob-title-jp">変数に代入して出す</div></div>
@@ -548,7 +554,7 @@
 </div>
 </div>
 <div class="pg-chap-divider" data-chapter="第2章　演算子　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第2章　演算子　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b07 解説</div><div class="prob-title-jp">先頭2枚の合計を計算して表示する</div></div>
@@ -575,7 +581,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b08　真ん中のカードを出す</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b08 解説</div><div class="prob-title-jp">真ん中のカードを出す</div></div>
@@ -605,7 +611,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b09　余りで偶奇を判定する</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b09 解説</div><div class="prob-title-jp">余りで偶奇を判定する</div></div>
@@ -639,7 +645,7 @@
 </div>
 </div>
 <div class="pg-chap-divider" data-chapter="第3章　条件分岐　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第3章　条件分岐　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b10 解説</div><div class="prob-title-jp">場より強ければ出す</div></div>
@@ -669,7 +675,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b11　枚数に応じて出し方を変える</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b11 解説</div><div class="prob-title-jp">枚数に応じて出し方を変える</div></div>
@@ -701,7 +707,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b12　ペアで出す</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b12 解説</div><div class="prob-title-jp">ペアで出す</div></div>
@@ -733,7 +739,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b13　かつで複数条件をチェック</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b13 解説</div><div class="prob-title-jp">かつで複数条件をチェック</div></div>
@@ -765,7 +771,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b14　またはで条件を広げる</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b14 解説</div><div class="prob-title-jp">またはで条件を広げる</div></div>
@@ -798,7 +804,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b15　でないで条件を否定する</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b15 解説</div><div class="prob-title-jp">でないで条件を否定する</div></div>
@@ -829,7 +835,7 @@
 </div>
 </div>
 <div class="pg-chap-divider" data-chapter="第4章　forループ　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第4章　forループ　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b16 解説</div><div class="prob-title-jp">forで出せる枚数を数える</div></div>
@@ -863,7 +869,7 @@
   <div class="next-prob">▶ 次の問題へ：<strong>b17　forで出せる最弱カードを探す</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b17 解説</div><div class="prob-title-jp">forで出せる最弱カードを探す</div></div>
@@ -900,7 +906,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
 </div>
 </div>
 <div class="pg-chap-divider" data-chapter="第5章　前判定ループ　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第5章　前判定ループ　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b19 解説</div><div class="prob-title-jp">前判定ループで出せる札を探す</div></div>
@@ -935,7 +941,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
 </div>
 </div>
 <div class="pg-chap-divider" data-chapter="第6章　後判定ループ・中断する　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第6章　後判定ループ・中断する　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b18 解説</div><div class="prob-title-jp">見つけたらループを中断する</div></div>
@@ -972,7 +978,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
   <div class="next-prob">▶ 次の問題へ：<strong>b27　8を探して場を流す</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b27 解説</div><div class="prob-title-jp">8を探して場を流す</div></div>
@@ -1010,7 +1016,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
   <div class="next-prob">▶ 次の問題へ：<strong>b20　後判定ループで最後まで走る</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b20 解説</div><div class="prob-title-jp">後判定ループで最後まで走る</div></div>
@@ -1043,7 +1049,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
 </div>
 </div>
 <div class="pg-chap-divider" data-chapter="第7章　配列　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第7章　配列　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b21 解説</div><div class="prob-title-jp">要素数で配列サイズを調べる</div></div>
@@ -1075,7 +1081,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
   <div class="next-prob">▶ 次の問題へ：<strong>b22　配列に値を代入する</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b22 解説</div><div class="prob-title-jp">配列に値を代入する</div></div>
@@ -1105,7 +1111,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
   <div class="next-prob">▶ 次の問題へ：<strong>b23　配列で捨て札をカウントする</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b23 解説</div><div class="prob-title-jp">配列で捨て札をカウントする</div></div>
@@ -1142,7 +1148,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
 </div>
 </div>
 <div class="pg-chap-divider" data-chapter="第8章　関数　解説" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#16a34a;border-bottom:2px solid #16a34a;margin-bottom:8px;">第8章　関数　解説</div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b24 解説</div><div class="prob-title-jp">返り値なし関数を定義する</div></div>
@@ -1173,7 +1179,7 @@ i を 1 から 要素数[手札] まで 1 ずつ増やしながら，<br>
   <div class="next-prob">▶ 次の問題へ：<strong>b25　関数を定義して使う</strong></div>
 </div>
 </div>
-<div class="pg pg-tight">
+<div class="pg pg-tight pg-explain">
 <div class="explain-page-hdr">
   <div class="prob-icon">✅</div>
   <div><div class="prob-id">b25 解説</div><div class="prob-title-jp">関数を定義して使う（引数と返り値）</div></div>

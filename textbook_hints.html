@@ -324,6 +324,23 @@
     code { background: #eee; border-radius: 3px; padding: 1px 5px; font-size: 12.5px; font-family: monospace; }
     .page-label { font-size: 10px; color: #aaa; text-align: right; margin-bottom: 2px; }
   </style>
+<style>
+
+/* ── ワークブック化: 文字拡大 ── */
+.pg > *:not(.print-header):not(.print-footer) { zoom: 1.18; }
+.hint-body { display: flex; flex-direction: column; flex: 1 1 auto; }
+
+/* ── 書き込み欄（残り余白いっぱいに伸びる）── */
+.write-area-bk { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 20mm;
+                 margin-top: 9px; border: 1.5px solid #c9d4e4; border-radius: 8px;
+                 padding: 7px 11px 9px; background: #fff; }
+.wa-ttl { font-size: 11.5px; font-weight: 700; color: #3b5b8c; margin-bottom: 1.5mm; }
+.wa-lines { flex: 1 1 auto; min-height: 12mm;
+            background: repeating-linear-gradient(to bottom,
+              transparent 0, transparent calc(8mm - 1px),
+              #dbe3ee calc(8mm - 1px), #dbe3ee 8mm); }
+
+</style>
 </head>
 <body data-booklet="ヒント集">
 <div class="cover" style="border-color:#d97706;">
@@ -334,13 +351,8 @@
   <div class="edition">高校「情報Ⅰ」 アルゴリズムとプログラミング対応</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第1章　変数と代入　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第1章　変数と代入　ヒント</div>
 <div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 1 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
-</div>
-
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div>
@@ -384,8 +396,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -409,8 +423,10 @@
         <div class="think-box"><code>_______ を表示する</code></div>
       </div>
     </li>
-  </ul></div>
+  </ul><div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
+</div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -438,8 +454,10 @@
         </div>
       </div>
     </li>
-  </ul></div>
+  </ul><div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
+</div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -473,8 +491,10 @@
         <code>出す( 手札[<span style="color:#e67e22;">?</span>] , 1)</code> の<span style="color:#e67e22;">?</span>部分に答えを入れましょう。
       </div>
     </li>
-  </ul></div>
+  </ul><div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
+</div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -504,8 +524,10 @@
         1行目と2行目は改行で区切ります。
       </div>
     </li>
-  </ul></div>
+  </ul><div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
+</div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -530,15 +552,12 @@
         <div class="think-box"><code>出す( 手札[_______] , 1 )</code></div>
       </div>
     </li>
-  </ul></div>
+  </ul><div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
-<div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 2 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第2章　演算子　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第2章　演算子　ヒント</div>
+<div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div><div class="prob-id">b07 ヒント</div><div class="prob-title-jp">先頭2枚の合計を計算して表示する</div></div>
@@ -572,8 +591,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -608,8 +629,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -644,15 +667,12 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
-</div>
-<div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 3 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第3章　条件分岐　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第3章　条件分岐　ヒント</div>
+<div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div><div class="prob-id">b10 ヒント</div><div class="prob-title-jp">場より強ければ出す</div></div>
@@ -686,8 +706,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -722,8 +744,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -758,8 +782,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -794,8 +820,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -830,8 +858,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -866,15 +896,12 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
-</div>
-<div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 4 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第4章　forループ　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第4章　forループ　ヒント</div>
+<div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div><div class="prob-id">b16 ヒント</div><div class="prob-title-jp">forで出せる枚数を数える</div></div>
@@ -908,8 +935,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -944,15 +973,12 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
-</div>
-<div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 5 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第5章　前判定ループ　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第5章　前判定ループ　ヒント</div>
+<div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div><div class="prob-id">b19 ヒント</div><div class="prob-title-jp">前判定ループで出せる札を探す</div></div>
@@ -986,15 +1012,12 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
-</div>
-<div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 6 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第6章　後判定ループ・中断する　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第6章　後判定ループ・中断する　ヒント</div>
+<div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div><div class="prob-id">b18 ヒント</div><div class="prob-title-jp">見つけたらループを中断する</div></div>
@@ -1028,8 +1051,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -1064,8 +1089,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -1100,15 +1127,12 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
-</div>
-<div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 7 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第7章　配列　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第7章　配列　ヒント</div>
+<div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div><div class="prob-id">b21 ヒント</div><div class="prob-title-jp">要素数で配列サイズを調べる</div></div>
@@ -1142,8 +1166,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -1178,8 +1204,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -1221,15 +1249,12 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
-</div>
-<div class="pg">
-<div class="hint-section-hdr">
-  <div class="hint-sec-label">CHAPTER 8 — 章末ヒント集</div>
-  <div class="hint-sec-title">💡 ヒント集</div>
-  <div class="hint-sec-desc">行き詰まったときだけ読みましょう。ヒントを読んだら必ずもう一度自力で挑戦してください。</div>
 </div>
 
+<div class="pg-chap-divider" data-chapter="第8章　関数　ヒント" style="page-break-before:always;text-align:center;padding:8px 0;font-weight:700;color:#d97706;border-bottom:2px solid #d97706;margin-bottom:8px;">第8章　関数　ヒント</div>
+<div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
   <div><div class="prob-id">b24 ヒント</div><div class="prob-title-jp">返り値なし関数を定義する</div></div>
@@ -1263,8 +1288,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -1299,8 +1326,10 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 <div class="pg">
 <div class="hint-page-hdr">
   <div class="prob-icon">💡</div>
@@ -1335,7 +1364,9 @@
       </div>
     </li>
   </ul>
+<div class="write-area-bk"><div class="wa-ttl">📝 気づいたことメモ（どのステップで分かった？）</div><div class="wa-lines"></div></div>
 </div>
 </div>
+
 </body>
 </html>
