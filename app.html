@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大富豪プログラミング</title>
+  <link rel="stylesheet" href="style.css?v=44">
+</head>
+<body>
+
+<!-- ══════════ LANDING OVERLAY ══════════ -->
+<div id="landing-overlay">
+  <div class="landing-topbar">
+    <div></div>
+    <div class="landing-topbar-btns">
+      <button id="land-theme-btn" class="landing-top-btn" title="ダーク/ライト表示を切り替える">🌙 ダーク</button>
+      <button id="clear-marks-btn" class="landing-top-btn" title="クリア記録をリセットする">消去</button>
+      <button id="land-save-btn"   class="landing-top-btn" title="コードを保存（ブラウザ）">保存</button>
+      <button id="land-load-btn"   class="landing-top-btn" title="保存したコードを読み込む">読込</button>
+      <button id="land-export-btn" class="landing-top-btn" title="コードをファイルに書き出す">書出</button>
+    </div>
+  </div>
+  <div class="landing-body">
+    <h1 class="landing-title">大富豪<span class="landing-title-accent">プログラミング</span></h1>
+    <p class="landing-subtitle">大富豪の戦略を DNCL で書こう</p>
+    <div class="landing-modes">
+      <button id="land-basic-btn" class="landing-mode-btn">
+        <span class="landing-mode-icon">📚</span>
+        <span class="landing-mode-label">基礎問題</span>
+        <span class="landing-mode-sub">DNCLの基本要素を学ぶ<br>全 26 問</span>
+      </button>
+      <button id="land-strategy-btn" class="landing-mode-btn">
+        <span class="landing-mode-icon">♟</span>
+        <span class="landing-mode-label">戦略問題</span>
+        <span class="landing-mode-sub">ゲーム戦略を組み立てる<br>全 13 問</span>
+      </button>
+      <button id="land-free-btn" class="landing-mode-btn landing-mode-free">
+        <span class="landing-mode-icon">✏</span>
+        <span class="landing-mode-label">フリーモード</span>
+        <span class="landing-mode-sub">自由にコードを書く</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PROBLEM LIST OVERLAY ══════════ -->
+<div id="problist-overlay" class="hidden">
+  <div class="problist-topbar">
+    <button id="problist-back-btn" class="problist-back-btn">← 入り口に戻る</button>
+    <h2 id="problist-title">基礎問題</h2>
+    <div></div>
+  </div>
+  <div id="problist-grid" class="problist-grid"></div>
+</div>
+
+<!-- ══════════ TOP BAR ══════════ -->
+<div id="top-bar">
+  <div class="top-bar-left">
+    <button id="main-back-btn" class="top-back-btn">← 入り口に戻る</button>
+  </div>
+  <div class="top-bar-center">
+    <span id="top-mode-title"></span>
+  </div>
+  <div class="top-bar-right">
+    <button id="undo-btn" class="ghost-btn" disabled title="戻す (⌘Z)">↩</button>
+    <button id="redo-btn" class="ghost-btn" disabled title="進む (⌘⇧Z)">↪</button>
+    <button id="code-reset-btn" class="ghost-btn" title="コードを初期状態に戻す">↺ リセット</button>
+    <button id="theme-btn" class="ghost-btn">☀ ライト</button>
+  </div>
+</div>
+
+<div id="app">
+
+  <!-- ── Left: Reference ── -->
+  <aside id="ref-panel">
+    <div id="hint-area-left" class="hint-area hidden">
+      <button id="hint-btn" class="ghost-btn hint-btn">💡 ヒントを見る (0/?)</button>
+      <div id="hint-list"></div>
+    </div>
+
+    <div id="ref-basic" class="hidden"></div>
+
+    <div id="ref-standard">
+    <div class="ref-section">
+      <button class="ref-section-btn"><span class="ref-tri">▼</span> データ参照</button>
+      <table class="ref-table">
+        <tr><th>@</th><th>展開</th></tr>
+        <tr data-shortcut="f" data-tip="場に出ているカードの値。\n空き場は 0。3〜10はそのまま\nJ=11、Q=12、K=13、A=14、$=15"><td data-tip="場に出ているカードの値。\n空き場は 0。3〜10はそのまま\nJ=11、Q=12、K=13、A=14、$=15">f</td><td>場の強さ</td></tr>
+        <tr data-shortcut="n" data-tip="場に出ているカードの枚数\n0=空き場  1=1枚出し  2=2枚出し"><td data-tip="場に出ているカードの枚数\n0=空き場  1=1枚出し  2=2枚出し">n</td><td>場の枚数</td></tr>
+        <tr data-shortcut="h" data-tip="手札のN番目のカード値（1始まり）\n弱い順にソート済み（同値の場合あり）\n手札[1]=最弱\n例: 3,3,4 → 手札[1]=3, 手札[2]=3, 手札[3]=4"><td data-tip="手札のN番目のカード値（1始まり）\n弱い順にソート済み（同値の場合あり）\n手札[1]=最弱\n例: 3,3,4 → 手札[1]=3, 手札[2]=3, 手札[3]=4">h</td><td>手札[番号]</td></tr>
+        <tr data-shortcut="e" data-tip="配列の要素数を取得\n例: 要素数[手札]、要素数[捨札]、要素数[相手の手札]\n配列名: 手札 / 捨札 / 相手の手札"><td data-tip="配列の要素数を取得\n例: 要素数[手札]、要素数[相手の手札]">e</td><td>要素数[配列]</td></tr>
+        <tr data-shortcut="s" data-tip="これまでに出されたカード（自分・相手の合計）のN番目\n出された順に並んでいる\n例: 捨札[1]=最初に出されたカード"><td data-tip="出された順に並ぶ捨て札（両者合計）のN番目">s</td><td>捨札[番号]</td></tr>
+        <tr data-shortcut="o" data-tip="相手の手札（配列）。\n要素数[相手の手札] で相手の残り枚数がわかる"><td data-tip="相手の手札（配列）。要素数[相手の手札] で相手の残り枚数がわかる">o</td><td>相手の手札</td></tr>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <button class="ref-section-btn"><span class="ref-tri">▼</span> 制御構文</button>
+      <table class="ref-table">
+        <tr><th>@</th><th>展開</th></tr>
+        <tr data-shortcut="i" data-tip="条件分岐（if文）\nTabキーで ＜条件＞→＜処理＞ と移動できる"><td data-tip="条件分岐（if文）\nTabキーで ＜条件＞→＜処理＞ と移動できる">i</td><td>もし〜ならば</td></tr>
+        <tr data-shortcut="I" data-tip="条件分岐（if-else）\nもし〜ならば / そうでなければ の2分岐\nTabキーで各プレースホルダーを移動できる"><td data-tip="条件分岐（if-else）\nもし〜ならば / そうでなければ の2分岐\nTabキーで各プレースホルダーを移動できる">I</td><td>もし〜ならば/そうでなければ</td></tr>
+        <tr data-shortcut="w" data-tip="前判定ループ（while）\n条件が成立する間、処理を繰り返す"><td data-tip="前判定ループ（while）\n条件が成立する間、処理を繰り返す">w</td><td>前判定ループ</td></tr>
+        <tr data-shortcut="r" data-tip="後判定ループ（do-while）\n処理を行った後、条件を判定して繰り返す\n最低1回は実行される"><td data-tip="後判定ループ（do-while）\n処理後に条件を判定して繰り返す">r</td><td>後判定ループ</td></tr>
+        <tr data-shortcut="l" data-tip="forループ\n変数を初期値から終了値まで\n差分ずつ増やしながら繰り返す"><td data-tip="forループ\n変数を初期値から終了値まで差分ずつ増やす">l</td><td>forループ</td></tr>
+        <tr data-shortcut="F" data-tip="関数を定義する\n関数 名前(引数) を ... と定義する\n引数はカンマ区切りで複数指定可能\n例: 関数 出せるか(c) を ... と定義する"><td data-tip="関数定義\n関数 名前(引数) を ... と定義する">F</td><td>関数定義</td></tr>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <button class="ref-section-btn"><span class="ref-tri">▼</span> 行動</button>
+      <table class="ref-table">
+        <tr><th>@</th><th>展開</th></tr>
+        <tr data-shortcut="d" data-tip="カードを出す\n第1引数: カードの値（例: 手札[1]）\n第2引数: 枚数（1=シングル, 2=ペア）\n例: 出す(手札[1], 1)"><td data-tip="カードを出す\n第1引数: カード値, 第2引数: 枚数">d</td><td>出す(カード, 枚数)</td></tr>
+        <tr data-shortcut="p" data-tip="このターンをパスする\n（何も出さない → 場が流れる）"><td data-tip="このターンをパスする（何も出さない）">p</td><td>パスする</td></tr>
+        <tr data-shortcut="b" data-tip="ループを途中で抜ける（break）\nループ内でのみ有効"><td data-tip="ループを途中で抜ける（break）">b</td><td>中断する</td></tr>
+        <tr data-shortcut="R" data-tip="関数から値を返す\n返す(値) で関数を終了し、呼び出し元に値を渡す\n例: 返す(1) / 返す(手札[i])"><td data-tip="関数から値を返す（関数定義内で使用）">R</td><td>返す(値)</td></tr>
+        <tr data-shortcut="t" data-tip="値や文字列を表示画面に表示する\n「式 と 式 を表示する」の形式\n例: 「合計は、」 と 手札[1] ＋ 手札[2] を表示する"><td data-tip="値や文字列を表示画面に表示する">t</td><td>値 を表示する</td></tr>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <button class="ref-section-btn"><span class="ref-tri">▼</span> 演算子</button>
+      <table class="ref-table">
+        <tr><td><span data-insert="<-">&lt;-</span></td><td>代入 <small style="color:var(--muted)">(zh)</small></td></tr>
+        <tr><td><span data-insert="＝">＝</span></td><td>等しい</td></tr>
+        <tr><td><span data-insert="≠">≠</span> <span data-insert="＞">＞</span> <span data-insert="≧">≧</span> <span data-insert="＜">＜</span> <span data-insert="≦">≦</span></td><td>比較</td></tr>
+        <tr><td><span data-insert="＋">＋</span> <span data-insert="－">－</span> <span data-insert="×">×</span> <span data-insert="÷">÷</span> <span data-insert="％">％</span></td><td>算術</td></tr>
+        <tr><td><span data-insert="かつ">かつ</span> / <span data-insert="または">または</span></td><td>AND / OR</td></tr>
+        <tr><td><span data-insert="でない">でない</span></td><td>NOT（後置）</td></tr>
+      </table>
+    </div>
+
+    <div class="ref-section">
+      <button class="ref-section-btn"><span class="ref-tri">▼</span> カード値</button>
+      <table class="ref-table">
+        <tr><td>J</td><td>= 11</td></tr>
+        <tr><td>Q</td><td>= 12</td></tr>
+        <tr><td>K</td><td>= 13</td></tr>
+        <tr><td>A</td><td>= 14（エース）</td></tr>
+        <tr><td>$</td><td>= 15（最強）</td></tr>
+        <tr><td>8</td><td>★ 8切り発動</td></tr>
+      </table>
+    </div>
+    </div><!-- /#ref-standard -->
+  </aside>
+
+  <!-- ── Left panel resize handle ── -->
+  <div id="ref-resizer"><span class="ref-resizer-tri">◀</span></div>
+
+  <!-- ── Center: Editor ── -->
+  <section id="editor-panel">
+    <div id="editor-sections">
+      <div class="sk-line sk-collapsible"><span class="sk-tri">▼</span>もし 場の枚数 ＝ 0 ならば</div>
+      <div class="case-block">
+        <div class="case-gutter" id="cg-0"></div>
+        <div class="case-text-wrap">
+          <canvas class="case-canvas" id="ic-0"></canvas>
+          <textarea class="case-editor" id="ce-0" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="sk-line sk-collapsible"><span class="sk-tri">▼</span>を実行し，そうでなくもし 場の枚数 ＝ 1 ならば</div>
+      <div class="case-block">
+        <div class="case-gutter" id="cg-1"></div>
+        <div class="case-text-wrap">
+          <canvas class="case-canvas" id="ic-1"></canvas>
+          <textarea class="case-editor" id="ce-1" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="sk-line sk-collapsible"><span class="sk-tri">▼</span>を実行し，そうでなくもし 場の枚数 ＝ 2 ならば</div>
+      <div class="case-block">
+        <div class="case-gutter" id="cg-2"></div>
+        <div class="case-text-wrap">
+          <canvas class="case-canvas" id="ic-2"></canvas>
+          <textarea class="case-editor" id="ce-2" spellcheck="false"></textarea>
+        </div>
+      </div>
+      <div class="sk-line">を実行し，そうでなければ　パスを実行する</div>
+    </div>
+
+    <div id="display-pane">
+      <div id="display-pane-header">
+        <span class="dp-tri">▼</span>
+        <span class="dp-title">表示画面</span>
+      </div>
+      <div id="display-pane-body">
+        <span class="dp-empty">（「を表示する」の出力がここに表示されます）</span>
+      </div>
+    </div>
+
+    <div id="editor-footer">
+      <span id="error-msg" class="error-msg"></span>
+    </div>
+  </section>
+
+  <!-- ── Right: Setup / Game / Problem panel ── -->
+  <section id="right-panel">
+
+    <!-- ── Left-edge toggle tab (always visible) ── -->
+    <button id="panel-toggle-tab" class="panel-toggle-tab" title="パネルを開閉">◀</button>
+
+    <!-- ── Panel content (hidden when collapsed) ── -->
+    <div id="panel-content">
+
+      <!-- ══ PROBLEM VIEW ══ -->
+      <div id="problem-view" class="right-view">
+
+        <select id="problem-select" class="problem-select" style="display:none">
+          <option value="">-- 問題を選択してください --</option>
+        </select>
+
+        <div id="problem-info" class="hidden">
+          <div id="problem-desc-wrap">
+            <button id="problem-desc-toggle" class="prob-desc-toggle"><span class="pdt-tri">▽</span> 問題文</button>
+            <div id="problem-desc" class="problem-desc"></div>
+          </div>
+
+          <div id="prob-cases" class="prob-cases"></div>
+
+          <hr class="section-divider">
+          <button id="score-btn" class="primary-btn score-btn">✓ 採点する</button>
+          <p id="score-label" class="score-label hidden">以下のテストケースで採点します</p>
+          <div id="score-results"></div>
+        </div>
+      </div>
+
+      <!-- ══ SETUP VIEW ══ -->
+      <div id="setup-view" class="right-view active">
+        <div id="free-toolbar" style="display:flex;gap:4px;justify-content:flex-end;padding-bottom:6px;border-bottom:1px solid var(--border);flex-shrink:0;">
+          <button id="save-btn" class="ghost-btn" data-tip="コードを保存\n（ブラウザに名前を付けて保存）">💾</button>
+          <button id="load-btn" class="ghost-btn" data-tip="保存したコードを読込\n（番号を入力 / d+番号で削除）">📂</button>
+          <button id="export-btn" class="ghost-btn" data-tip="コードをテキストファイルで書き出し">📤</button>
+        </div>
+        <button id="prob-back-btn" class="ghost-btn prob-back-btn hidden">← 問題一覧に戻る</button>
+        <p class="setup-hint"><strong>手札設定</strong><br>各ランク最大2枚（自＋相の合計）<br>クリックで 空→自分→相手→空 と切替</p>
+
+        <div id="card-grid"></div>
+
+        <div class="setup-summary" id="setup-summary">自分: 0枚 / 相手: 0枚</div>
+
+        <button id="start-btn" class="primary-btn" disabled>▶ 対戦スタート</button>
+      </div>
+
+      <!-- ══ GAME VIEW ══ -->
+      <div id="game-view" class="right-view">
+
+        <div id="game-header">
+          <button id="back-btn" class="ghost-btn">← 戻る</button>
+          <div id="turn-indicator"></div>
+        </div>
+
+        <!-- Opponent hand -->
+        <div class="hand-area">
+          <div class="hand-label">相手の手札</div>
+          <div class="hand-cards" id="opp-cards"></div>
+        </div>
+
+        <!-- Field -->
+        <div id="field-area">
+          <div class="field-label">場</div>
+          <div id="field-cards"></div>
+          <div id="field-info"></div>
+        </div>
+
+        <!-- Player hand -->
+        <div class="hand-area">
+          <div class="hand-label">自分の手札</div>
+          <div class="hand-cards" id="player-cards"></div>
+        </div>
+
+        <!-- 表示する[] 吹き出し -->
+        <div id="display-bubble" class="hidden">
+          <span class="bubble-label">💬 表示する 出力</span>
+          <div id="display-bubble-content"></div>
+        </div>
+
+        <!-- Forecast -->
+        <div id="forecast-box"></div>
+
+        <button id="next-btn" class="primary-btn next-btn">次へ ▶</button>
+
+        <!-- Log -->
+        <div id="log-area">
+          <div class="log-label">ログ</div>
+          <div id="log-list"></div>
+        </div>
+      </div>
+
+    </div><!-- /panel-content -->
+  </section>
+</div>
+
+<!-- ── Gameover overlay ── -->
+<div id="gameover-overlay" class="hidden">
+  <div id="gameover-box">
+    <div id="gameover-msg"></div>
+    <button id="retry-btn" class="primary-btn">同じ手札で再戦</button>
+    <button id="reset-btn" class="secondary-btn">手札を変える</button>
+  </div>
+</div>
+
+<!-- 表示する モーダル -->
+<div id="display-modal" class="dm-overlay hidden">
+  <div class="dm-box">
+    <div class="dm-title">📺 表示する の出力</div>
+    <div id="display-modal-lines" class="dm-lines"></div>
+    <button id="display-modal-ok" class="primary-btn dm-ok-btn">OK</button>
+  </div>
+</div>
+
+<script src="js/dncl.js?v=42"></script>
+<script src="js/game.js?v=40"></script>
+<script src="js/ui.js?v=54"></script>
+<script src="dncl-highlight.js?v=3"></script>
+</body>
+</html>
