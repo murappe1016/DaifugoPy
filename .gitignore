@@ -6,3 +6,14 @@ token.json
 slides_preview.html
 過去問/
 DNCL.pdf
+
+# ── 公開はアプリ本体のみ。教材・スクリプト類はローカル保持で非公開 ──
+/*.html
+!/index.html
+/*.py
+/*.md
+/*.MD
+/*.orig
+material.css
+print.css
+print.js
