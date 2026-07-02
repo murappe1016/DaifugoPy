@@ -20,6 +20,7 @@ const SHORTCUTS = {
   'b': '中断する',
   'R': '返す()',
   't': 'を表示する',
+  'k': '記録する()',
 };
 
 // ─── Basic mode ref data (label + always-visible description) ─────────────────
@@ -41,6 +42,7 @@ const BASIC_REF_DATA = {
   'b': { label: '中断する',             tip: 'ループを途中で抜ける（break）\nループ内でのみ有効' },
   'R': { label: '返す(値)',         tip: '関数から値を返す\n返す(値) で関数を終了し\n呼び出し元に値を渡す' },
   't': { label: '値 を表示する',    tip: '値や文字列を表示画面に表示する\n「文字列」 と 変数 を表示する\n例: 「i=」 と i を表示する' },
+  'k': { label: '記録する()',       tip: '手札の途中経過を記録する（ソート問題用）\n問題文の【記録のルール】の場所に書く\n記録の回数と中身が採点される' },
 };
 
 // Regex to find placeholder tokens ＜...＞
@@ -1872,7 +1874,7 @@ const ALL_OPS = [
   { key: 'でない', insert: 'でない', sym: 'でない', label: 'NOT（後置）' },
 ];
 
-function buildBasicRefPanel(activeRefs, activeOps) {
+function buildBasicRefPanel(activeRefs, activeOps, tipOverrides) {
   const basic    = $('ref-basic');
   const standard = $('ref-standard');
   if (!basic || !standard) return;
@@ -1904,7 +1906,7 @@ function buildBasicRefPanel(activeRefs, activeOps) {
     const isNew     = !seenRefs.has(key);
     const collapsed = isNew ? '' : ' collapsed';
     const label = info.label;
-    const tip   = info.tip
+    const tip   = ((tipOverrides && tipOverrides[key]) || info.tip)
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
@@ -2075,8 +2077,10 @@ function onProblemSelect(idx) {
   drawAllPHBoxes();   // lockSections 後に描画 → ロック済みセクションにゴーストが出ない
 
   // ── Filter / rebuild reference panel for this problem ────────────────────
-  if (currentMode === 'basic') {
-    buildBasicRefPanel(currentProblem.activeRefs || [], currentProblem.activeOps ?? null);
+  if (currentMode === 'basic' || currentMode === 'sort') {
+    // ソート問題も basic 型パネル: その問題で使うものだけを表示（refTips で説明文を上書き）
+    buildBasicRefPanel(currentProblem.activeRefs || [], currentProblem.activeOps ?? null,
+                       currentProblem.refTips ?? null);
   } else {
     filterRefPanel(currentProblem.activeRefs || null);
   }
