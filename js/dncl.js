@@ -624,6 +624,11 @@ class DNCLInterpreter {
     this._return = false;
     this._returnVal = 0;
     this._steps = 0;
+    // 手札は実行開始時にコピーを作り、読み書きとも vars['手札'] に統一する。
+    // （書き換え可能になり、ソート問題などで交換した結果が読み取りにも反映される）
+    this.vars['手札'] = [...(this.gs.playerHand || [])];
+    // 記録する() で積まれる途中経過スナップショット（ソート問題の判定用）
+    this.trace = [];
 
     let stmts;
     try {
@@ -651,6 +656,9 @@ class DNCLInterpreter {
   _execStmt(s) {
     switch (s.t) {
       case 'assign':
+        if (s.name === '手札') {
+          throw new DNCLError('手札 全体への代入はできません。手札[番号] ← 値 のように1枚ずつ書き換えてください。', 0);
+        }
         if (isLatinUpper(s.name) && !BUILTIN_SCALARS.has(s.name)) {
           throw new DNCLError(
             `「${s.name}」は大文字始まりなので配列として使います。スカラー変数は小文字始まりにしてください（例: ${s.name.toLowerCase()} ← 値）`, 0);
@@ -667,6 +675,13 @@ class DNCLInterpreter {
           throw new DNCLError('変数名は「捨札」です（送りがなの「て」は入りません）。', 0);
         }
         const idx = Math.floor(this._eval(s.idx));
+        if (s.name === '手札') {
+          // 手札は枚数固定。範囲外への書き込みは添字ミスなので早めに知らせる
+          const len = this.vars['手札'].length;
+          if (idx < 1 || idx > len) {
+            throw new DNCLError(`手札[${idx}] は存在しません（手札は ${len} 枚。添字は 1〜${len}）`, 0);
+          }
+        }
         if (!Array.isArray(this.vars[s.name])) this.vars[s.name] = [];
         this.vars[s.name][idx - 1] = this._eval(s.val);
         break;
@@ -764,6 +779,9 @@ class DNCLInterpreter {
         } else if (s.name === '返す') {
           this._returnVal = s.args[0] !== undefined ? this._eval(s.args[0]) : 0;
           this._return = true;
+        } else if (s.name === '記録する') {
+          // 手札の途中経過スナップショット（ソート問題の判定に使う）
+          this.trace.push([...this.vars['手札']]);
         } else if (s.name in this.funcs) {
           this._callUserFunc(s.name, s.args);
         }
@@ -780,7 +798,7 @@ class DNCLInterpreter {
         const n = node.name;
         if (n.endsWith('.要素数')) {
           const arr = n.slice(0, n.length - 4);
-          if (arr === '手札')       return this.gs.playerHand.length;
+          if (arr === '手札')       return this.vars['手札'].length;
           if (arr === '捨札')       return this.gs.allDiscard?.length ?? 0;
           if (arr === '相手の手札') return this.gs.opponentHandSize  ?? 0;
           const ua = this.vars[arr];
@@ -798,7 +816,7 @@ class DNCLInterpreter {
         // 要素数[配列名] — returns the length of the named array
         if (node.name === '要素数') {
           const arrName = node.idx.t === 'var' ? node.idx.name : null;
-          if (arrName === '手札')       return this.gs.playerHand.length;
+          if (arrName === '手札')       return this.vars['手札'].length;
           if (arrName === '捨札')       return this.gs.allDiscard?.length ?? 0;
           if (arrName === '相手の手札') return this.gs.opponentHandSize   ?? 0;
           if (arrName === '捨て札') {
@@ -814,7 +832,7 @@ class DNCLInterpreter {
         if (node.name === '捨て札') {
           throw new DNCLError('変数名は「捨札」です（送りがなの「て」は入りません）。例: 捨札[1]', 0);
         }
-        if (node.name === '手札')  return this.gs.playerHand[idx]    ?? 0;
+        if (node.name === '手札')  return this.vars['手札'][idx]     ?? 0;
         if (node.name === '捨札')  return this.gs.allDiscard?.[idx]  ?? 0;
         // ユーザー定義配列：小文字始まりLatinは禁止
         if (isLatinLower(node.name)) {

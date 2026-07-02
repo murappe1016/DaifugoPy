@@ -34,6 +34,11 @@
         <span class="landing-mode-label">戦略問題</span>
         <span class="landing-mode-sub">ゲーム戦略を組み立てる<br>全 13 問</span>
       </button>
+      <button id="land-sort-btn" class="landing-mode-btn">
+        <span class="landing-mode-icon">🔀</span>
+        <span class="landing-mode-label">ソート問題</span>
+        <span class="landing-mode-sub">配られた手札を並べ替える<br>全 6 問</span>
+      </button>
       <button id="land-free-btn" class="landing-mode-btn landing-mode-free">
         <span class="landing-mode-icon">✏</span>
         <span class="landing-mode-label">フリーモード</span>
@@ -151,31 +156,31 @@
   <!-- ── Center: Editor ── -->
   <section id="editor-panel">
     <div id="editor-sections">
-      <div class="sk-line sk-collapsible"><span class="sk-tri">▼</span>もし 場の枚数 ＝ 0 ならば</div>
-      <div class="case-block">
+      <div class="sk-line sk-collapsible" id="sk-line-0"><span class="sk-tri">▼</span>もし 場の枚数 ＝ 0 ならば</div>
+      <div class="case-block" id="cb-0">
         <div class="case-gutter" id="cg-0"></div>
         <div class="case-text-wrap">
           <canvas class="case-canvas" id="ic-0"></canvas>
           <textarea class="case-editor" id="ce-0" spellcheck="false"></textarea>
         </div>
       </div>
-      <div class="sk-line sk-collapsible"><span class="sk-tri">▼</span>を実行し，そうでなくもし 場の枚数 ＝ 1 ならば</div>
-      <div class="case-block">
+      <div class="sk-line sk-collapsible" id="sk-line-1"><span class="sk-tri">▼</span>を実行し，そうでなくもし 場の枚数 ＝ 1 ならば</div>
+      <div class="case-block" id="cb-1">
         <div class="case-gutter" id="cg-1"></div>
         <div class="case-text-wrap">
           <canvas class="case-canvas" id="ic-1"></canvas>
           <textarea class="case-editor" id="ce-1" spellcheck="false"></textarea>
         </div>
       </div>
-      <div class="sk-line sk-collapsible"><span class="sk-tri">▼</span>を実行し，そうでなくもし 場の枚数 ＝ 2 ならば</div>
-      <div class="case-block">
+      <div class="sk-line sk-collapsible" id="sk-line-2"><span class="sk-tri">▼</span>を実行し，そうでなくもし 場の枚数 ＝ 2 ならば</div>
+      <div class="case-block" id="cb-2">
         <div class="case-gutter" id="cg-2"></div>
         <div class="case-text-wrap">
           <canvas class="case-canvas" id="ic-2"></canvas>
           <textarea class="case-editor" id="ce-2" spellcheck="false"></textarea>
         </div>
       </div>
-      <div class="sk-line">を実行し，そうでなければ　パスを実行する</div>
+      <div class="sk-line" id="sk-line-else">を実行し，そうでなければ　パスを実行する</div>
     </div>
 
     <div id="display-pane">
@@ -308,9 +313,9 @@
   </div>
 </div>
 
-<script src="js/dncl.js?v=42"></script>
+<script src="js/dncl.js?v=43"></script>
 <script src="js/game.js?v=40"></script>
-<script src="js/ui.js?v=54"></script>
+<script src="js/ui.js?v=55"></script>
 <script src="dncl-highlight.js?v=3"></script>
 </body>
 </html>

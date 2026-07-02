@@ -1513,6 +1513,7 @@ function init() {
   // ── Landing page buttons ──────────────────────────────────────────────────
   $('land-basic-btn').addEventListener('click', () => showProblemList('basic'));
   $('land-strategy-btn').addEventListener('click', () => showProblemList('strategy'));
+  $('land-sort-btn')?.addEventListener('click', () => showProblemList('sort'));
   $('land-free-btn').addEventListener('click', () => {
     hideLanding();
     currentMode = 'free';
@@ -1696,6 +1697,11 @@ const STRATEGY_GROUPS = [
   { label: '捨て札を読む',  ids: ['p07', 'p08', 'p09', 'p10'] },
   { label: '数える・推定',  ids: ['p11', 'p12', 'p13'] },
 ];
+const SORT_GROUPS = [
+  { label: '基本の3つ（交換で並べ替える）', ids: ['s01', 's02', 's03'] },
+  { label: '発展の3つ（分割・併合・ヒープ）', ids: ['s04', 's05', 's06'] },
+];
+const CATEGORY_LABELS = { basic: '基礎問題', strategy: '戦略問題', sort: 'ソート問題' };
 
 function showLanding() {
   $('landing-overlay').classList.remove('hidden');
@@ -1707,7 +1713,7 @@ function showProblemList(category) {
   currentListCategory = category;
   hideLanding();
   $('problist-overlay').classList.remove('hidden');
-  $('problist-title').textContent = category === 'basic' ? '基礎問題' : '戦略問題';
+  $('problist-title').textContent = CATEGORY_LABELS[category] || category;
   buildProblemList(category);
 }
 
@@ -1715,7 +1721,9 @@ function buildProblemList(category) {
   const grid = $('problist-grid');
   grid.innerHTML = '';
   grid.classList.toggle('basic', category === 'basic');
-  const groups   = category === 'basic' ? BASIC_GROUPS : STRATEGY_GROUPS;
+  const groups   = category === 'basic' ? BASIC_GROUPS
+                 : category === 'sort'  ? SORT_GROUPS
+                 : STRATEGY_GROUPS;
   const completed = getCompleted();
   const probMap  = {};
   problemList.forEach(p => { probMap[p.id] = p; });
@@ -1778,10 +1786,11 @@ function openProblemFromList(problem) {
   $('problist-overlay').classList.add('hidden');
   const cat = problem.category;
   // Set mode without triggering showProblemList
-  currentMode = cat === 'basic' ? 'basic' : 'strategy';
+  currentMode = cat;
   $('free-toolbar').style.display = 'none';
   $('prob-back-btn').classList.remove('hidden');
-  $('top-mode-title').textContent = currentMode === 'basic' ? '基礎問題モード' : '戦略問題モード';
+  $('top-mode-title').textContent = (CATEGORY_LABELS[cat] || cat) + 'モード';
+  setSortEditorChrome(cat === 'sort');
   updateMainBackBtn();
   populateProblemSelect(cat);
   // Load the problem
@@ -1816,7 +1825,20 @@ let scoringCaseIdx      = 0;
 let scoringCode         = '';   // fullCode string for re-runs
 let pendingModalCb      = null; // callback after display-modal OK
 
-function isProblemMode() { return currentMode === 'basic' || currentMode === 'strategy'; }
+function isProblemMode() { return currentMode === 'basic' || currentMode === 'strategy' || currentMode === 'sort'; }
+
+// ─── ソートモード: エディタの骨格ラベルを付け替え・不要セクションを隠す ────────
+function setSortEditorChrome(on) {
+  const sk0 = $('sk-line-0');
+  if (!sk0) return;   // 旧HTMLキャッシュなど、idが無い場合は何もしない
+  sk0.innerHTML = on
+    ? '<span class="sk-tri">▼</span>手札を左から弱い順に並べ替える（ソート）'
+    : '<span class="sk-tri">▼</span>もし 場の枚数 ＝ 0 ならば';
+  ['sk-line-1', 'sk-line-2', 'sk-line-else', 'cb-1', 'cb-2'].forEach(id => {
+    const el = $(id);
+    if (el) el.style.display = on ? 'none' : '';
+  });
+}
 
 // ─── Reference panel filtering (strategy mode) ───────────────────────────────
 // activeRefs: array of shortcut keys to highlight, or null to reset all
@@ -1947,9 +1969,9 @@ function switchMode(mode) {
   currentMode = mode;
   $('free-toolbar').style.display = mode === 'free' ? 'flex' : 'none';
   $('prob-back-btn').classList.toggle('hidden', !isProblemMode());
-  $('top-mode-title').textContent = mode === 'basic' ? '基礎問題モード'
-                                  : mode === 'strategy' ? '戦略問題モード'
-                                  : 'フリーモード';
+  $('top-mode-title').textContent = mode === 'free' ? 'フリーモード'
+                                  : (CATEGORY_LABELS[mode] || mode) + 'モード';
+  setSortEditorChrome(mode === 'sort');
   updateMainBackBtn();
 
   if (isProblemMode()) {
@@ -1967,7 +1989,7 @@ function switchMode(mode) {
     removeLoopSelector();
     unlockAllSections();
     // Show problem list overlay (not problem view directly)
-    showProblemList(mode === 'basic' ? 'basic' : 'strategy');
+    showProblemList(mode);
   } else {
     // free mode: unlock all, reset problem selection, go to setup
     currentProblem = null;
@@ -2007,7 +2029,8 @@ function onProblemSelect(idx) {
   pushHistory();
   [0, 1, 2].forEach(n => {
     const ed = $('ce-' + n);
-    ed.value = '｜　';
+    // ソート問題はトップレベルから書くため、先頭のインデント記号を入れない
+    ed.value = currentProblem.category === 'sort' ? '' : '｜　';
     autoResize(ed);
     updateGutter(n);
   });
@@ -2222,16 +2245,24 @@ function scoreCode() {
   $('problem-desc-wrap')?.classList.add('collapsed');
 
   // Build test case list with normalised state
-  const codes = ['', '', ''];
-  codes[n] = code;
-  scoringCode = buildFullCodeForScore(codes);
+  //   ソート問題: コードはそのまま実行し、手札は「配られた順」を保つ
+  //   （通常問題は手札を昇順に正規化する）
+  const isSort = currentProblem.category === 'sort';
+  if (isSort) {
+    scoringCode = code;
+  } else {
+    const codes = ['', '', ''];
+    codes[n] = code;
+    scoringCode = buildFullCodeForScore(codes);
+  }
   scoringCases = currentProblem.testCases.map(tc => ({
     label:    tc.label,
     expected: tc.expected,
     state: {
       fieldStrength:    tc.state.fieldStrength,
       fieldCount:       tc.state.fieldCount,
-      playerHand:       [...tc.state.playerHand].sort((a, b) => a - b),
+      playerHand:       isSort ? [...tc.state.playerHand]
+                               : [...tc.state.playerHand].sort((a, b) => a - b),
       allDiscard:       tc.state.allDiscard || [],
       opponentHandSize: tc.state.opponentHandSize ?? 3,
     },
@@ -2332,7 +2363,9 @@ function buildProbCases() {
     // ─ 正解 ─
     const expDiv = document.createElement('div');
     expDiv.className = 'prob-case-expected';
-    const expStr = tc.expected.display !== undefined
+    const expStr = tc.expected.action === 'sort'
+      ? `弱い順に並べ替える: ${handToStr(tc.expected.final)}`
+      : tc.expected.display !== undefined
       ? `表示: "${tc.expected.display}"`
       : actionToStr(tc.expected);
     expDiv.innerHTML = `<span class="prob-case-arrow">→</span><span class="prob-case-ans">${expStr}</span>`;
@@ -2346,6 +2379,7 @@ function buildProbCases() {
 }
 
 function checkExpected(result, expected) {
+  if (expected.action === 'sort') return sortMismatch(result, expected) === null;
   if (expected.display !== undefined) {
     const msgs = result.displayMessages || [];
     const found = msgs.some(msg => msg.includes(expected.display));
@@ -2355,6 +2389,32 @@ function checkExpected(result, expected) {
   return result.action === 'play' &&
          result.rank  === expected.rank &&
          result.count === expected.count;
+}
+
+// ソート問題の照合。合格なら null、不合格なら理由の文字列を返す
+function sortMismatch(result, expected) {
+  const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const trace = result.trace || [];
+  if (!eq(result.finalHand, expected.final)) {
+    return `最終的な並びが違います（あなた: ${handToStr(result.finalHand)}）`;
+  }
+  if (trace.length === 0) {
+    return '記録する() が一度も呼ばれていません。問題文の【記録のルール】の場所に書きましょう';
+  }
+  if (trace.length !== expected.trace.length) {
+    return `記録する() の回数が違います（あなた: ${trace.length}回／正解: ${expected.trace.length}回）。呼ぶ場所を確認しましょう`;
+  }
+  for (let k = 0; k < trace.length; k++) {
+    if (!eq(trace[k], expected.trace[k])) {
+      return `${k + 1}回目の記録が違います（あなた: ${handToStr(trace[k])}／正解: ${handToStr(expected.trace[k])}）。このアルゴリズムの手順どおりか確認しましょう`;
+    }
+  }
+  return null;
+}
+
+function handToStr(hand) {
+  if (!Array.isArray(hand)) return '—';
+  return hand.map(r => RANK_NAMES[r] || r).join(' ');
 }
 
 function actionToStr(action) {
@@ -2428,10 +2488,12 @@ function setupScoringCase(idx) {
   $('sv-badge').textContent = '';
 
   // 正解・あなたのコード 行を初期化
+  const isSort    = tc.expected.action === 'sort';
   const isDisplay = tc.expected.display !== undefined;
-  $('sv-expected-label').textContent = isDisplay ? '正解の表示' : '正解';
-  $('sv-got-label').textContent      = isDisplay ? 'あなたの表示' : 'あなたのコード';
-  $('sv-expected-val').textContent   = isDisplay ? tc.expected.display : actionToStr(tc.expected);
+  $('sv-expected-label').textContent = isSort ? '正解の並び' : isDisplay ? '正解の表示' : '正解';
+  $('sv-got-label').textContent      = isSort ? 'あなたの並び' : isDisplay ? 'あなたの表示' : 'あなたのコード';
+  $('sv-expected-val').textContent   = isSort ? handToStr(tc.expected.final)
+                                     : isDisplay ? tc.expected.display : actionToStr(tc.expected);
   const gotEl = $('sv-got-val');
   gotEl.textContent = '—';
   gotEl.className   = 'sv-action-val';
@@ -2482,6 +2544,11 @@ function runScoringCase(idx) {
     const interp = new DNCLInterpreter(st);
     result = interp.run(scoringCode);
     displayMessages = result ? (result.displayMessages || []) : [];
+    if (result) {
+      // ソート問題の判定用: 途中経過の記録と最終的な手札の並び
+      result.trace     = interp.trace;
+      result.finalHand = [...interp.vars['手札']];
+    }
   } catch(e) {
     error = e.message;
     result = null;
@@ -2518,6 +2585,20 @@ function showScoringResult(idx, r) {
     });
   }
 
+  // ── ソート問題: 並べ替え後の手札を描画し、結果欄を更新 ────────────────
+  if (r.expected.action === 'sort') {
+    if (r.got && Array.isArray(r.got.finalHand)) {
+      const handEl = $('sv-hand');
+      handEl.innerHTML = '';
+      r.got.finalHand.forEach(rank => handEl.appendChild(makeCard(rank, [])));
+    }
+    const gotEl = $('sv-got-val');
+    const reason = r.error ? `エラー: ${r.error}` : sortMismatch(r.got, r.expected);
+    gotEl.textContent = reason === null
+      ? `${handToStr(r.got.finalHand)}（記録 ${r.got.trace.length}回 すべて一致）`
+      : reason;
+    gotEl.className = `sv-action-val ${reason === null ? 'pass' : 'fail'}`;
+  } else {
   // ── あなたのコード 欄を更新 ──────────────────────────────────────────
   const gotEl = $('sv-got-val');
   const hasDisplay = r.expected.display !== undefined;
@@ -2536,6 +2617,7 @@ function showScoringResult(idx, r) {
     );
     gotEl.textContent = gotStr;
     gotEl.className   = `sv-action-val ${actionPass ? 'pass' : 'fail'}`;
+  }
   }
 
   // ── 次の操作 ──────────────────────────────────────────────────────────
