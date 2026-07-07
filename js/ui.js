@@ -1700,6 +1700,7 @@ const STRATEGY_GROUPS = [
   { label: '数える・推定',  ids: ['p11', 'p12', 'p13'] },
 ];
 const SORT_GROUPS = [
+  { label: '準備運動（まずはこれだけ）', ids: ['sw1', 'sw2', 'sw3', 'sw4'] },
   { label: '基本の3つ（交換で並べ替える）', ids: ['s01', 's02', 's03'] },
   { label: '発展の3つ（分割・併合・ヒープ）', ids: ['s04', 's05', 's06'] },
 ];
@@ -2368,7 +2369,7 @@ function buildProbCases() {
     const expDiv = document.createElement('div');
     expDiv.className = 'prob-case-expected';
     const expStr = tc.expected.action === 'sort'
-      ? `弱い順に並べ替える: ${handToStr(tc.expected.final)}`
+      ? `正解の手札: ${handToStr(tc.expected.final)}`
       : tc.expected.display !== undefined
       ? `表示: "${tc.expected.display}"`
       : actionToStr(tc.expected);
